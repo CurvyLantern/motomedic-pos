@@ -1,0 +1,20 @@
+/* @tailwind base; */
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary: 215 50% 23%;
+    --primary-foreground: 105 55% 96%;
+
+    --secondary: 182 43% 76%;
+    --secondary-foreground: 105 55% 96%;
+
+    --accent: 355 78% 56%;
+    --accent-foreground: 105 55% 96%;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+}
