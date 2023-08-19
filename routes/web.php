@@ -25,6 +25,14 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/service', function () {
+    return Inertia::render('Service', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+
+    ]);
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

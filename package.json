@@ -29,6 +29,8 @@
         "@mantine/notifications": "^6.0.19",
         "@mantine/nprogress": "^6.0.19",
         "@tabler/icons-react": "^2.30.0",
-        "dayjs": "^1.11.9"
+        "@tanstack/react-query": "^4.33.0",
+        "dayjs": "^1.11.9",
+        "mantine-react-table": "^1.1.2"
     }
 }

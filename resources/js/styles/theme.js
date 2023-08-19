@@ -12,12 +12,13 @@ export const useGlobalTheme = ({ colorScheme }) => {
         },
         colors: {
             primary: {
-                background: "#1D3557",
-                foreground: "#F1FAEE",
+                background: "#0077b6",
+                foreground: "#ffffff",
             },
             secondary: {
-                background: "#457B9D",
-                foreground: "#E7FEFF",
+                // background: "#457B9D",
+                background: "#00bbf9",
+                foreground: "#ffffff",
             },
             accent: {
                 background: "#E63946",

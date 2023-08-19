@@ -5,6 +5,7 @@ import {
     Code,
     createStyles,
     getStylesRef,
+    rem,
 } from "@mantine/core";
 import {} from "@tabler/icons-react";
 import { Link } from "@inertiajs/react";
@@ -57,6 +58,22 @@ const useStyles = createStyles((theme) => ({
         color: theme.colors.secondary.foreground,
         fontWeight: 700,
     },
+    header: {
+        paddingBottom: theme.spacing.md,
+        marginBottom: `calc(${theme.spacing.md} * 1.5)`,
+        borderBottom: `${rem(1)} solid ${theme.fn.lighten(
+            theme.colors.primary.background,
+            0.1
+        )}`,
+    },
+    footer: {
+        paddingTop: theme.spacing.md,
+        marginTop: theme.spacing.md,
+        borderTop: `${rem(1)} solid ${theme.fn.lighten(
+            theme.colors.primary.background,
+            0.1
+        )}`,
+    },
     link: {
         ...theme.fn.focusStyles(),
         display: "flex",
@@ -64,34 +81,29 @@ const useStyles = createStyles((theme) => ({
         textDecoration: "none",
         fontSize: theme.fontSizes.lg,
         color: theme.colors.primary.foreground,
-        padding: `${theme.spacing.lg} ${theme.spacing.sm}`,
+        padding: `${theme.spacing.md} ${theme.spacing.sm}`,
         borderRadius: theme.radius.sm,
         fontWeight: 500,
 
         "&:hover": {
-            backgroundColor: theme.fn.lighten(
-                theme.fn.variant({
-                    variant: "filled",
-                    color: theme.primaryColor,
-                }).background,
-                0.1
-            ),
+            // backgroundColor: theme.fn.lighten(
+            //     theme.colors.primary.background,
+            //     0.1
+            // ),
+            backgroundColor: theme.colors.secondary.background,
         },
     },
     linkIcon: {
         ref: getStylesRef("icon"),
-        color: theme.white,
+        color: theme.colors.primary.foreground,
         opacity: 0.75,
-        marginRight: theme.spacing.sm,
+        marginRight: theme.spacing.md,
     },
 
     linkActive: {
         "&, &:hover": {
             backgroundColor: theme.fn.lighten(
-                theme.fn.variant({
-                    variant: "filled",
-                    color: theme.primaryColor,
-                }).background,
+                theme.colors.primary.background,
                 0.15
             ),
             [`& .${getStylesRef("icon")}`]: {
@@ -115,18 +127,10 @@ const BasicNavbar = () => {
     });
 
     return (
-        <Navbar width={{ base: 300 }} p="xs" className="tw-bg-primary">
+        <Navbar width={{ base: 300 }} p="xs" className={classes.navbar}>
             <Navbar.Section grow>
-                <Group
-                    className="tw-pb-md tw-border-b-2 tw-border-white"
-                    position="apart"
-                >
-                    <Title
-                        order={5}
-                        style={{
-                            color: "white",
-                        }}
-                    >
+                <Group className={classes.header} position="apart">
+                    <Title size="h2" order={5} color="white">
                         MotoMedic
                     </Title>
                     <Code className={classes.version}>v0.0.0</Code>
