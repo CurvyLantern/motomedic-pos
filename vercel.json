@@ -26,11 +26,12 @@
         "VERCEL_DEMO_MODE": "true",
         "VIEW_COMPILED_PATH": "/tmp/views"
     },
+    "functions": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.6.0"
+        }
+    },
     "routes": [
-        {
-            "dest": "public/$1/$2",
-            "src": "/(css|js)/(.*)"
-        },
         {
             "dest": "/api/index.php",
             "src": "/(.*)"
