@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-// service category routes 
+// service category routes
 Route::get('service-category',[ServiceCategoryController::class,'index'])->name('serviceCategory');
 
 
@@ -48,7 +48,7 @@ Route::delete('category-destroy/{id}',[CategoryController::class,'destroy'])->na
 Route::get('category-show/{id}',[CategoryController::class,'show'])->name('categoryShow');
 
 
-// brands routes 
+// brands routes
 
 Route::get('brand',[BrandController::class,'index'])->name('brand');
 Route::post('brand-create',[BrandController::class,'create'])->name('brandCreate');
@@ -56,7 +56,7 @@ Route::post('brand-update/{id}',[BrandController::class,'update'])->name('brandU
 Route::delete('brand-destroy/{id}',[BrandController::class,'destroy'])->name('brandDestroy');
 Route::get('brand-show/{id}',[BrandController::class,'show'])->name('brandShow');
 
-// productModel routes 
+// productModel routes
 
 Route::get('product-model',[ProductModelController::class,'index'])->name('productModel');
 Route::post('product-model-create',[ProductModelController::class,'create'])->name('productModelCreate');
@@ -64,5 +64,5 @@ Route::post('product-model-update/{id}',[ProductModelController::class,'update']
 Route::delete('product-model-destroy/{id}',[ProductModelController::class,'destroy'])->name('productModelDestroy');
 Route::get('product-model-show/{id}',[ProductModelController::class,'show'])->name('productModelShow');
 
-// 
+//
 
