@@ -2,26 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Brand;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Requests\StoreBrandRequest;
+use App\Http\Requests\UpdateBrandRequest;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+
+
+
+class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $category = Category::orderBy('id','asc')->get();
+        $brands=Brand::orderBy('id','asc')->get();
 
         $context =[
-            'categories' =>  $category,
+            'brands' => $brands,
+
         ];
 
-        return send_response('Category data successfully loaded !!', $context);
+        return send_response('Brand data successfully loaded !!',$context);
     }
 
     /**
@@ -29,11 +33,11 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
+        //
         $validator = Validator::make($request->all(),[
-            "categoryName" => "required",
+            "brandName" => "required",
             "description"=>"required",
             "slug"=>"required",
-            "parentCategoryId"=>"required",
             "img"=>"required",
             ]);
             
@@ -43,35 +47,34 @@ class CategoryController extends Controller
         }
 
         try{
-            //create category and save it to database
+            //create brand and save it to database
             if ($request->hasFile('img')){
-                $imagePath = $request->file('img')->store('category','public');
+                $imagePath = $request->file('img')->store('brand','public');
                 $request->img = $imagePath;
             }
 
-            $category=Category::create([
-                "categoryName"=> $request->categoryName,
+            $brand=Brand::create([
+                "brandName"=> $request->brandName,
                 "slug"=>$request->slug,
                 "description"=>$request->description,
                 "img"=>$request->img,
-                "parentCategoryId"=>$request->parentCategoryId,
+                "parentbrandId"=>$request->parentbrandId,
                 ]);
             $context = [
-                'category'=>$category ,
+                'brand'=>$brand ,
             ];
             
             
-            return send_response('Category create successfull !',$context);
+            return send_response('Brand create successfull !',$context);
         }catch(Exception $e){
             return send_error($e->getMessage(), $e->getCode());
         }
-
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreBrandRequest $request)
     {
         //
     }
@@ -79,22 +82,23 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category,$id)
+    public function show(Brand $brand,$id)
     {
-        $category = Category::find($id);
+        //
+        $brand = Brand::find($id);
 
         
-        if($category){
-            return send_response('Category founded !',$category);
+        if($brand){
+            return send_response('Brand founded !',$brand);
         }else{
-            return send_error('Category Not found !!!');
+            return send_error('Brand Not found !!!');
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Brand $brand)
     {
         //
     }
@@ -102,13 +106,12 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, Brand $brand,$id)
     {
         //
         $validator = Validator::make($request->all(),[
-            "categoryName" => "required",
+            "brandName" => "required",
             "description"=>"required",
-            "parentCategoryId"=>"required",
             "img"=>"required",
 
         ]);
@@ -118,43 +121,38 @@ class CategoryController extends Controller
 
         try{
 
-            $category= Category::find($id);
-            $category->categoryName = $request->categoryName;
-            $category->slug=$request->slug;
-            $category->description=$request->description ;
-            $category->img =$request->img; 
-            $category->parentCategoryId =$request->parentCategoryId;
-            $category->save();
+            $brand = Brand::find($id);
+            $brand->brandName = $request->brandName;
+            $brand->slug=$request->slug;
+            $brand->description=$request->description ;
+            $brand->img =$request->img; 
+            $brand->save();
 
             $context = [
-                'category'=>$category,
+                'brand'=>$brand,
             ];
 
-            return send_response('Category update successfully',$context);
+            return send_response('Brand update successfully',$context);
 
         }catch(Exception $e){
-            return send_error('Category update failed !!!');
+            return send_error('Brand update failed !!!');
         }
-
-
-
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Brand $brand, $id)
     {
+        //
         try{
-            $category = Category::find($id);
-            if($category){
-                $category->delete();
+            $brand = Brand::find($id);
+            if($brand){
+                $brand->delete();
             }
-            return send_response('Category Deleted successfully',[]);
+            return send_response('Brand Deleted successfully',[]);
         }catch(Exception $e){
             return send_error($e->getMessage(),$e->getCode());
         }
-
     }
-    
 }
