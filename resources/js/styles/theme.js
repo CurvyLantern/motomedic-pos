@@ -28,7 +28,7 @@ export const useGlobalTheme = ({ colorScheme }) => {
         loader: "dots",
         defaultRadius: "primary",
         radius: {
-            primary: ".5rem",
+            primary: ".3rem",
         },
     };
 

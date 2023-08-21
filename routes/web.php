@@ -25,6 +25,13 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/add-product', function () {
+    return Inertia::render('AddProductPage', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+});
+
 Route::get('/service', function () {
     return Inertia::render('Service', [
         'canLogin' => Route::has('login'),
@@ -32,6 +39,17 @@ Route::get('/service', function () {
 
     ]);
 });
+
+Route::get('/demo-test', function () {
+    return Inertia::render('TestingPage', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

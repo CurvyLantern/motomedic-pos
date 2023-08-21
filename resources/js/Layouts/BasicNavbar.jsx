@@ -6,6 +6,10 @@ import {
     createStyles,
     getStylesRef,
     rem,
+    Anchor,
+    MediaQuery,
+    Burger,
+    ScrollArea,
 } from "@mantine/core";
 import {} from "@tabler/icons-react";
 import { Link } from "@inertiajs/react";
@@ -20,6 +24,7 @@ import {
     IconSettings2,
     IconSettingsAutomation,
 } from "@tabler/icons-react";
+import { useAppContext } from "./BasicLayout";
 
 const mockData = [
     {
@@ -33,7 +38,17 @@ const mockData = [
         icon: IconShoppingBag,
     },
     {
-        link: "",
+        link: "add-product",
+        label: "Add Products",
+        icon: IconShoppingBag,
+    },
+    {
+        link: "add-product-bulk",
+        label: "Add Products Bulk",
+        icon: IconShoppingBag,
+    },
+    {
+        link: "service",
         label: "service management",
         icon: IconSettingsAutomation,
     },
@@ -126,16 +141,19 @@ const BasicNavbar = () => {
         );
     });
 
+    const { navHidden, setNavHidden } = useAppContext();
+    const hideNavBar = !navHidden;
     return (
-        <Navbar width={{ base: 300 }} p="xs" className={classes.navbar}>
-            <Navbar.Section grow>
-                <Group className={classes.header} position="apart">
-                    <Title size="h2" order={5} color="white">
-                        MotoMedic
-                    </Title>
-                    <Code className={classes.version}>v0.0.0</Code>
-                </Group>
-
+        // hiddenBreakpoint="sm"
+        <Navbar
+            hidden={hideNavBar}
+            width={{ base: "100%", md: hideNavBar ? 100 : 300, xl: 320 }}
+            p="md"
+            fixed
+            withBorder={false}
+            className={classes.navbar}
+        >
+            <Navbar.Section grow component={ScrollArea}>
                 {links}
             </Navbar.Section>
 

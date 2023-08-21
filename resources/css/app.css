@@ -13,6 +13,12 @@
     --accent-foreground: 105 55% 96%;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html,
 body,
 #app {

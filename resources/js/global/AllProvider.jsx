@@ -10,7 +10,7 @@ const AllProvider = ({ children }) => {
     const theme = useGlobalTheme({ colorScheme: "light" });
     return (
         <QueryClientProvider client={qc}>
-            <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+            <MantineProvider withNormalizeCSS withGlobalStyles theme={theme}>
                 {children}
             </MantineProvider>
         </QueryClientProvider>
