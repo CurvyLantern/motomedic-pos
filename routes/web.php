@@ -40,6 +40,14 @@ Route::get('/service', function () {
     ]);
 });
 
+Route::get('/customers', function () {
+    return Inertia::render('CustomersPage', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+
+    ]);
+});
+
 Route::get('/demo-test', function () {
     return Inertia::render('TestingPage', [
         'canLogin' => Route::has('login'),

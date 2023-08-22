@@ -49,16 +49,16 @@ const mockData = [
     },
     {
         link: "service",
-        label: "service management",
+        label: "Service Management",
         icon: IconSettingsAutomation,
     },
     {
         link: "",
-        label: "mechanic management",
+        label: "Mechanic Management",
         icon: IconHammer,
     },
     {
-        link: "",
+        link: "/customers",
         label: "customers",
         icon: IconUser,
     },

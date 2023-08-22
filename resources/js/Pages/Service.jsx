@@ -1,5 +1,6 @@
 import ServiceDrawer from "@/Components/drawers/ServiceDrawer";
 import { MechanicTable } from "@/Components/tables/MechanicTable";
+import PackageTransferList from "@/Components/transfers/PackageTransferList";
 import { SimpleTable } from "@/Components/tables/SimpleTable";
 import {
     Group,
@@ -14,8 +15,11 @@ import {
     createStyles,
     Grid,
     ScrollArea,
+    TransferList,
+    Checkbox,
 } from "@mantine/core";
 import { useElementSize } from "@mantine/hooks";
+import { useState } from "react";
 const customerFormFields = {
     userName: {
         label: "Name of customer",
@@ -77,6 +81,26 @@ const customerFormFields = {
         label: "Problem Details",
         fieldType: "textbox",
         required: true,
+    },
+    userPackage: {
+        ph: "Please select a package from the list",
+        label: "Available Packages",
+        fieldType: "select",
+        required: true,
+        data: [
+            {
+                label: "Basic Package",
+                value: "pkg-basic",
+            },
+            {
+                label: "Tire Change",
+                value: "pkg-tire-change",
+            },
+            {
+                label: "Paint Job",
+                value: "pkg-paint-job",
+            },
+        ],
     },
 };
 
@@ -225,23 +249,17 @@ const Service = () => {
                     />
                 </MyPaper>
                 <MyPaper title="Item Lists">
-                    <SimpleGrid cols={2}>
+                    <SimpleGrid cols={1}>
                         {/* Service */}
                         <Select
-                            placeholder={customerFormFields.userProblem.ph}
-                            label={customerFormFields.userService.label}
+                            placeholder={customerFormFields.userPackage.ph}
+                            label={customerFormFields.userPackage.label}
                             withAsterisk={
-                                customerFormFields.userService.required
+                                customerFormFields.userPackage.required
                             }
-                            data={[]}
+                            data={customerFormFields.userPackage.data ?? []}
                         />
-                        {/* name */}
-                        <Select
-                            placeholder={customerFormFields.userJob.ph}
-                            label={customerFormFields.userJob.label}
-                            withAsterisk={customerFormFields.userJob.required}
-                            data={[]}
-                        />
+                        <PackageTransferList />
                     </SimpleGrid>
                 </MyPaper>
                 <MyPaper title="Mechanics">
