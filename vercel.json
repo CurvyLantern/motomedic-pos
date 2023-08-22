@@ -21,7 +21,7 @@
     "functions": {
         "api/index.php": {
             "maxDuration": 10,
-            "memory": 3008,
+            "memory": 200,
             "runtime": "vercel-php@0.6.0"
         }
     },
