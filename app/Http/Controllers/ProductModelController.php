@@ -108,7 +108,7 @@ class ProductModelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, ProductModel $productModel ,$id)
     {
         //
         $validator = Validator::make($request->all(),[
@@ -126,21 +126,21 @@ class ProductModelController extends Controller
 
         try{
 
-            $prodectModel = ProductModel::find($id);
-            $prodectModel->modelName = $request->modelName;
-            $prodectModel->slug=$request->slug;
-            $prodectModel->description=$request->description ;
-            $prodectModel->img =$request->img; 
-            $prodectModel->save();
+            $productModel = ProductModel::find($id);
+            $productModel->modelName = $request->modelName;
+            $productModel->slug=$request->slug;
+            $productModel->description=$request->description ;
+            $productModel->img =$request->img; 
+            $productModel->save();
 
             $context = [
-                'prodectModel'=>$prodectModel,
+                'productModel'=>$productModel,
             ];
 
-            return send_response('Prodect Model update successfully',$context);
+            return send_response('Product Model update successfully',$context);
 
         }catch(Exception $e){
-            return send_error('Prodect Model update failed !!!');
+            return send_error('Product Model update failed !!!');
         }
     }
 
