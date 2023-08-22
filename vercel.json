@@ -1,21 +1,11 @@
 {
-    "builds": [
-        {
-            "src": "/api/index.php",
-            "use": "vercel-php@0.6.0"
-        },
-        {
-            "src": "/public/**",
-            "use": "@vercel/static"
-        }
-    ],
     "env": {
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_DEBUG": "false",
         "APP_ENV": "production",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_KEY": "base64:h3P1qDfSMB1Znb7NBcuJ2bwNzAqlznWMNYW5HinWuJM=",
-        "APP_NAME": "Vercel Laravel",
+        "APP_NAME": "Motomedic POS",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
         "APP_ROUTES_CACHE": "/tmp/routes.php",
         "APP_SERVICES_CACHE": "/tmp/services.php",
@@ -28,11 +18,14 @@
         "VERCEL_DEMO_MODE": "true",
         "VIEW_COMPILED_PATH": "/tmp/views"
     },
+    "functions": {
+        "api/index.php": {
+            "maxDuration": 60,
+            "memory": 3008,
+            "runtime": "vercel-php@0.6.0"
+        }
+    },
     "routes": [
-        {
-            "dest": "public/$1/$2",
-            "src": "/(css|js)/(.*)"
-        },
         {
             "dest": "/api/index.php",
             "src": "/(.*)"
