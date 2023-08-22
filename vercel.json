@@ -19,9 +19,9 @@
         "VIEW_COMPILED_PATH": "/tmp/views"
     },
     "functions": {
-        "api/index.php": {
+        "api/*.php": {
             "maxDuration": 10,
-            "memory": 200,
+            "memory": 512,
             "runtime": "vercel-php@0.6.0"
         }
     },
