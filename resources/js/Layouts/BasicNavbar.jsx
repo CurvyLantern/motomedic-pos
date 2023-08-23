@@ -147,7 +147,7 @@ const BasicNavbar = () => {
         // hiddenBreakpoint="sm"
         <Navbar
             hidden={hideNavBar}
-            width={{ base: "100%", md: hideNavBar ? 100 : 300, xl: 320 }}
+            width={{ base: "100%", md: hideNavBar ? 300 : 300, xl: 320 }}
             p="md"
             fixed
             withBorder={false}
