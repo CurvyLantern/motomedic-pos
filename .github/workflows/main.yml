@@ -11,6 +11,11 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v3
 
+    - name: 📂 Remove unwanted folders
+        run: |
+          rm -rf resources/js
+          rm -rf resources/css
+
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -18,4 +23,3 @@ jobs:
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
         server-dir: /
-        exclude: "resources/js/*, resources/css/*"
