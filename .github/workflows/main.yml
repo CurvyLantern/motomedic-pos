@@ -16,9 +16,6 @@ jobs:
 
     - name: 🔨 Build
       run: npm run build
-
-    - name: Cache
-      uses: actions/cache@v3.2.6
       
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
