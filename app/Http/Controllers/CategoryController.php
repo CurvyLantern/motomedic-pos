@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +14,20 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+    public function getCategoryAttributeData() {
+        $tableName = 'categories'; // Replace with the actual table name
+
+        if (Schema::hasTable($tableName)) {
+            $columnNames = Schema::getColumnListing($tableName);
+            return $columnNames;
+        } else {
+            return ['Table not found'];
+        }
+    }
+
+
     public function index()
     {
         $category = Category::orderBy('id','asc')->get();
@@ -36,7 +51,7 @@ class CategoryController extends Controller
             "parentCategoryId"=>"required",
             "img"=>"required",
             ]);
-            
+
 
         if ($validator->fails()){
             return send_error('Data validation Failed !!',$validator->errors(),422);
@@ -59,8 +74,8 @@ class CategoryController extends Controller
             $context = [
                 'category'=>$category ,
             ];
-            
-            
+
+
             return send_response('Category create successfull !',$context);
         }catch(Exception $e){
             return send_error($e->getMessage(), $e->getCode());
@@ -83,7 +98,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        
+
         if($category){
             return send_response('Category founded !',$category);
         }else{
@@ -122,7 +137,7 @@ class CategoryController extends Controller
             $category->categoryName = $request->categoryName;
             $category->slug=$request->slug;
             $category->description=$request->description ;
-            $category->img =$request->img; 
+            $category->img =$request->img;
             $category->parentCategoryId =$request->parentCategoryId;
             $category->save();
 
@@ -156,5 +171,5 @@ class CategoryController extends Controller
         }
 
     }
-    
+
 }

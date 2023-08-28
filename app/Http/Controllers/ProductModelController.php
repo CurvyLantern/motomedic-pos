@@ -41,8 +41,8 @@ class ProductModelController extends Controller
             "slug"=>"required",
             "year"=>"",
             "img"=>"required",
-        
-        ]);    
+
+        ]);
 
         if ($validator->fails()){
             return send_error('Data validation Failed !!',$validator->errors(),422);
@@ -65,8 +65,8 @@ class ProductModelController extends Controller
             $context = [
                 'productModel'=>$productModel ,
             ];
-            
-            
+
+
             return send_response('Product Model create successfull !',$context);
         }catch(Exception $e){
             return send_error($e->getMessage(), $e->getCode());
@@ -89,7 +89,7 @@ class ProductModelController extends Controller
         //
         $productModel = ProductModel::find($id);
 
-        
+
         if($productModel){
             return send_response('productModel founded !',$productModel);
         }else{
@@ -117,8 +117,8 @@ class ProductModelController extends Controller
             "slug"=>"required",
             "year"=>"",
             "img"=>"required",
-        
-        ]); 
+
+        ]);
 
         if($validator->fails()){
             return send_error('Validation Error', $validator->errors(),422);
@@ -130,7 +130,7 @@ class ProductModelController extends Controller
             $productModel->modelName = $request->modelName;
             $productModel->slug=$request->slug;
             $productModel->description=$request->description ;
-            $productModel->img =$request->img; 
+            $productModel->img =$request->img;
             $productModel->save();
 
             $context = [

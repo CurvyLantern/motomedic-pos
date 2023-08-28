@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +16,13 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $categoryName = fake()->word;
         return [
-            //
+            'categoryName' =>$categoryName,
+            'slug' => Str::slug($categoryName, '-'),
+            'img' => $this->faker->imageUrl(200, 200), // Generates a random image URL
+            'description' => $this->faker->sentence,
+            'parentCategoryId' => $this->faker->numberBetween(1,5),
         ];
     }
 }

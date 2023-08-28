@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +17,19 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function getBrandsAttributeData() {
+        $tableName = 'brands'; // Replace with the actual table name
+
+        if (Schema::hasTable($tableName)) {
+            $columnNames = Schema::getColumnListing($tableName);
+            return $columnNames;
+        } else {
+            return ['Table not found'];
+        }
+    }
+
+
     public function index()
     {
         $brands=Brand::orderBy('id','asc')->get();
@@ -40,7 +54,7 @@ class BrandController extends Controller
             "slug"=>"required",
             "img"=>"required",
             ]);
-            
+
 
         if ($validator->fails()){
             return send_error('Data validation Failed !!',$validator->errors(),422);
@@ -63,8 +77,8 @@ class BrandController extends Controller
             $context = [
                 'brand'=>$brand ,
             ];
-            
-            
+
+
             return send_response('Brand create successfull !',$context);
         }catch(Exception $e){
             return send_error($e->getMessage(), $e->getCode());
@@ -87,7 +101,7 @@ class BrandController extends Controller
         //
         $brand = Brand::find($id);
 
-        
+
         if($brand){
             return send_response('Brand founded !',$brand);
         }else{
@@ -125,7 +139,7 @@ class BrandController extends Controller
             $brand->brandName = $request->brandName;
             $brand->slug=$request->slug;
             $brand->description=$request->description ;
-            $brand->img =$request->img; 
+            $brand->img =$request->img;
             $brand->save();
 
             $context = [

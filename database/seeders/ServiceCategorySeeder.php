@@ -23,7 +23,7 @@ class ServiceCategorySeeder extends Seeder
                 'categoryName' => $faker->sentence,
                 'slug' => $faker->sentence,
                 'descriptiom' => $faker->paragraph,
-                'parentCategoryId'=> faker->numberBetween(3,7),
+                'parentCategoryId'=> $faker->numberBetween(3,7),
             ]);
         };
     }

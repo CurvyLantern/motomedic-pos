@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+
 use App\Models\ServiceCategory;
 use App\Http\Requests\StoreServiceCategoryRequest;
 use App\Http\Requests\UpdateServiceCategoryRequest;
@@ -14,6 +15,12 @@ class ServiceCategoryController extends Controller
      * Display a listing of the resource.
      * @return \Illuminate\Http\JsonResponse
      */
+
+
+
+
+
+
     public function index()
     {
         //
