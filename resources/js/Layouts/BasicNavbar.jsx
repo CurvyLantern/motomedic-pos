@@ -28,12 +28,7 @@ import { useAppContext } from "./BasicLayout";
 
 const mockData = [
     {
-        link: "",
-        label: "Cash",
-        icon: IconBellRinging,
-    },
-    {
-        link: "",
+        link: "products",
         label: "products",
         icon: IconShoppingBag,
     },
@@ -94,11 +89,12 @@ const useStyles = createStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         textDecoration: "none",
-        fontSize: theme.fontSizes.lg,
+        fontSize: theme.fontSizes.sm,
         color: theme.colors.primary.foreground,
-        padding: `${theme.spacing.md} ${theme.spacing.sm}`,
+        padding: `${theme.spacing.sm} ${theme.spacing.sm}`,
         borderRadius: theme.radius.sm,
         fontWeight: 500,
+        gap: theme.spacing.sm,
 
         "&:hover": {
             // backgroundColor: theme.fn.lighten(
@@ -108,11 +104,19 @@ const useStyles = createStyles((theme) => ({
             backgroundColor: theme.colors.secondary.background,
         },
     },
+    iconWrapper: {
+        backgroundColor: theme.fn.lighten(theme.colors.primary.background, 0.1),
+
+        borderRadius: theme.radius.sm,
+        padding: 5,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     linkIcon: {
         ref: getStylesRef("icon"),
         color: theme.colors.primary.foreground,
         opacity: 0.75,
-        marginRight: theme.spacing.md,
     },
 
     linkActive: {
@@ -135,7 +139,13 @@ const BasicNavbar = () => {
     const links = mockData.map((item, itemIdx) => {
         return (
             <Link key={itemIdx} className={cx(classes.link)} href={item.link}>
-                <item.icon className={classes.linkIcon} stroke={1.5} />
+                <div className={classes.iconWrapper}>
+                    <item.icon
+                        className={classes.linkIcon}
+                        size={20}
+                        stroke={1.5}
+                    />
+                </div>
                 <span>{item.label}</span>
             </Link>
         );

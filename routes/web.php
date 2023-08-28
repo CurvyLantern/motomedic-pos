@@ -47,6 +47,13 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/products', function () {
+    return Inertia::render('ProductsPage', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+});
+
 Route::get('/add-product', function () {
     return Inertia::render('AddProductPage', [
         'canLogin' => Route::has('login'),

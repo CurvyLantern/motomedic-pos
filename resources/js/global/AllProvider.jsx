@@ -10,7 +10,20 @@ const AllProvider = ({ children }) => {
     const theme = useGlobalTheme({ colorScheme: "light" });
     return (
         <QueryClientProvider client={qc}>
-            <MantineProvider withNormalizeCSS withGlobalStyles theme={theme}>
+            <MantineProvider
+                withNormalizeCSS
+                withGlobalStyles
+                theme={{
+                    ...theme,
+                    components: {
+                        NumberInput: {
+                            defaultProps: {
+                                type: "number",
+                            },
+                        },
+                    },
+                }}
+            >
                 <ModalsProvider>{children}</ModalsProvider>
             </MantineProvider>
         </QueryClientProvider>

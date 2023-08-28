@@ -138,7 +138,11 @@ const Field = ({ field }) => {
     if (field.type === "dropzone") {
         return (
             <div>
-                <ImgDropzone />
+                <ImgDropzone
+                    onFileSave={(files) => {
+                        console.log({ files });
+                    }}
+                />
             </div>
         );
     }
