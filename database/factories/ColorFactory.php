@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use Faker\Guesser\Name;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductModel>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Color>
  */
-class ProductModelFactory extends Factory
+class ColorFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +17,7 @@ class ProductModelFactory extends Factory
     public function definition(): array
     {
         return [
-
+            //
         ];
     }
 }

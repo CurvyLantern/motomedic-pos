@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+    - release/cpanel
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
+
+    - name: 🐱‍👤 Composer install
+      run: composer install
+
+    - name: 🚚 Install NPM packages
+      run: npm ci
+
+    - name: 🔨 Build
+      run: npm run build
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.ftp_server }}
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+        server-dir: /
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          resources/js/**
+          resources/css/**
+

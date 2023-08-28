@@ -12,17 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone')->unique();
+            $table->string('adminName');
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone')->unique();
+            $table->string('verification_code')->unique()->nullable();
+            $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('userDetailsId')->nullable();
             $table->foreign('userDetailsId')->references('id')->on('user-details')->onDelete('cascade');
             $table->tinyInteger('status')->default(0);
-            $table->enum('userType',['admin','staff','customer'])->default('customer');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('admins');
     }
 };

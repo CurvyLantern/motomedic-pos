@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Image;
+use Exception;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreServiceRequest;
@@ -55,10 +56,13 @@ class ServiceController extends Controller
             //     $imagePath = $request->file('img')->storeAs($imagePath,$destinationPath);
 
             // };
-            if ($request->hasFile('img')){
-                $imagePath = $request->file('img')->store('service','public');
-                $request->img = $imagePath;
+
+            $image_path = '';
+
+            if ($request->hasFile('img')) {
+                $image_path = $request->file('img')->store('products', 'public');
             }
+
             $service = Service::create([
                 'serviceName' => $request->serviceName,
                 'slug'=>  $request->slug,
@@ -143,7 +147,7 @@ class ServiceController extends Controller
             return send_response("Service Update successfully !", new ServiceResource($service));
 
         }catch(Exception $e){
-            return send_error("Service data update failed !!!");
+            return send_error("Service data update failed !!!", $e->getMessage(), $e->getCode());
         }
     }
 
@@ -154,7 +158,7 @@ class ServiceController extends Controller
     {
 
         try{
-            
+
             $service = Service::find($id);
 
             if($service){
