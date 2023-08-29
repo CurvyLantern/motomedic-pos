@@ -31,6 +31,13 @@ Route::prefix('admin/v1')->group(function(){
     Route::get('/register',[AdminController::class,'register'])->name('admin.register');
 });
 
+Route::prefix('customer/v1')->group(function(){
+    Route::get('/login',[AdminController::class,'index'])->name('admin.login');
+    Route::get('/login/auth',[AdminController::class,'login'])->name('admin.login.auth');
+    Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
+    Route::get('/register',[AdminController::class,'register'])->name('admin.register');
+});
+
 Route::middleware('admin')->group(function(){
     // Route::get('products',[ProductController::class,'index'])->name('product');
     Route::get('dashboard',[ProductController::class,'index'])->name('admin.dashboard');

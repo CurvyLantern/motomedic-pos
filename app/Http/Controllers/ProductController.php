@@ -93,6 +93,8 @@ class ProductController extends Controller
                 $image_path = $request->file('primaryImg')->store('products', 'public');
             }
 
+            
+
             $products=Product::create([
                 'productName' => $request->productName,
                 'slug' => $request->slug,
@@ -113,7 +115,7 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'discount' => $request->discount,
                 'discoundType' => $request->discoundType,
-                'primaryImg' => $request->$image_path,
+                'primaryImg' => $image_path,
                 'thumbImg' => $request->thumbImg,
                 'shortDescriptions' => $request->shortDescriptions,
                 'longDescriptions' => $request->longDescriptions,
@@ -213,6 +215,17 @@ class ProductController extends Controller
 
                 $product = Product::find($id);
 
+                if ($request->hasFile('primaryImg')) {
+                    // Delete old image
+                    if ($product->primaryImg) {
+                        Storage::delete($product->primaryImg);
+                    }
+                    // Store image
+                    $image_path = $request->file('primaryImg')->store('products', 'public');
+                    // Save to Database
+                    $product->primaryImg = $image_path;
+                }
+
                 $product->productName = $request->productName;
                 $product->slug = $request->slug;
                 $product->categoryId = $request->categoryId;
@@ -231,7 +244,7 @@ class ProductController extends Controller
                 $product->quantity = $request->quantity;
                 $product->price = $request->price;
                 $product->discoundType = $request->discoundType;
-                $product->primaryImg = $request->primaryImg;
+
                 $product->thumbImg = $request->thumbImg;
                 $product->shortDescriptions = $request->shortDescriptions;
                 $product->longDescriptions= $request->longDescriptions;

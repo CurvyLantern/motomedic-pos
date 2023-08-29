@@ -2,12 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Admin
+class Customer
 {
     /**
      * Handle an incoming request.
@@ -16,7 +15,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::guard('customer')->check()){
+        if(!Auth::guard('admin')->check()){
 
             return redirect()->route('admin.login')->with('You are not Logged in !');
 
