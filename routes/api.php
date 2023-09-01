@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductModelController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 
 
@@ -78,4 +79,15 @@ Route::get('products',[ProductController::class,'index'])->name('product');
 Route::post('product-create',[ProductController::class,'create'])->name('product.create');
 Route::post('product-update/{id}',[ProductController::class,'update'])->name('product.update');
 Route::delete('product-destroy/{id}',[ProductController::class,'destroy'])->name('product.destroy');
-Route::get('product-show/{id}',[ProductController::class,'show'])->name('product.show');
+Route::get('product-show/{id}',[ProductController::class,'show'])->name('product.show'); 
+
+
+// Order data api routes
+
+Route::get('getOrderAttributeData',[OrderController::class,'getOrderAttributeData'])->name('get.order.attribute.data');
+
+Route::get('orders',[OrderController::class,'index'])->name('orders');
+Route::get('orders-create',[OrderController::class,'create'])->name('orders.create');
+Route::post('product-update/{id}',[ProductController::class,'update'])->name('product.update');
+Route::post('product-show/{id}',[ProductController::class,'show'])->name('product.update');
+
