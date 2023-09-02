@@ -1,7 +1,7 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer, Group, Button, TextInput } from "@mantine/core";
 
-import { IconPrinter } from "@tabler/icons-react";
+import { TbPrinter } from "react-icons/tb";
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
 import { useAppContext } from "@/contexts/AppContext";
@@ -30,7 +30,7 @@ const ServiceDrawer = () => {
             </div>
 
             <div>
-                <Button onClick={handlePrint} leftIcon={<IconPrinter />}>
+                <Button onClick={handlePrint} leftIcon={<TbPrinter />}>
                     Print
                 </Button>
             </div>

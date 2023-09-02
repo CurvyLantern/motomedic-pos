@@ -25,35 +25,38 @@ import {
     IconSettingsAutomation,
 } from "@tabler/icons-react";
 import { useAppContext } from "./BasicLayout";
+import NavLink from "@/Components/navbar/NavLink";
 
 const mockData = [
     {
-        link: "products",
         label: "products",
         icon: IconShoppingBag,
+        childLinks: [
+            {
+                href: "add-product",
+                label: "Add Products",
+                icon: IconShoppingBag,
+            },
+            {
+                href: "add-product-bulk",
+                label: "Add Products Bulk",
+                icon: IconShoppingBag,
+            },
+        ],
     },
+
     {
-        link: "add-product",
-        label: "Add Products",
-        icon: IconShoppingBag,
-    },
-    {
-        link: "add-product-bulk",
-        label: "Add Products Bulk",
-        icon: IconShoppingBag,
-    },
-    {
-        link: "service",
+        href: "service",
         label: "Service Management",
         icon: IconSettingsAutomation,
     },
     {
-        link: "",
+        href: "",
         label: "Mechanic Management",
         icon: IconHammer,
     },
     {
-        link: "/customers",
+        href: "/customers",
         label: "customers",
         icon: IconUser,
     },
@@ -137,17 +140,15 @@ const BasicNavbar = () => {
     const [active, setActive] = useState(false);
 
     const links = mockData.map((item, itemIdx) => {
+        const { icon, label, childLinks, href } = item;
         return (
-            <Link key={itemIdx} className={cx(classes.link)} href={item.link}>
-                <div className={classes.iconWrapper}>
-                    <item.icon
-                        className={classes.linkIcon}
-                        size={20}
-                        stroke={1.5}
-                    />
-                </div>
-                <span>{item.label}</span>
-            </Link>
+            <NavLink
+                Icon={icon}
+                href={href ? href : ""}
+                label={label}
+                childLinks={childLinks}
+                key={itemIdx}
+            />
         );
     });
 

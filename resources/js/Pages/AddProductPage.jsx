@@ -10,6 +10,8 @@ import {
     createStyles,
     Button,
     Group,
+    Checkbox,
+    FileButton,
 } from "@mantine/core";
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
@@ -20,6 +22,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 import ImgDropzone from "@/Components/dropzones/ImgDropZone";
+import { useState } from "react";
 
 const fields = {
     basicInfo: [
@@ -62,6 +65,24 @@ const fields = {
         {
             label: "Quantity",
             type: "number",
+        },
+        {
+            label: "Minimum purchase qty",
+            type: "number",
+        },
+    ],
+    extraInfos: [
+        {
+            label: "Barcode",
+            type: "text",
+        },
+        {
+            label: "Upload barcode image",
+            type: "fileButton",
+        },
+        {
+            label: "Refundable",
+            type: "checkbox",
         },
     ],
     desc: [
@@ -110,6 +131,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Field = ({ field }) => {
+    const [barcodeFile, setBarCodeFile] = useState(null);
     if (field.type === "number") {
         return (
             <div>
@@ -146,6 +168,30 @@ const Field = ({ field }) => {
             </div>
         );
     }
+    if (field.type === "fileButton") {
+        return (
+            <Group spacing={"md"}>
+                <FileButton
+                    onChange={setBarCodeFile}
+                    accept="image/png,image/jpeg"
+                >
+                    {(props) => <Button {...props}>{field.label}</Button>}
+                </FileButton>
+                {barcodeFile && (
+                    <Text size="sm" align="center" mt="sm">
+                        Picked file: {barcodeFile.name}
+                    </Text>
+                )}
+            </Group>
+        );
+    }
+    if (field.type === "checkbox") {
+        return (
+            <div>
+                <Checkbox labelPosition="left" label={field.label} />
+            </div>
+        );
+    }
     return (
         <div>
             <TextInput label={field.label} placeholder={field.label} />
@@ -168,6 +214,9 @@ const AddProductPage = () => {
     const infoFields = fields.basicInfo.map((field, fieldIdx) => {
         return <Field field={field} key={fieldIdx} />;
     });
+    const extraInfoFiels = fields.extraInfos.map((field, fieldIdx) => {
+        return <Field field={field} key={fieldIdx} />;
+    });
     const descFields = fields.desc.map((field, fieldIdx) => {
         return <Field field={field} key={fieldIdx} />;
     });
@@ -188,6 +237,9 @@ const AddProductPage = () => {
             </MyPaper>
             <MyPaper title="Tax Fields">
                 <SimpleGrid cols={4}>{formalFields}</SimpleGrid>
+            </MyPaper>
+            <MyPaper title="Extra Info">
+                <SimpleGrid cols={1}>{extraInfoFiels}</SimpleGrid>
             </MyPaper>
             <MyPaper title="Image of Product">
                 <SimpleGrid cols={1}>{imgFields}</SimpleGrid>

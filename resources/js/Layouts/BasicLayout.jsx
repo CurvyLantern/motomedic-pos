@@ -10,37 +10,17 @@ import {
     rem,
 } from "@mantine/core";
 import { Link } from "@inertiajs/react";
-
-import BasicNavbar from "./BasicNavbar";
-import { createContext, useContext, useState } from "react";
-
-const AppShellContext = createContext(null);
-export const useAppContext = () => useContext(AppShellContext);
-
-const AppShellContextProvider = ({ children }) => {
-    const [navHidden, setNavHidden] = useState(false);
-    const [drawerOpened, setDrawerOpened] = useState(false);
-    return (
-        <AppShellContext.Provider
-            value={{
-                navHidden,
-                drawerOpened,
-                setNavHidden,
-                setDrawerOpened,
-            }}
-        >
-            {children}
-        </AppShellContext.Provider>
-    );
-};
+import NavBar from "@/Components/navbar/NavBar";
+import { AppShellContextProvider, useAppContext } from "@/contexts/AppContext";
 
 const BasicLayout = ({ children }) => {
     return (
         // <BasicNavbar />
         <AppShellContextProvider>
             <AppShell
+                layout="alt"
                 navbarOffsetBreakpoint="md"
-                navbar={<BasicNavbar />}
+                navbar={<NavBar />}
                 header={<BasicHeader />}
             >
                 {children}

@@ -68,13 +68,27 @@ Route::get('/add-product', function () {
     ]);
 });
 
-Route::get('/service', function () {
-    return Inertia::render('Service', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+Route::prefix('service')->group(function () {
+    // create a service
+    Route::get('/create', function () {
+        return Inertia::render('Service/CreateServicePage', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
 
-    ]);
+        ]);
+    });
+
+    // view all services
+    Route::get('/view-all', function () {
+        return Inertia::render('Service/ViewServicePage', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+
+        ]);
+    });
 });
+
+
 
 Route::get('/customers', function () {
     return Inertia::render('CustomersPage', [

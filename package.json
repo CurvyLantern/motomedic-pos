@@ -46,8 +46,10 @@
         "@tiptap/react": "^2.1.6",
         "@tiptap/starter-kit": "^2.1.6",
         "dayjs": "^1.11.9",
+        "framer-motion": "^10.16.2",
         "mantine-react-table": "^1.1.2",
         "nanoid": "^4.0.2",
+        "react-icons": "^4.10.1",
         "react-to-print": "^2.14.13"
     }
 }
