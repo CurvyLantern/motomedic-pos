@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('queues', function (Blueprint $table) {
             $table->id();
             $table->datetime('arriveDateTime')->nullable();
+            $table->datetime('departDateTime')->nullable();
 
             $table->unsignedBigInteger('orderId')->nullable();
             $table->foreign('orderId')->references('id')->on('orders')->onUpdate('cascade')->onDelete('cascade');
@@ -24,10 +26,9 @@ return new class extends Migration
             $table->unsignedBigInteger('staffId')->nullable();
             $table->foreign('staffId')->references('id')->on('staffs')->onUpdate('cascade')->onDelete('cascade');
 
-
-            $table->datetime('departDateTime')->nullable();
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

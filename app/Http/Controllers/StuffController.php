@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Staff;
-use App\Http\Requests\StoreStaffRequest;
-use App\Http\Requests\UpdateStaffRequest;
+use App\Models\Stuff;
+use App\Http\Requests\StoreStuffRequest;
+use App\Http\Requests\UpdateStuffRequest;
 
-class StaffController extends Controller
+class StuffController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class StaffController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreStaffRequest $request)
+    public function store(StoreStuffRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class StaffController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Staff $staff)
+    public function show(Stuff $stuff)
     {
         //
     }
@@ -43,7 +43,7 @@ class StaffController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Staff $staff)
+    public function edit(Stuff $stuff)
     {
         //
     }
@@ -51,7 +51,7 @@ class StaffController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStaffRequest $request, Staff $staff)
+    public function update(UpdateStuffRequest $request, Stuff $stuff)
     {
         //
     }
@@ -59,7 +59,7 @@ class StaffController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Staff $staff)
+    public function destroy(Stuff $stuff)
     {
         //
     }

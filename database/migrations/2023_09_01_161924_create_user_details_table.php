@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
             $table->date('birthdate')->nullable();
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->string('country')->default('bangladesh');
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

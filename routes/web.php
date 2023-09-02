@@ -45,6 +45,15 @@ Route::middleware('admin')->group(function(){
 
 /* Admin routes ends here  */
 
+
+// Staff routes starts from here 
+
+Route::middleware('staff')->group(function(){
+    Route::get('products',[ProductController::class,'index'])->name('product');
+});
+
+// Staff routes ends here 
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

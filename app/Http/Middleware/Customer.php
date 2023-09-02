@@ -15,9 +15,9 @@ class Customer
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::guard('admin')->check()){
+        if(!Auth::guard('customer')->check()){
 
-            return redirect()->route('admin.login')->with('You are not Logged in !');
+            return redirect()->route('login')->with('You are not Logged in !');
 
         }else{
             return $next($request);
