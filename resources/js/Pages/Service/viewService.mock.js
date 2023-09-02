@@ -150,7 +150,7 @@ export const fakeData2 = [
  * @property {string} state - The state where the user resides.
  */
 /** @type {User[]} */
-export const fakeData = [
+export const fakeData3 = [
     {
         firstName: "Kelvin",
         lastName: "Langosh",
@@ -203,8 +203,30 @@ export const fakeData = [
     .flatMap((item, idx, arr) => [...arr])
     .map((row) => {
         row.id = randKey();
-        row.service_id = `service-${randKey()}`;
+        row.service_id = `s-${randKey()}`;
         return { ...row };
     });
+
+const statuses = ["completed", "pending", "cancelled"];
+
+/**
+ * @typedef {Object} User
+ * @property {string} id - The unique identifier of the user.
+ * @property {string} service_id - The unique identifier of the service.
+ * @property {string} firstName - The first name of the user.
+ * @property {string} lastName - The last name of the user.
+ * @property {string} email - The email address of the user.
+ * @property {string} state - The state where the user resides.
+ */
+/** @type {User[]} */
+export const fakeData = Array(50)
+    .fill(0)
+    .map((row) => ({
+        id: randKey(),
+        serviceId: `s-${randKey()}`,
+        userId: `u-${randKey()}`,
+        status: randEl(statuses),
+    }));
+
 
 console.log({ fakeData });

@@ -18,7 +18,6 @@ const BasicLayout = ({ children }) => {
         // <BasicNavbar />
         <AppShellContextProvider>
             <AppShell
-                layout="alt"
                 navbarOffsetBreakpoint="md"
                 navbar={<NavBar />}
                 header={<BasicHeader />}

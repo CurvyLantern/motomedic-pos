@@ -81,99 +81,22 @@ const ViewServicePage = () => {
                 size: 80,
             },
             {
-                accessorKey: "service_id",
+                accessorKey: "serviceId",
                 header: "Service Id",
                 enableEditing: false,
                 size: 80,
             },
             {
-                accessorKey: "firstName",
-                header: "First Name",
-                mantineEditTextInputProps: ({ cell, row }) => ({
-                    type: "email",
-                    required: true,
-                    error: validationErrors?.[cell.id],
-                    //store edited user in state to be saved later
-                    onBlur: (event) => {
-                        const validationError = !validateRequired(
-                            event.currentTarget.value
-                        )
-                            ? "Required"
-                            : undefined;
-                        setValidationErrors({
-                            ...validationErrors,
-                            [cell.id]: validationError,
-                        });
-                        setEditedUsers({
-                            ...editedUsers,
-                            [row.id]: row.original,
-                        });
-                    },
-                }),
+                accessorKey: "userId",
+                header: "User Id",
+                enableEditing: false,
+                size: 80,
             },
             {
-                accessorKey: "lastName",
-                header: "Last Name",
-                mantineEditTextInputProps: ({ cell, row }) => ({
-                    type: "email",
-                    required: true,
-                    error: validationErrors?.[cell.id],
-                    //store edited user in state to be saved later
-                    onBlur: (event) => {
-                        const validationError = !validateRequired(
-                            event.currentTarget.value
-                        )
-                            ? "Required"
-                            : undefined;
-                        setValidationErrors({
-                            ...validationErrors,
-                            [cell.id]: validationError,
-                        });
-                        setEditedUsers({
-                            ...editedUsers,
-                            [row.id]: row.original,
-                        });
-                    },
-                }),
-            },
-            {
-                accessorKey: "email",
-                header: "Email",
-                mantineEditTextInputProps: ({ cell, row }) => ({
-                    type: "email",
-                    required: true,
-                    error: validationErrors?.[cell.id],
-                    //store edited user in state to be saved later
-                    onBlur: (event) => {
-                        const validationError = !validateEmail(
-                            event.currentTarget.value
-                        )
-                            ? "Invalid Email"
-                            : undefined;
-                        setValidationErrors({
-                            ...validationErrors,
-                            [cell.id]: validationError,
-                        });
-                        setEditedUsers({
-                            ...editedUsers,
-                            [row.id]: row.original,
-                        });
-                    },
-                }),
-            },
-            {
-                accessorKey: "state",
-                header: "State",
-                editVariant: "select",
-                mantineEditSelectProps: ({ row }) => ({
-                    data: bdDistricts,
-                    //store edited user in state to be saved later
-                    onChange: (value) =>
-                        setEditedUsers({
-                            ...editedUsers,
-                            [row.id]: { ...row.original, state: value },
-                        }),
-                }),
+                accessorKey: "status",
+                header: "Status",
+                enableEditing: false,
+                size: 80,
             },
         ],
         [editedUsers, validationErrors]
@@ -293,7 +216,7 @@ function useGetUsers() {
             await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
             return Promise.resolve(fakeData);
         },
-        refetchOnWindowFocus: false,
+        refetchOnWindowFocus: true,
     });
 }
 

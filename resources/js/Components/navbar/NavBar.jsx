@@ -28,8 +28,6 @@ const BasicNavbar = () => {
 
     const { navHidden, setNavHidden } = useAppContext();
     const hideNavBar = navHidden;
-    const navHiddenVal = JSON.stringify(navHidden);
-    const controlledWidth = navHidden ? 0 : 300;
     return (
         // hideNavBar ? 300 : 300
         // hiddenBreakpoint="sm"
@@ -46,7 +44,6 @@ const BasicNavbar = () => {
             withBorder={false}
             className={classes.navbar}
         >
-            {navHiddenVal}
             <Navbar.Section grow component={ScrollArea}>
                 {navHidden}
                 {links}
