@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('durationHours');
             $table->boolean('status')->default(true);
             $table->boolean('featured')->default(true);
+            $table->bigInteger('serviceCreator')->nullable();
             //$table->bigInteger('category');
             //$table->foreign('category')->references('id')->on('service_categories');
             $table->text('note')->nullable();

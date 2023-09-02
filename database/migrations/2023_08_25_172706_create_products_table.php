@@ -16,19 +16,22 @@ return new class extends Migration
             $table->id();
             $table->string('productName');
             $table->string('slug');
+
             $table->unsignedBigInteger('categoryId')->nullable();
-            $table->foreign('categoryId')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('categoryId')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('brandId')->nullable();
-            $table->foreign('brandId')->references('id')->on('brands')->onDelete('cascade');
+            $table->foreign('brandId')->references('id')->on('brands')->onUpdate('cascade')->onDelete('cascade');
+
+
             $table->string('model')->nullable();
-            $table->string('color')->default('#fff');
+            $table->string('color')->nullable();
             $table->string('tags')->nullable();
             $table->string('material')->nullable();
             $table->string('size')->nullable();
             $table->date('year')->nullable();
             $table->string('compitibility')->nullable();
             $table->string('condition')->nullable();
-            $table->float('weight');
+            $table->string('weight');
             $table->integer('quantity');
             $table->float('price');
             $table->float('discount')->nullable();
@@ -47,6 +50,7 @@ return new class extends Migration
             $table->tinyInteger('status');
             $table->enum('productType',['simpleProduct','variationProduct'])->default('simpleProduct');
             $table->string('manufacturer')->nullable();
+            $table->bigInteger('productCreator')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

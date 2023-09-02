@@ -21,8 +21,10 @@ return new class extends Migration
             $table->string('verification_code')->unique()->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
+            
             $table->unsignedBigInteger('userDetailsId')->nullable();
-            $table->foreign('userDetailsId')->references('id')->on('user-details')->onDelete('cascade');
+            $table->foreign('userDetailsId')->references('id')->on('user_details')->onUpdate('cascade')->onDelete('cascade');
+
             $table->tinyInteger('status')->default(0);
             $table->rememberToken();
             $table->timestamps();
