@@ -28,7 +28,6 @@ class Product extends Model
         'quantity',
         'price',
         'discount',
-        'discoundType',
         'primaryImg',
         'thumbImg',
         'shortDescriptions',
@@ -52,6 +51,11 @@ class Product extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class,'id');
+    }
+
+    public function media_images()
+    {
+        return $this->hasMany(MediaImage::class, 'hostId');
     }
 
 }

@@ -10,6 +10,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProductResource;
+use App\Models\MediaImage;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -58,29 +59,24 @@ class ProductController extends Controller
         'brandId' =>"required",
         'model' =>"required",
         'color' =>"required",
-        'tags' =>"required",
-        'productType' =>"required",
         'material' =>"required",
         'size' =>"required",
         'year' =>"required",
         'compitibility' =>"required",
         'condition' =>"required",
-        'manufacturer' =>"required",
         'weight' =>"required",
         'quantity' =>"required" ,
         'price' =>"required",
         'discount' =>"required",
-        'discoundType' =>"required",
         'primaryImg' =>"required",
-        'thumbImg' =>"required",
         'shortDescriptions' =>"required",
-        'longDescriptions' =>"required",
-        'installationMethod' =>"required",
-        'note' =>"required",
-        'warranty' =>"required",
-        'rating' =>"required",
         'availability' =>"required",
         'status' =>"required",
+
+
+
+        'thumbImg' => 'required',
+        'thumbImg.*' => 'mimes:jpg,png'
         ]);
 
         if ($validator->fails()){
@@ -95,9 +91,7 @@ class ProductController extends Controller
                 $image_path = $request->file('primaryImg')->store('products', 'public');
             }
 
-
-
-            $products=Product::create([
+            $product=Product::create([
                 'productName' => $request->productName,
                 'slug'=>  Str::slug($request->productName, '-'),
                 'categoryId' => $request->categoryId,
@@ -105,7 +99,6 @@ class ProductController extends Controller
                 'model' => $request->model,
                 'color' => $request->color,
                 'tags' => $request->tags,
-                'productType' => $request->productType,
                 'material' => $request->material,
                 'size' => $request->size,
                 'year' => $request->year,
@@ -118,7 +111,8 @@ class ProductController extends Controller
                 'discount' => $request->discount,
                 'discoundType' => $request->discoundType,
                 'primaryImg' => $image_path,
-                'thumbImg' => $request->thumbImg,
+                // 'thumbImg' => $request->thumbImg,
+                // 'productType' => $request->productType,
                 'shortDescriptions' => $request->shortDescriptions,
                 'longDescriptions' => $request->longDescriptions,
                 'installationMethod' => $request->installationMethod,
@@ -127,9 +121,46 @@ class ProductController extends Controller
                 'rating' => $request->rating,
                 'availability' => $request->availability,
                 'status' => $request->status,
+
+
             ]);
+
+            if($request->hasfile('thumbImg'))
+            {
+               foreach($request->file('thumbImg') as $key => $thumbImg)
+               {
+                   $path = $thumbImg->store('products', 'public');
+                   $name = $thumbImg->getClientOriginalName();
+                    $product->media_images()->create([
+                        'hostId' => $product->id,
+                        'imageName' => $name,
+                        'imagePath' => $path,
+                    ]);
+                }
+            }
+
+
+            // if ($request->hasFile('thumbImg')) {
+            //     echo '<pre>',print_r($request->thumbImg),'</pre>';
+
+            //     $thumb = $request->thumbImg;
+            //     return send_response('testing thumb', $thumb);
+
+            //     foreach( $request->file('thumbImg') as $thumbImg ){
+
+            //         $thumbImgpath = $thumbImg->file('thumbImg')->store('products', 'public');
+
+            //         $product->media_images()->create([
+            //             'hostId'=> $product->id,
+            //             'imageName' => $request->file('thumbImg')->getClientOriginalName(),
+            //             'imagePath'=> $thumbImgpath,
+            //         ]);
+            //     }
+            // }
+
+
             $context = [
-                'products'=>$products ,
+                'product'=>$product ,
             ];
             return send_response('Products create successfull !',$context);
 

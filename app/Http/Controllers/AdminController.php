@@ -22,17 +22,16 @@ class AdminController extends Controller
     {
         $validate = $request->all();
         if(Auth::guard('admin')->attempt([
-            // 'email' => $validate['email'],
-            // 'password' => $validate['password'],
-            'email' => $request->email,
-            'password' =>$request->password,
+            'email' => $validate['email'],
+            'password' => $validate['password'],
+            // 'email' => $request->email,
+            // 'password' => $request->password,
 
         ])){
+            Session::put('email',Auth::user());
 
-                Session::put('adminName',Auth::user('adminName'));
-                Session::put('id',Auth::user('id'));
-
-            return send_response('Admin Login Successfull !',Auth::user('id'));
+            return view('apitest');
+            // return send_response('Admin Login Successfull !',Auth::user('id'));
         }else{
             // return back()->with('message','Invalid Email or Password !!!');
 

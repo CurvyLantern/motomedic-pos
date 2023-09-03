@@ -9,7 +9,7 @@
 
 <section class="bg-white container border p-2 m-auto mt-4 border rounded">
     <h3>
-        {{Session::get('id')}}
+        {{Session::get('email')}}
     </h3>
 </section>
 
@@ -79,6 +79,135 @@
 </form>
 
 </section>
+
+
+
+
+<section class="bg-white container border p-2 m-auto mt-4 border rounded">
+<h3 class="text-center p-2"> Products Section </h3>
+
+<form class="p-4 " action="{{url('api/product/create')}}" method="post" enctype="multipart/form-data">
+{{csrf_field()}}
+
+<fieldset class="gap-3">
+<div class="form-group">
+    <label for="serviceName"> Enter Your Product Name </label>
+    <input type="text" class="form-control" id="serviceName" placeholder="Enter Your Service Name " name="productName">
+  </div>
+
+  <div class="form-group">
+    <label for="categoryId">Product categoryId </label>
+    <input type="number" class="form-control" id="categoryId" placeholder="Enter Your categoryId" name="categoryId" >
+  </div>
+
+  <div class="form-group">
+    <label for="brandId">Product brandId </label>
+    <input type="number" class="form-control" id="brandId" placeholder="Enter Your brandId" name="brandId" >
+  </div>
+
+  <div class="form-group">
+    <label for="sku">Product sku </label>
+    <input type="text" class="form-control" id="sku" placeholder="Enter Your sku" name="sku" >
+  </div>
+
+  <div class="form-group">
+    <label for="model">Product model </label>
+    <input type="text" class="form-control" id="model" placeholder="Enter Your model" name="model" >
+  </div>
+
+  <div class="form-group">
+    <label for="color">Product color </label>
+    <input type="text" class="form-control" id="color" placeholder="Enter Your color" name="color" >
+  </div>
+
+  <div class="form-group">
+    <label for="material">Product material </label>
+    <input type="text" class="form-control" id="material" placeholder="Enter Your material" name="material" >
+  </div>
+
+  <div class="form-group">
+    <label for="size">Product size </label>
+    <input type="text" class="form-control" id="size" placeholder="Enter Your size" name="size" >
+  </div>
+
+  <div class="form-group">
+    <label for="year">Product year </label>
+    <input type="text" class="form-control" id="year" placeholder="Enter Your year" name="year" >
+  </div>
+
+   <div class="form-group">
+    <label for="compitibility">Product compitibility </label>
+    <input type="text" class="form-control" id="compitibility" placeholder="Enter Your compitibility" name="compitibility" >
+  </div>
+
+  <div class="form-group">
+    <label for="condition">Product condition </label>
+    <input type="text" class="form-control" id="condition" placeholder="Enter Your condition" name="condition" >
+  </div>
+
+  <div class="form-group">
+    <label for="weight">Product weight </label>
+    <input type="text" class="form-control" id="weight" placeholder="Enter Your weight" name="weight" >
+  </div>
+
+  <div class="form-group">
+    <label for="quantity">Product quantity </label>
+    <input type="text" class="form-control" id="quantity" placeholder="Enter Your quantity" name="quantity" >
+  </div>
+
+  <div class="form-group">
+    <label for="price">Product price </label>
+    <input type="text" class="form-control" id="price" placeholder="Enter Your price" name="price" >
+  </div>
+
+
+    <div class="form-group">
+    <label for="discount">Product discount </label>
+    <input type="text" class="form-control" id="discount" placeholder="Enter Your discount" name="discount" >
+  </div>
+
+
+
+
+<!-- ....................................... -->
+  <div class="mb-3">
+    <label for="primaryImg" class="form-label">Input primaryImg file</label>
+    <input class="form-control" type="file" id="primaryImg" name="primaryImg">
+  </div>
+
+  <div class="mb-3">
+    <label for="thumbImg" class="form-label">Input thumbImg file</label>
+    <input class="form-control" type="file" multiple id="thumbImg" name="thumbImg[]">
+  </div>
+
+  <!-- ....................................... -->
+
+
+
+  <div class="form-group">
+    <label for="shortDescriptions">Product shortDescriptions </label>
+    <input type="text" class="form-control" id="shortDescriptions" placeholder="Enter Your shortDescriptions" name="shortDescriptions" >
+  </div>
+
+  <div class="form-group">
+    <label for="availability">Product availability </label>
+    <input type="text" class="form-control" id="availability" placeholder="Enter Your Service availability" name="availability" >
+  </div>
+
+  <div class="form-check">
+  <input class="form-check-input" type="checkbox" value="1" id="status" name="status">
+  <label class="form-check-label" for="status">
+  Status
+  </label>
+</div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</fieldset>
+</form>
+
+</section>
+
+
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
