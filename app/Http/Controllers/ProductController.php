@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -53,7 +54,6 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(),[
 
         'productName' =>"required",
-        'slug' =>"required",
         'categoryId' =>"required",
         'brandId' =>"required",
         'model' =>"required",
@@ -99,7 +99,7 @@ class ProductController extends Controller
 
             $products=Product::create([
                 'productName' => $request->productName,
-                'slug' => $request->slug,
+                'slug'=>  Str::slug($request->productName, '-'),
                 'categoryId' => $request->categoryId,
                 'brandId' => $request->brandId,
                 'model' => $request->model,

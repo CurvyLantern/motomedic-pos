@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
             $table->date('birthdate')->nullable();
+            $table->string('img')->nullable();
             $table->string('city');
             $table->integer('postCode');
             $table->text('street');

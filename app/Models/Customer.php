@@ -24,6 +24,7 @@ class Customer extends Model
         'password',
         'phone',
         'status',
+        'bikeInfo',
     ];
 
     /**
