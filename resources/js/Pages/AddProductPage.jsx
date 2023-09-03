@@ -204,25 +204,50 @@ const AddProductPage = () => {
     );
 };
 function generateCombinations(
-    attributes,
-    currentIndex = 0,
-    combinations = [],
-    currentCombination = []
+    colors,
+    attrs,
+    attrSelector = "values",
+    currentCombination = "",
+    index = 0,
+    output = []
 ) {
-    if (currentIndex === attributes.length) {
-        combinations.push(currentCombination.join("-"));
-        return;
+    if (attrs.length <= 0) {
+        return [colors];
     }
 
-    const currentAttribute = attributes[currentIndex];
-    for (const value of currentAttribute.values) {
-        const updatedCombination = [
-            ...currentCombination,
-            `${currentAttribute.label}-${value}`,
-        ];
-        generateCombinations(attributes, currentIndex + 1, updatedCombination);
+    if (index === attrs.length) {
+        output.push(currentCombination);
+        return output;
     }
+
+    console.log(attrs);
+
+    for (const attr of attrs[index][attrSelector]) {
+        const value = attr;
+        console.log({ value }, " from 221 ");
+        const newCombination =
+            currentCombination === ""
+                ? `${colors}-${value}`
+                : `${currentCombination}-${value}`;
+        generateCombinations(
+            colors,
+            attrs,
+            attrSelector,
+            newCombination,
+            index + 1,
+            output
+        );
+    }
+
+    return output;
 }
+
+const colors = ["red", "blue"];
+const attrs = [
+    { values: ["x", "y", "z"] },
+    { values: [1, 2, 3] },
+    { values: ["cook", "book", "sook"] },
+];
 
 const ProductVariation = () => {
     const [selectedAttrsValue, setSelectedAttrsValue] = useState([]);
@@ -237,15 +262,19 @@ const ProductVariation = () => {
     const [variantDataArr, setVariantDataArr] = useState([]);
 
     useEffect(() => {
-        const combinations = [];
-        let currentColorIndex = 0;
-        generateCombinations([...selectedChildAttrs], 0, combinations);
-        // selectedColorValues.forEach((color) => {
+        const total = [];
+        console.log(selectedChildAttrs, " selected childAttrs ");
+        selectedColorValues.forEach((color) => {
+            const output = generateCombinations(
+                color,
+                selectedChildAttrs,
+                "values"
+            );
+            console.log({ output });
+            total.push(...output);
+        });
 
-        //     currentColorIndex++;
-        // });
-
-        console.log({ combinations }, "from use Effect");
+        console.log({ total }, "from use Effect");
     }, [selectedColorValues, selectedChildAttrs]);
     return (
         <BasicSection title="Product Variation">
@@ -278,10 +307,6 @@ const ProductVariation = () => {
                     return (
                         <MultiSelect
                             onChange={(values) => {
-                                const obj = {
-                                    label: attr.label,
-                                    values,
-                                };
                                 setSelectedChildAttrs((p) => {
                                     const childDataArr = p.find(
                                         (v) => v.label === attr.label
@@ -290,7 +315,13 @@ const ProductVariation = () => {
                                         childDataArr.values = values;
                                         return [...p];
                                     } else {
-                                        return [...p, obj];
+                                        return [
+                                            ...p,
+                                            {
+                                                label: attr.label,
+                                                values,
+                                            },
+                                        ];
                                     }
                                 });
                             }}

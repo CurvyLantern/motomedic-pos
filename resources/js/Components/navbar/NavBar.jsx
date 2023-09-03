@@ -45,7 +45,6 @@ const BasicNavbar = () => {
             className={classes.navbar}
         >
             <Navbar.Section grow component={ScrollArea}>
-                {navHidden}
                 {links}
             </Navbar.Section>
 
