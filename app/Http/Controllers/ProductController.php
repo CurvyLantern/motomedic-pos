@@ -58,27 +58,19 @@ class ProductController extends Controller
         'brandId' =>"required",
         'model' =>"required",
         'color' =>"required",
-        'tags' =>"required",
-        'productType' =>"required",
         'material' =>"required",
         'size' =>"required",
         'year' =>"required",
         'compitibility' =>"required",
         'condition' =>"required",
-        'manufacturer' =>"required",
         'weight' =>"required",
         'quantity' =>"required" ,
         'price' =>"required",
         'discount' =>"required",
-        'discoundType' =>"required",
+
         'primaryImg' =>"required",
-        'thumbImg' =>"required",
+        'thumbImg' =>"",
         'shortDescriptions' =>"required",
-        'longDescriptions' =>"required",
-        'installationMethod' =>"required",
-        'note' =>"required",
-        'warranty' =>"required",
-        'rating' =>"required",
         'availability' =>"required",
         'status' =>"required",
         ]);
@@ -95,8 +87,6 @@ class ProductController extends Controller
                 $image_path = $request->file('primaryImg')->store('products', 'public');
             }
 
-
-
             $products=Product::create([
                 'productName' => $request->productName,
                 'slug'=>  Str::slug($request->productName, '-'),
@@ -105,7 +95,6 @@ class ProductController extends Controller
                 'model' => $request->model,
                 'color' => $request->color,
                 'tags' => $request->tags,
-                'productType' => $request->productType,
                 'material' => $request->material,
                 'size' => $request->size,
                 'year' => $request->year,
@@ -118,7 +107,8 @@ class ProductController extends Controller
                 'discount' => $request->discount,
                 'discoundType' => $request->discoundType,
                 'primaryImg' => $image_path,
-                'thumbImg' => $request->thumbImg,
+                // 'thumbImg' => $request->thumbImg,
+                // 'productType' => $request->productType,
                 'shortDescriptions' => $request->shortDescriptions,
                 'longDescriptions' => $request->longDescriptions,
                 'installationMethod' => $request->installationMethod,
@@ -128,6 +118,7 @@ class ProductController extends Controller
                 'availability' => $request->availability,
                 'status' => $request->status,
             ]);
+
             $context = [
                 'products'=>$products ,
             ];

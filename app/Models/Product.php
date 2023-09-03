@@ -28,7 +28,6 @@ class Product extends Model
         'quantity',
         'price',
         'discount',
-        'discoundType',
         'primaryImg',
         'thumbImg',
         'shortDescriptions',

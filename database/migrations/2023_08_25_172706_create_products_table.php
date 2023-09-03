@@ -27,10 +27,9 @@ return new class extends Migration
             $table->string('sku')->nullable();
             $table->string('model')->nullable();
             $table->string('color')->nullable();
-            $table->string('tags')->nullable();
             $table->string('material')->nullable();
             $table->string('size')->nullable();
-            $table->date('year')->nullable();
+            $table->int('year')->nullable();
             $table->string('compitibility')->nullable();
             $table->string('condition')->nullable();
             $table->string('weight');
