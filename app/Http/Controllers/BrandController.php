@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
 use Illuminate\Support\Facades\Validator;
-
-
+use Exception;
 
 
 class BrandController extends Controller
@@ -51,7 +51,6 @@ class BrandController extends Controller
         $validator = Validator::make($request->all(),[
             "brandName" => "required",
             "description"=>"required",
-            "slug"=>"required",
             "img"=>"required",
             ]);
 
@@ -64,14 +63,13 @@ class BrandController extends Controller
             //create brand and save it to database
             if ($request->hasFile('img')){
                 $imagePath = $request->file('img')->store('brand','public');
-                $request->img = $imagePath;
             }
 
             $brand=Brand::create([
                 "brandName"=> $request->brandName,
-                "slug"=>$request->slug,
+                'slug'=>  Str::slug($request->brandName, '-'),
                 "description"=>$request->description,
-                "img"=>$request->img,
+                "img"=> $imagePath,
                 "parentbrandId"=>$request->parentbrandId,
                 ]);
             $context = [

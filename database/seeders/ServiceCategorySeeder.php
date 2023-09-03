@@ -15,16 +15,6 @@ class ServiceCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create();
-
-        for ($i = 1; $i <= 10; $i++){
-
-            ServiceCategory::create([
-                'categoryName' => $faker->sentence,
-                'slug' => $faker->sentence,
-                'descriptiom' => $faker->paragraph,
-                'parentCategoryId'=> $faker->numberBetween(3,7),
-            ]);
-        };
+        //
     }
 }

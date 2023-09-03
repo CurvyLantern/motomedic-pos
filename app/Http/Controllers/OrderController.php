@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use Illuminate\Support\Facades\Auth;
+
+
 
 
 class OrderController extends Controller
@@ -31,7 +34,7 @@ class OrderController extends Controller
      */
     public function create( Request $request )
     {
-        $validate = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(),[
         // 'customerId'=> "required",
         'serviceId'=> "required",
         'productId' => "required",
@@ -44,13 +47,14 @@ class OrderController extends Controller
         // 'serviceStatus' => "required",
         // 'queue' => "required",
         ]);
+
         if ($validator->fails()){
             return send_error('Data validation Failed !!',$validator->errors(),422);
         }
         try{
 
             $order = Order::create([
-                'customerId' => Auth::user()->id,
+                'customerId' => $request->customerId,
                 'serviceId'=> $request->serviveId,
                 'productId' => $request->productId,
                 'subtotal' => $request->subtotal,
@@ -61,6 +65,8 @@ class OrderController extends Controller
                 'extra' => $request->extra,
                 'serviceStatus' => $request->serviceStatus,
                 'queue' => $request->queue,
+                'orderCreator' =>$request->orderCreator,
+
             ]);
             $context = [
                 'order' => $order,
@@ -106,9 +112,9 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrderRequest $request, Order $order)
+    public function update(Request $request, Order $order,$id)
     {
-        $validate = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(),[
             // 'customerId'=> "required",
             'serviceId'=> "required",
             'productId' => "required",
@@ -129,13 +135,13 @@ class OrderController extends Controller
 
             $order = Order::find($id);
 
-            
+
             $order->serviceId = $request->serviveId;
             $order->productId = $request->productId;
             $order->subtotal = $request->subtotal;
             $order->total = $request->total;
             $order->tax = $request->tax;
-            $order->discount = $request->discount;           
+            $order->discount = $request->discount;
             $order->note = $request->note;
             $order->extra = $request->extra;
             $order->serviceStatus = $request->serviceStatus;
@@ -150,7 +156,7 @@ class OrderController extends Controller
 
         }catch(Exception $e){
             return send_error("Order data update failed !!!");
-        } 
+        }
 
     }
 

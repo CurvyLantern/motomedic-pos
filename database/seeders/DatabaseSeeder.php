@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\Customer;
+use App\Models\Stuff;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -33,5 +34,6 @@ class DatabaseSeeder extends Seeder
         Brand::factory(10)->create();
         Category::factory(10)->create();
         Service::factory(10)->create();
+
     }
 }

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class CategoryController extends Controller
 {
@@ -47,7 +49,6 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(),[
             "categoryName" => "required",
             "description"=>"required",
-            "slug"=>"required",
             "parentCategoryId"=>"required",
             "img"=>"required",
             ]);
@@ -61,14 +62,13 @@ class CategoryController extends Controller
             //create category and save it to database
             if ($request->hasFile('img')){
                 $imagePath = $request->file('img')->store('category','public');
-                $request->img = $imagePath;
             }
 
             $category=Category::create([
                 "categoryName"=> $request->categoryName,
-                "slug"=>$request->slug,
+                'slug'=>  Str::slug($request->categoryName, '-'),
                 "description"=>$request->description,
-                "img"=>$request->img,
+                "img"=>$imagePath,
                 "parentCategoryId"=>$request->parentCategoryId,
                 ]);
             $context = [

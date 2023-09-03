@@ -6,6 +6,8 @@ use Image;
 use Exception;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Http\Resources\ServiceResource;
@@ -18,6 +20,18 @@ class ServiceController extends Controller
      * Display a listing of the resource.
      * @return \Illuminate\Http\JsonResponse
      */
+
+     public function getServiceAttributeData() {
+        $tableName = 'services'; // Replace with the actual table name
+
+        if (Schema::hasTable($tableName)) {
+            $columnNames = Schema::getColumnListing($tableName);
+            return $columnNames;
+        } else {
+            return ['Table not found'];
+        }
+    }
+
     public function index()
     {
         $service = Service::orderBy('id','asc')->get();
@@ -36,7 +50,6 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(),[
             "serviceName" => "required",
-            "slug" => "required",
             "description" => "required",
             "img" => "required",
             "price" => "required",
@@ -60,14 +73,16 @@ class ServiceController extends Controller
             $image_path = '';
 
             if ($request->hasFile('img')) {
-                $image_path = $request->file('img')->store('products', 'public');
+                $image_path = $request->file('img')->store('service', 'public');
             }
+
+
 
             $service = Service::create([
                 'serviceName' => $request->serviceName,
-                'slug'=>  $request->slug,
+                'slug'=>  Str::slug($request->serviceName, '-'),
                 'description'=>$request->description,
-                'img'=>$request->img,
+                'img'=>$image_path,
                 'price'=>$request->price,
                 'durationHours'=>$request->durationHours,
                 'img' => $request->img,

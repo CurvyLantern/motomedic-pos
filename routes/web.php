@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +21,11 @@ use Inertia\Inertia;
 
 
 
-/* Admin routes starts from here  */
 
 
 
-Route::prefix('admin/v1')->group(function(){
-    Route::get('/login',[AdminController::class,'index'])->name('admin.login');
-    Route::get('/login/auth',[AdminController::class,'login'])->name('admin.login.auth');
-    Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
-    Route::get('/register',[AdminController::class,'register'])->name('admin.register');
-});
+
+
 
 Route::prefix('customer/v1')->group(function(){
     Route::get('/login',[AdminController::class,'index'])->name('admin.login');
@@ -38,12 +34,17 @@ Route::prefix('customer/v1')->group(function(){
     Route::get('/register',[AdminController::class,'register'])->name('admin.register');
 });
 
-Route::middleware('admin')->group(function(){
+
+
+
+
+// Staff routes starts from here
+
+Route::middleware('staff')->group(function(){
     // Route::get('products',[ProductController::class,'index'])->name('product');
-    Route::get('dashboard',[ProductController::class,'index'])->name('admin.dashboard');
 });
 
-/* Admin routes ends here  */
+// Staff routes ends here
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -127,6 +128,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
+// Route::get('apitest',[DashboardController::class,'apitest'])->name('apitest');
 
 
 

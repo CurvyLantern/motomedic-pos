@@ -18,6 +18,7 @@ class Admin extends Authenticatable
      * @var array<int, string>
      */
     protected $guard = 'admin';
+    protected $table = 'admins';
     protected $fillable = [
         'adminName',
         'email',
@@ -45,4 +46,10 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }

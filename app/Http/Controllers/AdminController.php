@@ -6,8 +6,12 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -25,8 +29,10 @@ class AdminController extends Controller
 
         ])){
 
-            // return redirect()->route('admin.dashboard')->with('message','Logged in successfull');
-            return send_response('Your are Logged in !' , Auth::guard('admin')->user());
+                Session::put('adminName',Auth::user('adminName'));
+                Session::put('id',Auth::user('id'));
+
+            return send_response('Admin Login Successfull !',Auth::user('id'));
         }else{
             // return back()->with('message','Invalid Email or Password !!!');
 
@@ -69,9 +75,30 @@ class AdminController extends Controller
         return send_response('This will be login page route',[]);
     }
 
-     public function create()
+
+
+     public function create( Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        if($validator->fails()){
+            return send_error('Data validation Failed !!',$validator->errors(),422);
+        }
+
+        // Create a new user
+        $user = User::create([
+            'email' => $validator['email'],
+            'password' => bcrypt($validator['password']),
+        ]);
+
+        // Create an admin record associated with the user
+        Admin::create([
+            'adminName' => $validator['adminName'],
+            'email' => $validator['email'],
+            'password' => bcrypt($validator['password']),
+        ]);
     }
 
     /**

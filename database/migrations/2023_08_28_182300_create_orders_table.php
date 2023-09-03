@@ -14,12 +14,18 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+
+
             $table->unsignedBigInteger('customerId');
-            $table->foreign('customerId')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('customerId')->references('id')->on('customers')->onUpdate('cascade')->onDelete('cascade');
+
             $table->unsignedBigInteger('serviceId');
-            $table->foreign('serviceId')->references('id')->on('services')->onDelete('cascade');
+            $table->foreign('serviceId')->references('id')->on('services')->onUpdate('cascade')->onDelete('cascade');
+
             $table->unsignedBigInteger('productId');
-            $table->foreign('productId')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('productId')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->integer('quantity');
             $table->float('subtotal');
             $table->float('total');
             $table->float('tax')->nullable();
@@ -28,6 +34,7 @@ return new class extends Migration
             $table->integer('extra')->nullable();
             $table->enum('serviceStatus',['Onhold','Processing','Completed'])->default('Onhold');
             $table->integer('queue');
+            $table->bigInteger('orderCreator')->nullable();
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
