@@ -9,6 +9,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProductResource;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProductController extends Controller
@@ -40,6 +41,7 @@ class ProductController extends Controller
         $context = [
             'products' => $products,
         ];
+
         return send_response('Products Data successfully loaded !', $context);
     }
 
@@ -93,7 +95,7 @@ class ProductController extends Controller
                 $image_path = $request->file('primaryImg')->store('products', 'public');
             }
 
-            
+
 
             $products=Product::create([
                 'productName' => $request->productName,

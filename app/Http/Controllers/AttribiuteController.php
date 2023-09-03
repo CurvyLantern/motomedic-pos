@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Stuff;
-use App\Http\Requests\StoreStuffRequest;
-use App\Http\Requests\UpdateStuffRequest;
+use App\Models\Attribiute;
+use App\Http\Requests\StoreAttribiuteRequest;
+use App\Http\Requests\UpdateAttribiuteRequest;
 
-class StuffController extends Controller
+class AttribiuteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class StuffController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreStuffRequest $request)
+    public function store(StoreAttribiuteRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class StuffController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Stuff $stuff)
+    public function show(Attribiute $attribiute)
     {
         //
     }
@@ -43,7 +43,7 @@ class StuffController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Stuff $stuff)
+    public function edit(Attribiute $attribiute)
     {
         //
     }
@@ -51,7 +51,7 @@ class StuffController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStuffRequest $request, Stuff $stuff)
+    public function update(UpdateAttribiuteRequest $request, Attribiute $attribiute)
     {
         //
     }
@@ -59,7 +59,7 @@ class StuffController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Stuff $stuff)
+    public function destroy(Attribiute $attribiute)
     {
         //
     }

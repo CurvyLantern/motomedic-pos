@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use League\CommonMark\Reference\Reference;
 
 return new class extends Migration
 {
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->foreign('brandId')->references('id')->on('brands')->onUpdate('cascade')->onDelete('cascade');
 
 
+            $table->string('sku')->nullable();
             $table->string('model')->nullable();
             $table->string('color')->nullable();
             $table->string('tags')->nullable();
@@ -37,7 +39,10 @@ return new class extends Migration
             $table->float('discount')->nullable();
             $table->enum('discountType',['fixed','percentage'])->nullable();
             $table->string('primaryImg');
-            $table->longText('thumbImg')->nullable();
+
+            $table->unsignedBigInteger('thumbImgId')->nullable();
+            $table->foreign('thumbImgId')->references('id')->on('media_images')->onUpdate('cascade')->onDelete('cascade');
+
             $table->text('shortDescriptions');
             $table->boolean('availability')->default(true);
             $table->text('note')->nullable();
@@ -49,6 +54,10 @@ return new class extends Migration
             $table->bigInteger('reviewsId')->nullable();
             $table->tinyInteger('status');
             $table->enum('productType',['simpleProduct','variationProduct'])->default('simpleProduct');
+
+            $table->unsignedBigInteger('attribiuteId')->nullable();
+            $table->foreign('attribiuteId')->references('id')->on('attribiutes')->onUpdate('cascade')->onDelete('cascade');
+
             $table->string('manufacturer')->nullable();
             $table->bigInteger('productCreator')->nullable();
             $table->timestamps();

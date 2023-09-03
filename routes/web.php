@@ -40,19 +40,19 @@ Route::prefix('customer/v1')->group(function(){
 
 Route::middleware('admin')->group(function(){
     // Route::get('products',[ProductController::class,'index'])->name('product');
-    Route::get('dashboard',[ProductController::class,'index'])->name('admin.dashboard');
+    // Route::get('dashboard',[ProductController::class,'index'])->name('admin.dashboard');
 });
 
 /* Admin routes ends here  */
 
 
-// Staff routes starts from here 
+// Staff routes starts from here
 
 Route::middleware('staff')->group(function(){
-    Route::get('products',[ProductController::class,'index'])->name('product');
+    // Route::get('products',[ProductController::class,'index'])->name('product');
 });
 
-// Staff routes ends here 
+// Staff routes ends here
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

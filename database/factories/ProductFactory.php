@@ -39,7 +39,7 @@ class ProductFactory extends Factory
             'discount' => fake()->numberBetween(0, 50),
             'discountType' => fake()->randomElement(['percentage', 'fixed']),
             'primaryImg' => fake()->imageUrl(),
-            'thumbImg' => fake()->imageUrl(),
+            // 'thumbImgId' => fake()->numberBetween(1,20),
             'shortDescriptions' => fake()->sentence,
             'longDescriptions' => fake()->paragraph,
             'installationMethod' => fake()->sentence,
