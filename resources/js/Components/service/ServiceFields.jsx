@@ -12,18 +12,27 @@ import {
 } from "@mantine/core";
 import ServiceSection from "./ServiceSection";
 import { serviceData } from "./serviceData.mock";
+import { useSelector } from "react-redux";
 
 export const UserInfo = () => {
     return (
         <Grid>
-            <Grid.Col span={8}>
+            <Grid.Col order={1} orderMd={0} span={12} md={8} xl={7}>
                 <ServiceSection title="User Info">
                     <SimpleGrid
-                        cols={4}
-                        breakpoints={[{ maxWidth: "md", cols: 2 }]}
+                        cols={1}
+                        breakpoints={[
+                            { minWidth: "md", cols: 2 },
+                            { minWidth: "lg", cols: 3 },
+                        ]}
                     >
                         {/* name */}
                         <TextInput
+                            styles={{
+                                label: {
+                                    fontWeight: 900,
+                                },
+                            }}
                             placeholder={serviceData.userName.ph}
                             label={serviceData.userName.label}
                             withAsterisk={serviceData.userName.required}
@@ -65,7 +74,7 @@ export const UserInfo = () => {
                     </SimpleGrid>
                 </ServiceSection>
             </Grid.Col>
-            <Grid.Col span={4}>
+            <Grid.Col order={0} orderMd={1} span={12} md={4} xl={5}>
                 <ServiceSection title="Customer Profile">
                     <p>Name : Md Mohsin Ali</p>
                     <p>Phone : 01600000</p>
@@ -77,13 +86,18 @@ export const UserInfo = () => {
     );
 };
 
+export const UserServiceActions = () => {
+    return <ServiceSection title="Actions"></ServiceSection>;
+};
+
 export const UserService = () => {
+    const serviceTypes = useSelector((state) => state.service.serviceTypes);
     return (
         <ServiceSection title="Service Info">
-            <SimpleGrid cols={2}>
+            <SimpleGrid cols={1} breakpoints={[{ minWidth: "md", cols: 2 }]}>
                 {/* Service */}
                 <MultiSelect
-                    data={serviceData.userService.serviceTypes}
+                    data={serviceTypes}
                     placeholder={serviceData.userService.ph}
                     label={serviceData.userService.label}
                     withAsterisk={serviceData.userService.required}
@@ -111,12 +125,12 @@ export const UserItems = () => {
         <ServiceSection title="Item Lists">
             <SimpleGrid cols={1}>
                 {/* Service */}
-                <Select
+                {/* <Select
                     placeholder={serviceData.userPackage.ph}
                     label={serviceData.userPackage.label}
                     withAsterisk={serviceData.userPackage.required}
                     data={serviceData.userPackage.data ?? []}
-                />
+                /> */}
                 <PackageTransferList />
             </SimpleGrid>
         </ServiceSection>

@@ -114,6 +114,11 @@ export const mockData = [
                 label: "Virew All Services",
                 icon: TbSettingsAutomation,
             },
+            {
+                href: "service/create-service-data",
+                label: "Create Service Essentitals",
+                icon: TbSettingsAutomation,
+            },
         ],
     },
     {

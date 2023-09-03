@@ -27,7 +27,7 @@ const BasicNavbar = () => {
     });
 
     const { navHidden, setNavHidden } = useAppContext();
-    const hideNavBar = navHidden;
+    const hideNavBar = !navHidden;
     return (
         // hideNavBar ? 300 : 300
         // hiddenBreakpoint="sm"

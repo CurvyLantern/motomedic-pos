@@ -164,7 +164,7 @@ const ViewServicePage = () => {
                     // );
                 }}
             >
-                Create New User
+                Create New Service
             </Button>
         ),
         state: {

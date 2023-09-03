@@ -77,6 +77,7 @@ const PackageTransferList = () => {
     };
     return (
         <TransferList
+            breakpoint="xs"
             value={data}
             onChange={onChange}
             searchPlaceholder="Search..."

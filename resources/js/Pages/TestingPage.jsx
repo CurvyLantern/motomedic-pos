@@ -16,14 +16,14 @@ const TestingPage = () => {
     const [value, setValue] = useState(null);
     const mantineForm = useMantineForm({
         initialValues: {
-            name: "nasim",
+            modelName: "nasim",
             description: "this is a good product",
             slug: "",
             date: new Date(),
             img: null,
         },
         validate: {
-            name: () => null,
+            modelName: () => null,
             description: () => null,
             slug: () => null,
             date: () => null,
@@ -46,7 +46,7 @@ const TestingPage = () => {
             <Stack>
                 <BaseCard>
                     <TextInput
-                        {...mantineForm.getInputProps("name")}
+                        {...mantineForm.getInputProps("modelName")}
                         label={fields[0].label}
                     />
                 </BaseCard>

@@ -86,6 +86,15 @@ Route::prefix('service')->group(function () {
 
         ]);
     });
+
+     // view all services
+     Route::get('/create-service-data', function () {
+        return Inertia::render('Service/CreateEssentials/index', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+
+        ]);
+    });
 });
 
 

@@ -26,6 +26,7 @@ import {
     UserInfo,
     UserItems,
     UserService,
+    UserServiceActions,
 } from "@/Components/service/ServiceFields";
 import ServiceDrawer from "@/Components/service/ServiceDrawer";
 const customerFormFields = {
@@ -153,10 +154,21 @@ const Service = () => {
             <ServiceFieldWrapper>
                 <UserInfo />
 
-                <UserService />
-                <UserItems />
-                <ServiceDrawer />
-                <MechanicTable />
+                <SimpleGrid
+                    cols={1}
+                    breakpoints={[{ cols: 2, minWidth: "lg" }]}
+                >
+                    <UserService />
+                    <UserItems />
+                </SimpleGrid>
+                <Grid>
+                    <Grid.Col span={12} md={6} lg={8}>
+                        <MechanicTable />
+                    </Grid.Col>
+                    <Grid.Col span={12} md={6} lg={4}>
+                        <UserServiceActions />
+                    </Grid.Col>
+                </Grid>
             </ServiceFieldWrapper>
             <ServiceDrawer />
         </>
