@@ -175,7 +175,14 @@
     <input class="form-control" type="file" id="primaryImg" name="primaryImg">
   </div>
 
+  <div class="mb-3">
+    <label for="thumbImg" class="form-label">Input thumbImg file</label>
+    <input class="form-control" type="file" multiple id="thumbImg" name="thumbImg[]">
+  </div>
+
   <!-- ....................................... -->
+
+
 
   <div class="form-group">
     <label for="shortDescriptions">Product shortDescriptions </label>

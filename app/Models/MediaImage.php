@@ -14,4 +14,9 @@ class MediaImage extends Model
         'imagePath',
         'hostId',
     ];
+
+    public function productImage()
+    {
+        return $this->belongsTo(Product::class, 'id');
+    }
 }

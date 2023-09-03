@@ -53,4 +53,9 @@ class Product extends Model
         return $this->belongsTo(Brand::class,'id');
     }
 
+    public function media_images()
+    {
+        return $this->hasMany(MediaImage::class, 'hostId');
+    }
+
 }
