@@ -55,7 +55,14 @@ class Product extends Model
 
     public function media_images()
     {
-        return $this->hasMany(MediaImage::class, 'hostId');
+        return $this->hasMany(MediaImage::class, 'hostId' , 'id');
     }
+
+    public function attributes()
+    {
+        return $this->hasMany(MediaImage::class, 'productId');
+    }
+
+
 
 }

@@ -11,7 +11,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,26 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+        'productName' =>"required",
+        'categoryId' =>"required",
+        'brandId' =>"required",
+        'model' =>"required",
+        'color' =>"required",
+        'material' =>"required",
+        'size' =>"required",
+        'year' =>"required",
+        'compitibility' =>"required",
+        'condition' =>"required",
+        'weight' =>"required",
+        'quantity' =>"required" ,
+        'price' =>"required",
+        'discount' =>"required",
+        'primaryImg' =>"required",
+        'shortDescriptions' =>"required",
+        'availability' =>"required",
+        'status' =>"required",
+        'thumbImg' => 'required',
+        'thumbImg.*' => 'mimes:jpg,png'
         ];
     }
 }

@@ -32,15 +32,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-Route::get('/login',[AdminController::class,'index'])->name('admin.login');
-Route::post('/login/auth',[AdminController::class,'login'])->name('admin.login.auth');
-Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
-Route::post('/register',[AdminController::class,'register'])->name('admin.register');
+// Route::get('/login',[AdminController::class,'index'])->name('admin.login');
+// Route::post('/login/auth',[AdminController::class,'login'])->name('admin.login.auth');
+// Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
+// // Route::post('/register',[AdminController::class,'register'])->name('admin.register');
+// // nasim custom
+// Route::post('/register-admin',[AdminController::class,'registerAdmin'])->name('admin.register');
 
 /* Admin routes starts from here  */
 
 Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('products',[ProductController::class,'index'])->name('product');
+
 });
 
 /* Admin routes ends here  */
@@ -102,9 +105,14 @@ Route::get('getProductAttributeData',[ProductController::class,'getProductAttrib
 
 // Route::get('products',[ProductController::class,'index'])->name('product');
 Route::post('product/create',[ProductController::class,'create'])->name('product.create');
+Route::post('product/store',[ProductController::class,'store'])->name('product.store');
 Route::post('product/update/{id}',[ProductController::class,'update'])->name('product.update');
 Route::delete('product/destroy/{id}',[ProductController::class,'destroy'])->name('product.destroy');
 Route::get('product/show/{id}',[ProductController::class,'show'])->name('product.show');
+
+// Category Products
+
+Route::get('category/products/{id}',[DashboardController::class,'categoryProducts'])->name('category.products');
 
 
 // Order data api routes
@@ -120,3 +128,7 @@ Route::post('product/show/{id}',[ProductController::class,'show'])->name('produc
 
 
 Route::get('apitest',[DashboardController::class,'apitest'])->name('apitest');
+
+
+
+require __DIR__.'/auth.php';

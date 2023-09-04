@@ -49,7 +49,6 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(),[
             "categoryName" => "required",
             "description"=>"required",
-            "parentCategoryId"=>"required",
             "img"=>"required",
             ]);
 

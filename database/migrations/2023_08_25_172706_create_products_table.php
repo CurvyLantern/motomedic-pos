@@ -53,6 +53,7 @@ return new class extends Migration
             $table->bigInteger('reviewsId')->nullable();
             $table->tinyInteger('status');
             $table->enum('productType',['simpleProduct','variationProduct'])->default('simpleProduct');
+            $table->text('attributesData')->nullable();
 
             $table->unsignedBigInteger('attribiuteId')->nullable();
             $table->foreign('attribiuteId')->references('id')->on('attribiutes')->onUpdate('cascade')->onDelete('cascade');

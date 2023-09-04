@@ -10,6 +10,8 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProductResource;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\MediaImage;
 use Illuminate\Support\Facades\Storage;
 
@@ -139,6 +141,29 @@ class ProductController extends Controller
                 }
             }
 
+            // if($request->productType == 'variationProduct')
+            // {
+            //    foreach($request->productType as $key => $attributes)
+            //    {
+            //         $image_path = '';
+
+            //         if ($request->hasFile('attribiuteImgId')) {
+            //             $image_path = $request->file('attribiuteImgId')->store('products', 'public');
+            //         }
+            //         $product->attributes()->create([
+            //             'productId' => $product->id,
+            //             'sku' => $request->id,
+            //             'attribiuteImgId' => $image_path,
+            //             'discount' => $request->discount,
+            //             'discountType' => $request->discountType,
+            //             'size' => $request->size,
+            //             'weight' => $request->weight,
+            //             'quantity' => $request->quantity,
+            //             'color' => $request->color,
+            //         ]);
+            //     }
+            // }
+
 
             // if ($request->hasFile('thumbImg')) {
             //     echo '<pre>',print_r($request->thumbImg),'</pre>';
@@ -159,8 +184,24 @@ class ProductController extends Controller
             // }
 
 
+            // fetch data from categories table -- stars from here
+
+            $categories =  Category::all();
+
+            // fetch data from categories table -- ends from here
+
+
+            // fetch data from brands table -- ends from here
+
+            $brands =  Brand::all();
+
+            // fetch data from brands table -- ends from here
+
+
             $context = [
                 'product'=>$product ,
+                'categories'=>$categories ,
+                'brands'=>$brands ,
             ];
             return send_response('Products create successfull !',$context);
 
@@ -176,7 +217,92 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $categories = Category::all();
+        $brands = Brand::all();
+        $validator = $request->validated();
+        $category = Category::findOrFail($validator('categoryId'));
+        try{
+            $image_path = '';
+            if ($request->hasFile('primaryImg')) {
+                $image_path = $request->file('primaryImg')->store('products', 'public');
+            }
+            // products() function is from category model relation
+            $product = $category->products()->create([
+                'categoryId' => $validator['category'],
+                'productName' => $validator['productName'],
+                'slug'=>  Str::slug($validator['productName'], '-'),
+                'brandId' => $validator['brandId'],
+                'model' => $validator['model'],
+                'color' => $validator['color'],
+                'tags' => $validator['tags'],
+                'size' => $validator['size'],
+                'year' => $validator['year'],
+                'compitibility' => $validator['compitibility'],
+                'condition' => $validator['condition'],
+                'weight' => $validator['weight'],
+                'manufacturer' => $validator['manufacturer'],
+                'price' => $validator['price'],
+                'quantity' => $validator['quantity'],
+                'price' => $validator['price'],
+                'discoundType' => $validator['discoundType'],
+                'discount' => $validator['discount'],
+                'primaryImg' => $image_path,
+                'shortDescriptions' => $validator['shortDescriptions'],
+                'longDescriptions' => $validator['longDescriptions'],
+                'installationMethod' => $validator['installationMethod'],
+                'warranty' => $validator['warranty'],
+                'note' => $validator['note'],
+                'availability' => $validator['availability'],
+                'status' => $validator['status'],
+                ]);
+            // media_images()
+            // Upload multiple thumbnail image
+            if($request->hasFile('thumbImg')){
+                $image_path = '';
+                foreach($request->file('thumbImg') as $img) {
+
+                    $image_path = $img->store('products', 'public');
+
+                    $product->media_images()->create([
+                        'hostId' => $product->id,
+                        'imageName' => $img->getClientOriginalName(),
+                        'imagePath' => $image_path,
+                    ]);
+                }
+            }
+
+            if($request->productType == 'variationProduct'){
+
+                // This is a logical mistake as it's not obvious which array contains the whole collection of values.
+                foreach($request->attributesData as $key => $attributes){
+                    $image_path = '';
+
+                    if ($request->hasFile('attribiuteImgId')) {
+                            $image_path = $attributes->file('attribiuteImgId')->store('products', 'public');
+                    }
+                    $product->attributes()->create([
+                            'productId' => $product->id,
+                            'sku' => $attributes->sku,
+                            'attribiuteImgId' => $image_path,
+                            'discount' => $attributes->discount,
+                            'discountType' => $attributes->discountType,
+                            'size' => $attributes->size,
+                            'weight' => $attributes->weight,
+                            'quantity' => $attributes->quantity,
+                            'color' => $attributes->color,
+                    ]);
+                }
+            }
+
+            $context = [
+                'product' => $product,
+                'categories' => $categories,
+                'brands' => $brands,
+            ];
+            return send_response('Product Stored successfull' ,$context );
+        }catch(Exception $e){
+            return send_error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**

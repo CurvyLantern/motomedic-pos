@@ -19,6 +19,16 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
+// Admin routes starts from here
+
+Route::prefix('v1')->group(function(){
+
+    Route::get('/login',[AdminController::class , 'index'])->name('admin.loginpage');
+    Route::post('/login/auth',[AdminController::class , 'login'])->name('admin.login');
+
+    Route::get('/register',[AdminController::class , 'registerpage'])->name('admin.registerpage');
+
+    Route::post('/register/create',[AdminController::class , 'register'])->name('admin.register');
 
 
 
@@ -26,13 +36,35 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
 
-
-Route::prefix('customer/v1')->group(function(){
-    Route::get('/login',[AdminController::class,'index'])->name('admin.login');
-    Route::get('/login/auth',[AdminController::class,'login'])->name('admin.login.auth');
-    Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
-    Route::get('/register',[AdminController::class,'register'])->name('admin.register');
+    Route::get('/dashboard',[AdminController::class , 'dashboard'])->name('admin.dashboard');
 });
+
+
+// Admin Routes only ......................................
+
+Route::middleware('admin')->group(function(){
+    Route::get('/destroy',[AdminController::class , 'destroy'])->name('admin.destroy');
+
+
+    Route::get('products',[ProductController::class,'index'])->name('admin.products');
+});
+
+
+
+// Admin routes ends here
+
+
+
+
+
+
+
+// Route::prefix('customer/v1')->group(function(){
+//     Route::get('/login',[AdminController::class,'index'])->name('customer.login');
+//     Route::get('/login/auth',[AdminController::class,'login'])->name('customer.login.auth');
+//     Route::get('/logout',[AdminController::class,'logout'])->name('customer.logout');
+//     Route::get('/register',[AdminController::class,'register'])->name('customer.register');
+// });
 
 
 
