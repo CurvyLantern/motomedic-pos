@@ -11,8 +11,12 @@ export const useGlobalTheme = ({ colorScheme }) => {
             fontWeight: 600,
         },
         colors: {
+            card: {
+                background: "#eee",
+                foreground: "#000",
+            },
             primary: {
-                background: "#0077b6",
+                background: "#22223b",
                 foreground: "#ffffff",
             },
             secondary: {

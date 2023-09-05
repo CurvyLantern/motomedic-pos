@@ -1,6 +1,7 @@
 import { Paper, Space, Stack, Title } from "@mantine/core";
 import { MantineReactTable } from "mantine-react-table";
 import { useMemo } from "react";
+import BasicSection from "../sections/BasicSection";
 
 // nested data is ok, see accessorKeys in ColumnDef below
 /**
@@ -57,7 +58,7 @@ export const MechanicTable = () => {
     );
 
     return (
-        <>
+        <BasicSection title="Avaiable staffs">
             <Space h="md" />
             <MantineReactTable
                 columns={columns}
@@ -67,6 +68,6 @@ export const MechanicTable = () => {
                 }}
                 mantinePaperProps={{ shadow: "0", withBorder: false }}
             />
-        </>
+        </BasicSection>
     );
 };

@@ -87,6 +87,13 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/products', function () {
+    return Inertia::render('ProductsPage', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+});
+
 Route::get('/add-product', function () {
     return Inertia::render('AddProductPage', [
         'canLogin' => Route::has('login'),
@@ -94,13 +101,36 @@ Route::get('/add-product', function () {
     ]);
 });
 
-Route::get('/service', function () {
-    return Inertia::render('Service', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+Route::prefix('service')->group(function () {
+    // create a service
+    Route::get('/create', function () {
+        return Inertia::render('Service/CreateServicePage', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
 
-    ]);
+        ]);
+    });
+
+    // view all services
+    Route::get('/view-all', function () {
+        return Inertia::render('Service/ViewServicePage', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+
+        ]);
+    });
+
+     // view all services
+     Route::get('/create-service-data', function () {
+        return Inertia::render('Service/CreateEssentials/index', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+
+        ]);
+    });
 });
+
+
 
 Route::get('/customers', function () {
     return Inertia::render('CustomersPage', [

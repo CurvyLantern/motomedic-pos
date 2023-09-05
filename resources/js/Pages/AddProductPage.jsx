@@ -10,30 +10,34 @@ import {
     createStyles,
     Button,
     Group,
+    Checkbox,
+    FileButton,
+    Textarea,
+    MultiSelect,
+    Box,
+    CloseButton,
 } from "@mantine/core";
-import { RichTextEditor, Link } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
-import Highlight from "@tiptap/extension-highlight";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Superscript from "@tiptap/extension-superscript";
-import SubScript from "@tiptap/extension-subscript";
-import ImgDropzone from "@/Components/dropzones/ImgDropZone";
+
+import { useState, forwardRef, useEffect } from "react";
+import BasicSection from "@/Components/sections/BasicSection";
+import ProductFields, { fieldTypes } from "@/Components/fields/ProductFields";
+import { Colors } from "@/Components/fields/colors.mock";
+import VariantProducts from "@/Components/products/VariantProducts";
+import { useSelector } from "react-redux";
 
 const fields = {
     basicInfo: [
         {
             label: "Product Name",
-            type: "text",
+            type: fieldTypes.text,
         },
         {
             label: "Category",
-            type: "select",
+            type: fieldTypes.select,
         },
         {
             label: "Sub Category",
-            type: "select",
+            type: fieldTypes.select,
             data: [
                 { value: "1", label: "hero honda 1" },
                 { value: "2", label: "hero honda 2" },
@@ -43,7 +47,7 @@ const fields = {
         },
         {
             label: "Brand",
-            type: "select",
+            type: fieldTypes.select,
             data: [
                 { value: "1", label: "hero honda 1" },
                 { value: "2", label: "hero honda 2" },
@@ -53,212 +57,348 @@ const fields = {
         },
         {
             label: "Unit",
-            type: "Select",
+            type: fieldTypes.select,
         },
         {
             label: "SKU",
-            type: "text",
+            type: fieldTypes.text,
         },
         {
             label: "Quantity",
-            type: "number",
+            type: fieldTypes.number,
+        },
+        {
+            label: "Minimum purchase qty",
+            type: fieldTypes.number,
+        },
+    ],
+    extraInfos: [
+        {
+            label: "Barcode",
+            type: fieldTypes.text,
+        },
+        {
+            label: "Upload barcode image",
+            type: fieldTypes.fileButton,
+        },
+        {
+            label: "Refundable",
+            type: fieldTypes.checkbox,
         },
     ],
     desc: [
         {
             label: "Description",
-            type: "richText",
+            type: fieldTypes.richText,
         },
     ],
     formals: [
         {
             label: "Tax",
-            type: "number",
+            type: fieldTypes.number,
         },
         {
             label: "Discount Type",
-            type: "select",
+            type: fieldTypes.select,
         },
         {
             label: "Price",
-            type: "number",
+            type: fieldTypes.number,
         },
         {
             label: "Status",
-            type: "select",
+            type: fieldTypes.select,
         },
     ],
     img: [
         {
             label: "Product Image",
-            type: "dropzone",
+            type: fieldTypes.dropZone,
+        },
+    ],
+    variation: [
+        {
+            label: "Colors",
+            type: fieldTypes.multiSelect,
+        },
+        {
+            label: "Attributes",
+            type: fieldTypes.multiSelect,
+        },
+        {
+            label: "Size",
+            type: fieldTypes.multiSelect,
+        },
+    ],
+    seoTag: [
+        {
+            label: "Meta Title",
+            type: fieldTypes.text,
+        },
+        {
+            label: "Meta Description",
+            type: fieldTypes.textarea,
+        },
+        {
+            label: "Meta Image",
+            type: fieldTypes.fileButton,
         },
     ],
 };
 
-const useStyles = createStyles((theme) => ({
-    paper: {
-        backgroundColor: theme.fn.lighten(theme.colors.primary.background, 0.9),
-        height: "100%",
-    },
-    title: {
-        fontWeight: 600,
-        fontSize: theme.fontSizes.lg,
-        paddingTop: theme.spacing.lg,
-        paddingBottom: theme.spacing.lg,
-    },
-}));
-
-const Field = ({ field }) => {
-    if (field.type === "number") {
-        return (
-            <div>
-                <NumberInput label={field.label} placeholder={field.label} />
-            </div>
-        );
-    }
-    if (field.type === "select") {
-        return (
-            <div>
-                <Select
-                    label={field.label}
-                    placeholder={field.label}
-                    data={field.data ? field.data : []}
-                />
-            </div>
-        );
-    }
-    if (field.type === "richText") {
-        return (
-            <div>
-                <DescriptionEditor />
-            </div>
-        );
-    }
-    if (field.type === "dropzone") {
-        return (
-            <div>
-                <ImgDropzone />
-            </div>
-        );
-    }
-    return (
-        <div>
-            <TextInput label={field.label} placeholder={field.label} />
-        </div>
-    );
-};
-const MyPaper = ({ title, children }) => {
-    const { classes, cx } = useStyles();
-
-    return (
-        <Paper className={cx(classes.paper)} shadow="xs" radius="xs" p="sm">
-            <Text component="p" className={cx(classes.title)}>
-                {title}
-            </Text>
-            {children}
-        </Paper>
-    );
-};
 const AddProductPage = () => {
     const infoFields = fields.basicInfo.map((field, fieldIdx) => {
-        return <Field field={field} key={fieldIdx} />;
+        return <ProductFields field={field} key={fieldIdx} />;
+    });
+    const extraInfoFiels = fields.extraInfos.map((field, fieldIdx) => {
+        return <ProductFields field={field} key={fieldIdx} />;
     });
     const descFields = fields.desc.map((field, fieldIdx) => {
-        return <Field field={field} key={fieldIdx} />;
+        return <ProductFields field={field} key={fieldIdx} />;
     });
     const formalFields = fields.formals.map((field, fieldIdx) => {
-        return <Field field={field} key={fieldIdx} />;
+        return <ProductFields field={field} key={fieldIdx} />;
     });
     const imgFields = fields.img.map((field, fieldIdx) => {
-        return <Field field={field} key={fieldIdx} />;
+        return <ProductFields field={field} key={fieldIdx} />;
     });
+    const seoTagFields = fields.seoTag.map((field, fieldIdx) => {
+        return <ProductFields field={field} key={fieldIdx} />;
+    });
+    const variationFields = fields.variation.map((field, fieldIdx) => {
+        return <ProductFields field={field} key={fieldIdx} />;
+    });
+
     return (
         <Stack>
-            <MyPaper title="Basic Info">
+            <BasicSection title="Basic Info">
                 <SimpleGrid cols={4}>{infoFields}</SimpleGrid>
-            </MyPaper>
+            </BasicSection>
 
-            <MyPaper title="Product Description">
+            <BasicSection title="Product Description">
                 <SimpleGrid cols={1}>{descFields}</SimpleGrid>
-            </MyPaper>
-            <MyPaper title="Tax Fields">
+            </BasicSection>
+            <BasicSection title="Tax Fields">
                 <SimpleGrid cols={4}>{formalFields}</SimpleGrid>
-            </MyPaper>
-            <MyPaper title="Image of Product">
+            </BasicSection>
+            <BasicSection title="Extra Info">
+                <SimpleGrid cols={1}>{extraInfoFiels}</SimpleGrid>
+            </BasicSection>
+            <BasicSection title="Image of Product">
                 <SimpleGrid cols={1}>{imgFields}</SimpleGrid>
-            </MyPaper>
-            <MyPaper>
+            </BasicSection>
+
+            <BasicSection title="SEO Tags">
+                <SimpleGrid cols={1}>{seoTagFields}</SimpleGrid>
+            </BasicSection>
+
+            <ProductVariation />
+
+            <BasicSection>
                 <Group>
                     <Button size="lg">Submit</Button>
                     <Button size="lg">Cancel</Button>
                 </Group>
-            </MyPaper>
+            </BasicSection>
         </Stack>
     );
 };
+function generateCombinations(
+    colors,
+    attrs,
+    attrSelector = "values",
+    currentCombination = "",
+    index = 0,
+    output = []
+) {
+    if (attrs.length <= 0) {
+        return [colors];
+    }
 
-const content =
-    '<h2 style="text-align: center;">Please Give a meaningfull description to the product</h2><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li></ul>';
+    if (index === attrs.length) {
+        output.push(currentCombination);
+        return output;
+    }
 
-const DescriptionEditor = ({ label, type, placeholder }) => {
-    const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Underline,
-            Link,
-            Superscript,
-            SubScript,
-            Highlight,
-            TextAlign.configure({ types: ["heading", "paragraph"] }),
-        ],
-        content,
+    console.log(attrs);
+
+    for (const attr of attrs[index][attrSelector]) {
+        const value = attr;
+        console.log({ value }, " from 221 ");
+        const newCombination =
+            currentCombination === ""
+                ? `${colors}-${value}`
+                : `${currentCombination}-${value}`;
+        generateCombinations(
+            colors,
+            attrs,
+            attrSelector,
+            newCombination,
+            index + 1,
+            output
+        );
+    }
+
+    return output;
+}
+
+const colors = ["red", "blue"];
+const attrs = [
+    { values: ["x", "y", "z"] },
+    { values: [1, 2, 3] },
+    { values: ["cook", "book", "sook"] },
+];
+
+const ProductVariation = () => {
+    const [selectedAttrsValue, setSelectedAttrsValue] = useState([]);
+    const availableColors = useSelector((state) => state.basic.colors);
+    const availableAttrs = useSelector((state) => state.product.attributes);
+    const selectedAttrs = availableAttrs.filter((attrs) => {
+        return selectedAttrsValue.includes(attrs.value);
     });
+    // child Attrs values
+    const [selectedChildAttrs, setSelectedChildAttrs] = useState([]);
+    const [selectedColorValues, setSelectedColorValues] = useState([]);
+    const [variantDataArr, setVariantDataArr] = useState([]);
 
+    useEffect(() => {
+        const total = [];
+        console.log(selectedChildAttrs, " selected childAttrs ");
+        selectedColorValues.forEach((color) => {
+            const output = generateCombinations(
+                color,
+                selectedChildAttrs,
+                "values"
+            );
+            console.log({ output });
+            total.push(...output);
+        });
+
+        console.log({ total }, "from use Effect");
+    }, [selectedColorValues, selectedChildAttrs]);
     return (
-        <RichTextEditor editor={editor}>
-            <RichTextEditor.Toolbar sticky stickyOffset={60}>
-                <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.Bold />
-                    <RichTextEditor.Italic />
-                    <RichTextEditor.Underline />
-                    <RichTextEditor.Strikethrough />
-                    <RichTextEditor.ClearFormatting />
-                    <RichTextEditor.Highlight />
-                    <RichTextEditor.Code />
-                </RichTextEditor.ControlsGroup>
+        <BasicSection title="Product Variation">
+            <SimpleGrid cols={2}>
+                {/* product colors */}
+                <MultiSelect
+                    valueComponent={CustomColorSelected}
+                    itemComponent={CustomColorItem}
+                    label="Colors"
+                    placeholder="Pick all that you like"
+                    data={availableColors}
+                    onChange={(colorValues) => {
+                        setSelectedColorValues(colorValues);
+                    }}
+                ></MultiSelect>
 
-                <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.H1 />
-                    <RichTextEditor.H2 />
-                    <RichTextEditor.H3 />
-                    <RichTextEditor.H4 />
-                </RichTextEditor.ControlsGroup>
+                {/* product attributes */}
+                <MultiSelect
+                    onChange={(value) => {
+                        setSelectedAttrsValue(value);
+                    }}
+                    label="Attributes"
+                    placeholder="Pick all that you like"
+                    data={availableAttrs}
+                ></MultiSelect>
+            </SimpleGrid>
 
-                <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.Blockquote />
-                    <RichTextEditor.Hr />
-                    <RichTextEditor.BulletList />
-                    <RichTextEditor.OrderedList />
-                    <RichTextEditor.Subscript />
-                    <RichTextEditor.Superscript />
-                </RichTextEditor.ControlsGroup>
+            <SimpleGrid>
+                {selectedAttrs.map((attr, attrIdx) => {
+                    return (
+                        <MultiSelect
+                            onChange={(values) => {
+                                setSelectedChildAttrs((p) => {
+                                    const childDataArr = p.find(
+                                        (v) => v.label === attr.label
+                                    );
+                                    if (childDataArr) {
+                                        childDataArr.values = values;
+                                        return [...p];
+                                    } else {
+                                        return [
+                                            ...p,
+                                            {
+                                                label: attr.label,
+                                                values,
+                                            },
+                                        ];
+                                    }
+                                });
+                            }}
+                            key={attrIdx}
+                            label={attr.label}
+                            placeholder="Pick all that you like"
+                            data={attr.childAttrs}
+                        ></MultiSelect>
+                    );
+                })}
+                {/* product sizes */}
+            </SimpleGrid>
 
-                <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.Link />
-                    <RichTextEditor.Unlink />
-                </RichTextEditor.ControlsGroup>
-
-                <RichTextEditor.ControlsGroup>
-                    <RichTextEditor.AlignLeft />
-                    <RichTextEditor.AlignCenter />
-                    <RichTextEditor.AlignJustify />
-                    <RichTextEditor.AlignRight />
-                </RichTextEditor.ControlsGroup>
-            </RichTextEditor.Toolbar>
-
-            <RichTextEditor.Content />
-        </RichTextEditor>
+            <VariantProducts />
+        </BasicSection>
     );
 };
+
+const CustomColorItem = forwardRef(({ hex, label, ...others }, ref) => (
+    <div ref={ref} {...others}>
+        <Group noWrap>
+            <Box
+                sx={(theme) => ({
+                    width: 20,
+                    height: 20,
+                    borderRadius: theme.radius.sm,
+                    backgroundColor: `#${hex}`,
+                })}
+            />
+
+            <div>
+                <Text
+                    sx={{
+                        textTransform: "capitalize",
+                    }}
+                >
+                    {label}
+                </Text>
+            </div>
+        </Group>
+    </div>
+));
+
+const CustomColorSelected = ({ hex, label, onRemove, ...others }) => {
+    return (
+        <div {...others}>
+            <Group
+                py="xs"
+                px="xs"
+                spacing="xs"
+                sx={(theme) => ({
+                    borderRadius: theme.radius.sm,
+                    border: `1px solid ${theme.colors.primary.background}`,
+                })}
+            >
+                <Box
+                    sx={(theme) => ({
+                        width: 20,
+
+                        height: 10,
+                        backgroundColor: `#${hex}`,
+                        borderRadius: theme.spacing.md,
+                        boxShadow: "0px 0px 5px 0 #00000099",
+                    })}
+                />
+                <Text>{label}</Text>
+
+                <CloseButton
+                    variant="transparent"
+                    onMouseDown={onRemove}
+                    size={22}
+                    iconSize={18}
+                    tabIndex={-1}
+                />
+            </Group>
+        </div>
+    );
+};
+
 export default AddProductPage;

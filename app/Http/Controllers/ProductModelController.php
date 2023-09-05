@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductModelRequest;
 use App\Http\Requests\UpdateProductModelRequest;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 
 
@@ -51,15 +52,15 @@ class ProductModelController extends Controller
         try{
             //create Product Model and save it to database
             if ($request->hasFile('img')){
+                // img = [photo1, photo2,photo3]
                 $imagePath = $request->file('img')->store('product-model','public');
-                $request->img = $imagePath;
             }
 
             $productModel=ProductModel::create([
                 "modelName"=> $request->modelName,
                 "slug"=>$request->slug,
                 "description"=>$request->description,
-                "img"=>$request->img,
+                "img"=>$imagePath,
                 "year" => $request->year,
                 ]);
             $context = [

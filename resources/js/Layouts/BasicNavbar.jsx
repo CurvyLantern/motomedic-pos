@@ -25,40 +25,38 @@ import {
     IconSettingsAutomation,
 } from "@tabler/icons-react";
 import { useAppContext } from "./BasicLayout";
+import NavLink from "@/Components/navbar/NavLink";
 
 const mockData = [
     {
-        link: "",
-        label: "Cash",
-        icon: IconBellRinging,
-    },
-    {
-        link: "",
         label: "products",
         icon: IconShoppingBag,
+        childLinks: [
+            {
+                href: "add-product",
+                label: "Add Products",
+                icon: IconShoppingBag,
+            },
+            {
+                href: "add-product-bulk",
+                label: "Add Products Bulk",
+                icon: IconShoppingBag,
+            },
+        ],
     },
+
     {
-        link: "add-product",
-        label: "Add Products",
-        icon: IconShoppingBag,
-    },
-    {
-        link: "add-product-bulk",
-        label: "Add Products Bulk",
-        icon: IconShoppingBag,
-    },
-    {
-        link: "service",
+        href: "service",
         label: "Service Management",
         icon: IconSettingsAutomation,
     },
     {
-        link: "",
+        href: "",
         label: "Mechanic Management",
         icon: IconHammer,
     },
     {
-        link: "/customers",
+        href: "/customers",
         label: "customers",
         icon: IconUser,
     },
@@ -94,11 +92,12 @@ const useStyles = createStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         textDecoration: "none",
-        fontSize: theme.fontSizes.lg,
+        fontSize: theme.fontSizes.sm,
         color: theme.colors.primary.foreground,
-        padding: `${theme.spacing.md} ${theme.spacing.sm}`,
+        padding: `${theme.spacing.sm} ${theme.spacing.sm}`,
         borderRadius: theme.radius.sm,
         fontWeight: 500,
+        gap: theme.spacing.sm,
 
         "&:hover": {
             // backgroundColor: theme.fn.lighten(
@@ -108,11 +107,19 @@ const useStyles = createStyles((theme) => ({
             backgroundColor: theme.colors.secondary.background,
         },
     },
+    iconWrapper: {
+        backgroundColor: theme.fn.lighten(theme.colors.primary.background, 0.1),
+
+        borderRadius: theme.radius.sm,
+        padding: 5,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     linkIcon: {
         ref: getStylesRef("icon"),
         color: theme.colors.primary.foreground,
         opacity: 0.75,
-        marginRight: theme.spacing.md,
     },
 
     linkActive: {
@@ -133,11 +140,15 @@ const BasicNavbar = () => {
     const [active, setActive] = useState(false);
 
     const links = mockData.map((item, itemIdx) => {
+        const { icon, label, childLinks, href } = item;
         return (
-            <Link key={itemIdx} className={cx(classes.link)} href={item.link}>
-                <item.icon className={classes.linkIcon} stroke={1.5} />
-                <span>{item.label}</span>
-            </Link>
+            <NavLink
+                Icon={icon}
+                href={href ? href : ""}
+                label={label}
+                childLinks={childLinks}
+                key={itemIdx}
+            />
         );
     });
 
