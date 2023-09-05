@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('productId');
             $table->foreign('productId')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
 
-            $table->string('sku');
+            $table->string('sku')->nullable();
             $table->unsignedBigInteger('attribiuteImgId');
-            $table->foreign('attribiuteImgId')->references('id')->on('media_images')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreign('attribiuteImgId')->references('id')->on('media_images')->onUpdate('cascade')->onDelete('cascade');
             $table->float('discount')->nullable();
             $table->enum('discountType',['fixed','percentage'])->nullable();
             $table->string('size')->nullable();

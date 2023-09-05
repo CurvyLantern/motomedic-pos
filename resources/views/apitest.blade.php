@@ -10,6 +10,10 @@
 <section class="bg-white container border p-2 m-auto mt-4 border rounded">
     <h3>
         {{Session::get('email')}}
+        @foreach($products as $data)
+        <h3> {{$data->productName}}
+        <img src="products/{{$data->primaryImg}}" width="100">
+        @endforeach
     </h3>
 </section>
 
@@ -59,6 +63,7 @@
 
 
 <section class="bg-white container border p-2 m-auto mt-4 border rounded">
+<h3 class="text-center p-2"> Login Section </h3>
 <form class="p-4 " action="{{url('api/login/auth')}}" method="post">
 {{csrf_field()}}
 
@@ -80,6 +85,94 @@
 
 </section>
 
+
+<section class="bg-white container border p-2 m-auto mt-4 border rounded">
+<h3 class="text-center p-2"> Registration Section </h3>
+<form class="p-4 " action="{{url('api/register')}}" method="post">
+{{csrf_field()}}
+
+  <div class="form-group">
+    <label for="adminName">Admin name</label>
+    <input type="text" class="form-control" id="adminName" aria-describedby="nameHelp" placeholder="Enter admin name " name="adminName">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+  </div>
+  <button type="submit" class="btn btn-primary m-2">Submit</button>
+</form>
+
+</section>
+
+
+<section class="bg-white container border p-2 m-auto mt-4 border rounded">
+<h3 class="text-center p-2"> Product Category </h3>
+
+<form class="p-4 " action="{{url('api/category/store')}}" method="post" enctype="multipart/form-data">
+{{csrf_field()}}
+
+<fieldset class="gap-3">
+<div class="form-group">
+    <label for="categoryName"> Category Name </label>
+    <input type="text" class="form-control" id="categoryName" placeholder="Enter Your Service Name " name="categoryName">
+  </div>
+
+  <div class="form-group">
+    <label for="serviceName">Category description </label>
+    <input type="text" class="form-control" id="description" placeholder="Enter Your Service Name" name="description" >
+  </div>
+
+  <div class="mb-3">
+    <label for="formFile" class="form-label">Input image file</label>
+    <input class="form-control" type="file" id="img" name="img">
+  </div>
+
+  <div class="form-group">
+    <label for="parentCategoryId"> parent Category </label>
+    <input type="text" class="form-control" id="parentCategoryId" placeholder="Enter Your parentCategoryId" name="parentCategoryId" >
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</fieldset>
+</form>
+
+</section>
+
+<section class="bg-white container border p-2 m-auto mt-4 border rounded">
+<h3 class="text-center p-2"> Product Brand </h3>
+
+<form class="p-4 " action="{{url('api/brand/create')}}" method="post" enctype="multipart/form-data">
+{{csrf_field()}}
+
+<fieldset class="gap-3">
+<div class="form-group">
+    <label for="brandName"> Brandy Name </label>
+    <input type="text" class="form-control" id="brandName" placeholder="Enter Your Brand Name " name="brandName">
+  </div>
+
+  <div class="form-group">
+    <label for="description">Brand description </label>
+    <input type="text" class="form-control" id="description" placeholder="Enter Your brand Description" name="description" >
+  </div>
+
+  <div class="mb-3">
+    <label for="formFile" class="form-label">Input image file</label>
+    <input class="form-control" type="file" id="img" name="img">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</fieldset>
+</form>
+
+</section>
 
 
 
