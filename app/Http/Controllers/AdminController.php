@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class AdminController extends Controller
 {
@@ -27,7 +33,13 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('loginpage');
+        // return view('loginpage');
+        return Inertia::render('Auth/Login', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+        ]);
     }
 
     public function dashboard()

@@ -11,6 +11,7 @@ import {
     TextInput,
     Textarea,
 } from "@mantine/core";
+import { YearPicker } from "@mantine/dates";
 import { useState } from "react";
 import { DescriptionEditor } from "../../fields/DescriptionEditor";
 
@@ -24,6 +25,7 @@ export const fieldTypes = {
     fileButton: "fileButton",
     checkbox: "checkbox",
     textarea: "textarea",
+    yearPicker: "yearPicker",
 };
 
 const ProductFields = ({ field, form }) => {
@@ -121,6 +123,18 @@ const ProductFields = ({ field, form }) => {
                     label={field.label}
                     placeholder="Pick all that you like"
                 />
+            </div>
+        );
+    }
+    if (field.type === fieldTypes.yearPicker) {
+        /*
+        value={value}
+                    onChange={setValue}
+
+        */
+        return (
+            <div>
+                <YearPicker {...form.getInputProps(field.name)} />
             </div>
         );
     }

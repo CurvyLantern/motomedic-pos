@@ -7,6 +7,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
 import RootApp from "@/app";
 import BasicLayout from "@/Layouts/BasicLayout";
+import GuestLayout from "@/Layouts/GuestLayout";
 
 createInertiaApp({
     resolve: async (name) => {
@@ -15,20 +16,22 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.jsx")
         );
 
-        const layout = name.startsWith("auth/") ? null : RootApp;
+        const authRoutes = name.startsWith("Auth/");
+        console.log(name, "route names or what", authRoutes);
+        const Layout = authRoutes ? GuestLayout : BasicLayout;
 
         page.default.layout =
-            page.default.layout || ((page) => <RootApp>{page}</RootApp>);
+            page.default.layout || ((page) => <Layout>{page}</Layout>);
         return page;
     },
     setup({ el, App, props }) {
         const root = createRoot(el);
 
         root.render(
-            // <RootApp>
-            //     <App {...props} />
-            // </RootApp>
-            <App {...props} />
+            <RootApp>
+                <App {...props} />
+            </RootApp>
+            // <App {...props} />
         );
     },
     progress: {

@@ -5,6 +5,7 @@ import {
     TbUser,
     TbCash,
     TbUserDollar,
+    TbHome,
 } from "react-icons/tb";
 class Navlink {
     constructor({ href, label, icon }) {
@@ -17,6 +18,11 @@ class Navlink {
 const urlForProducts = (str) => "products/" + str;
 
 export const mockData = [
+    {
+        label: "Home",
+        icon: TbHome,
+        href: "/",
+    },
     {
         label: "products",
         icon: TbShoppingBag,

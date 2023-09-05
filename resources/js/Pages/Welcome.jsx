@@ -41,17 +41,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 <meta name="description" content="pos for motomedic" />
             </Head>
             <Stack spacing="xl">
-                <SimpleGrid cols={1}>
-                    <Image
-                        fit="contain"
-                        sx={{
-                            width: "100%",
-                        }}
-                        radius={"md"}
-                        src={primaryBannerImg}
-                        alt="primary banner of motomedic"
-                    />
-                </SimpleGrid>
                 <Tabs variant="outline" defaultValue="overview">
                     <Tabs.List>
                         <Tabs.Tab
@@ -97,6 +86,18 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </Stack>
                     </Tabs.Panel>
                 </Tabs>
+
+                <SimpleGrid cols={1}>
+                    <Image
+                        fit="contain"
+                        sx={{
+                            width: "100%",
+                        }}
+                        radius={"md"}
+                        src={primaryBannerImg}
+                        alt="primary banner of motomedic"
+                    />
+                </SimpleGrid>
             </Stack>
             {/* <SimpleTable />
             <PaginationTable /> */}

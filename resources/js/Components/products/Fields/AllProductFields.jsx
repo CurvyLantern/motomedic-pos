@@ -66,12 +66,12 @@ export const AllProductFields = () => {
             <Stack spacing="xl">
                 {/* basic and description */}
                 <Grid>
-                    <Grid.Col span={5}>
+                    <Grid.Col span={12}>
                         <BasicSection title="Basic Info">
-                            <SimpleGrid cols={2}>{infoFields}</SimpleGrid>
+                            <SimpleGrid cols={4}>{infoFields}</SimpleGrid>
                         </BasicSection>
                     </Grid.Col>
-                    <Grid.Col span={7}>
+                    <Grid.Col span={12}>
                         <BasicSection title="Product Description">
                             <SimpleGrid cols={1}>{descFields}</SimpleGrid>
                         </BasicSection>

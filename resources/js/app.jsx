@@ -9,9 +9,7 @@ const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 const App = ({ children }) => {
     return (
         <StrictMode>
-            <AllProvider>
-                <BasicLayout>{children}</BasicLayout>
-            </AllProvider>
+            <AllProvider>{children}</AllProvider>
         </StrictMode>
     );
 };
