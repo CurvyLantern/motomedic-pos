@@ -70,12 +70,12 @@ class ProductController extends Controller
         'quantity' =>"required" ,
         'price' =>"required",
         'discount' =>"required",
-        'primaryImg' =>"required",
         'shortDescriptions' =>"required",
         'availability' =>"required",
         'status' =>"required",
 
-
+        'primaryImg' =>"required",
+        'primaryImg' =>"mimes:jpg,png",
 
         'thumbImg' => 'required',
         'thumbImg.*' => 'mimes:jpg,png'

@@ -5,11 +5,17 @@ export const useBasicSectionStyles = createStyles((theme) => ({
         backgroundColor: theme.colors.card.background,
         color: theme.colors.card.foreground,
         height: "100%",
+        // backgroundImage: theme.fn.gradient({
+        //     from: "red",
+        //     to: "orange",
+        //     deg: 45,
+        // }),
     },
     title: {
         fontWeight: 600,
         fontSize: theme.fontSizes.lg,
         paddingTop: theme.spacing.lg,
         paddingBottom: theme.spacing.lg,
+        color: theme.colors.card.foreground,
     },
 }));

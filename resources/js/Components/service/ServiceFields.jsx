@@ -28,11 +28,6 @@ export const UserInfo = () => {
                     >
                         {/* name */}
                         <TextInput
-                            styles={{
-                                label: {
-                                    fontWeight: 900,
-                                },
-                            }}
                             placeholder={serviceData.userName.ph}
                             label={serviceData.userName.label}
                             withAsterisk={serviceData.userName.required}

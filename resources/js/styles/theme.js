@@ -4,19 +4,29 @@ export const useGlobalTheme = ({ colorScheme }) => {
     /** import('@mantine/core').MantineThemeOverride */
     const globalTheme = {
         colorScheme,
-        fontFamily: "Quicksand",
+        fontFamily: "MontSerrat",
         fontFamilyMonospace: "Disket Mono, Quicksand, monospace",
         headings: {
             fontFamily: "Quicksand",
             fontWeight: 600,
         },
+        label: {
+            fontWeight: 900,
+        },
+        shadows: {
+            card: "0 0 5px #22223b33",
+        },
         colors: {
-            card: {
-                background: "#eee",
+            main: {
+                background: "#f1f1f1",
                 foreground: "#000",
             },
+            card: {
+                background: "#fefefe",
+                foreground: "#22223b",
+            },
             primary: {
-                background: "#22223b",
+                background: "#015190",
                 foreground: "#ffffff",
             },
             secondary: {

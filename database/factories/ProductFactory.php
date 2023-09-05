@@ -29,7 +29,7 @@ class ProductFactory extends Factory
             'productType' => fake()->randomElement(['simpleProduct', 'variationProduct']),
             'material' => fake()->word,
             'size' => fake()->word,
-            'year' => fake()->date,
+            'year' => fake()->numberBetween(1990, 2022),
             'compitibility' => fake()->word,
             'condition' => fake()->word,
             'manufacturer' => fake()->company,

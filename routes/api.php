@@ -103,7 +103,7 @@ Route::get('product-model/show/{id}',[ProductModelController::class,'show'])->na
 
 Route::get('getProductAttributeData',[ProductController::class,'getProductAttributeData'])->name('get.product.attribute.data'); // Get all the column name from here
 
-// Route::get('products',[ProductController::class,'index'])->name('product');
+Route::get('products',[ProductController::class,'index'])->name('product');
 Route::post('product/create',[ProductController::class,'create'])->name('product.create');
 Route::post('product/store',[ProductController::class,'store'])->name('product.store');
 Route::post('product/update/{id}',[ProductController::class,'update'])->name('product.update');

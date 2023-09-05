@@ -1,19 +1,40 @@
-import { Table, SimpleGrid, Grid } from "@mantine/core";
-
+import { Table, SimpleGrid, Grid, Box } from "@mantine/core";
+import { useSelector } from "react-redux";
 const VariantProducts = () => {
-    const ths = ["Variant Name", "color", "size", "image"].map((label) => {
+    const variants = useSelector((state) => state.product.variants);
+    console.log({ variants });
+    const ths = ["Variant Name", "price", "sku", "image"].map((label) => {
         return <th key={label}>{label}</th>;
     });
-    const trows = [].map((row, rowIdx) => {
-        return <tr>asdasd</tr>;
+    const trows = variants.map((variant, variantIdx) => {
+        const variantEntries = Object.entries(variant);
+        return (
+            <tr key={variantIdx}>
+                {variantEntries.map((entry, entryIdx) => {
+                    return <td key={entryIdx}>{entry[1]}</td>;
+                })}
+            </tr>
+        );
     });
     return (
-        <Table striped highlightOnHover withBorder withColumnBorders>
-            <thead>
-                <tr>{ths}</tr>
-            </thead>
-            <tbody>{trows}</tbody>
-        </Table>
+        <Box
+            sx={(theme) => ({
+                backgroundColor: theme.white,
+            })}
+        >
+            <Table
+                horizontalSpacing="xl"
+                verticalSpacing="sm"
+                highlightOnHover
+                withBorder
+                withColumnBorders
+            >
+                <thead>
+                    <tr>{ths}</tr>
+                </thead>
+                <tbody>{trows}</tbody>
+            </Table>
+        </Box>
     );
 };
 

@@ -5,7 +5,14 @@ const BasicSection = ({ title, children }) => {
     const { classes, cx } = useBasicSectionStyles();
 
     return (
-        <Paper className={cx(classes.paper)} shadow="sm" radius="md" p="sm">
+        <Paper
+            withBorder
+            className={cx(classes.paper)}
+            shadow="sm"
+            radius="md"
+            p="lg"
+            px={"lg"}
+        >
             <Text component="p" className={cx(classes.title)}>
                 {title}
             </Text>

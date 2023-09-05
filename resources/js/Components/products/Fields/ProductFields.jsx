@@ -1,23 +1,18 @@
-import { useState } from "react";
+import ImgDropzone from "@/Components/dropzones/ImgDropZone";
 import {
-    TextInput,
-    NumberInput,
-    Select,
-    Grid,
-    SimpleGrid,
-    Stack,
-    Paper,
-    Text,
-    createStyles,
     Button,
-    Group,
     Checkbox,
     FileButton,
-    Textarea,
+    Group,
     MultiSelect,
+    NumberInput,
+    Select,
+    Text,
+    TextInput,
+    Textarea,
 } from "@mantine/core";
-import ImgDropzone from "@/Components/dropzones/ImgDropZone";
-import { DescriptionEditor } from "./DescriptionEditor";
+import { useState } from "react";
+import { DescriptionEditor } from "../../fields/DescriptionEditor";
 
 export const fieldTypes = {
     number: "number",
@@ -31,12 +26,16 @@ export const fieldTypes = {
     textarea: "textarea",
 };
 
-const ProductFields = ({ field }) => {
+const ProductFields = ({ field, form }) => {
     const [barcodeFile, setBarCodeFile] = useState(null);
     if (field.type === fieldTypes.number) {
         return (
             <div>
-                <NumberInput label={field.label} placeholder={field.label} />
+                <NumberInput
+                    {...form.getInputProps(field.name)}
+                    label={field.label}
+                    placeholder={field.label}
+                />
             </div>
         );
     }
@@ -44,6 +43,7 @@ const ProductFields = ({ field }) => {
         return (
             <div>
                 <Select
+                    {...form.getInputProps(field.name)}
                     label={field.label}
                     placeholder={field.label}
                     data={field.data ? field.data : []}
@@ -73,6 +73,7 @@ const ProductFields = ({ field }) => {
         return (
             <Group spacing={"md"}>
                 <FileButton
+                    {...form.getInputProps(field.name)}
                     onChange={setBarCodeFile}
                     accept="image/png,image/jpeg"
                 >
@@ -89,14 +90,21 @@ const ProductFields = ({ field }) => {
     if (field.type === fieldTypes.checkbox) {
         return (
             <div>
-                <Checkbox labelPosition="left" label={field.label} />
+                <Checkbox
+                    {...form.getInputProps(field.name)}
+                    labelPosition="left"
+                    label={field.label}
+                />
             </div>
         );
     }
     if (field.type === fieldTypes.textarea) {
         return (
             <div>
-                <Textarea label={field.label} />
+                <Textarea
+                    {...form.getInputProps(field.name)}
+                    label={field.label}
+                />
             </div>
         );
     }
@@ -106,6 +114,7 @@ const ProductFields = ({ field }) => {
         return (
             <div>
                 <MultiSelect
+                    {...form.getInputProps(field.name)}
                     clearButtonProps={{ "aria-label": "Clear selection" }}
                     clearable
                     data={isArr ? field.data : []}
@@ -117,7 +126,11 @@ const ProductFields = ({ field }) => {
     }
     return (
         <div>
-            <TextInput label={field.label} placeholder={field.label} />
+            <TextInput
+                {...form.getInputProps(field.name)}
+                label={field.label}
+                placeholder={field.label}
+            />
         </div>
     );
 };
