@@ -40,7 +40,7 @@ Route::post('/register',[AdminController::class,'register'])->name('admin.regist
 /* Admin routes starts from here  */
 
 Route::middleware(['auth', 'admin'])->group(function(){
-    Route::get('products',[ProductController::class,'index'])->name('product');
+    // Route::get('products',[ProductController::class,'index'])->name('product');
 });
 
 /* Admin routes ends here  */
@@ -100,12 +100,11 @@ Route::get('product-model/show/{id}',[ProductModelController::class,'show'])->na
 
 Route::get('getProductAttributeData',[ProductController::class,'getProductAttributeData'])->name('get.product.attribute.data'); // Get all the column name from here
 
-// Route::get('products',[ProductController::class,'index'])->name('product');
+Route::get('products',[ProductController::class,'index'])->name('product');
 Route::post('product/create',[ProductController::class,'create'])->name('product.create');
 Route::post('product/update/{id}',[ProductController::class,'update'])->name('product.update');
 Route::delete('product/destroy/{id}',[ProductController::class,'destroy'])->name('product.destroy');
 Route::get('product/show/{id}',[ProductController::class,'show'])->name('product.show');
-
 
 // Order data api routes
 

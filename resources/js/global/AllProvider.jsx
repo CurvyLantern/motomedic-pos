@@ -18,7 +18,22 @@ const AllProvider = ({ children }) => {
                     theme={{
                         ...theme,
                         components: {
+                            Button: {
+                                styles: (theme, params, { variant }) => ({
+                                    root: {
+                                        backgroundColor:
+                                            variant === "filled"
+                                                ? theme.colors.primary
+                                                      .background
+                                                : undefined,
+                                    },
+                                    label: {
+                                        fontWeight: 500,
+                                    },
+                                }),
+                            },
                             NumberInput: {
+                                styles: {},
                                 defaultProps: {
                                     type: "number",
                                 },

@@ -54,7 +54,9 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
+Route::get('/barcode', function () {
+    return Inertia::render('BarcodePage');
+});
 Route::get('/products', function () {
     return Inertia::render('ProductsPage', [
         'canLogin' => Route::has('login'),

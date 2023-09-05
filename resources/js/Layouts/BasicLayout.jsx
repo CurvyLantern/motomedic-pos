@@ -12,24 +12,32 @@ import {
 import { Link } from "@inertiajs/react";
 import NavBar from "@/Components/navbar/NavBar";
 import { AppShellContextProvider, useAppContext } from "@/contexts/AppContext";
+import { ChildrenWrapper } from "@/Layouts/ChildrenWrapper";
 
 const BasicLayout = ({ children }) => {
     return (
         // <BasicNavbar />
         <AppShellContextProvider>
             <AppShell
+                styles={(theme) => ({
+                    main: {
+                        backgroundColor: theme.colors.main.background,
+                        color: theme.colors.main.foreground,
+                    },
+                })}
                 navbarOffsetBreakpoint="md"
                 navbar={<NavBar />}
                 header={<BasicHeader />}
             >
-                {children}
+                <ChildrenWrapper>{children}</ChildrenWrapper>
             </AppShell>
         </AppShellContextProvider>
     );
 };
+
 const useStyles = createStyles((theme) => ({
     header: {
-        backgroundColor: theme.fn.lighten(theme.colors.primary.background, 0.2),
+        backgroundColor: theme.fn.darken(theme.colors.primary.background, 0.1),
         paddingBottom: "1rem",
     },
 }));
@@ -38,6 +46,7 @@ const BasicHeader = () => {
     const { navHidden, setNavHidden, drawerOpened, setDrawerOpened } =
         useAppContext();
     const { classes, cx } = useStyles();
+    const burgerOpened = !navHidden;
     return (
         <Header
             withBorder={false}
@@ -49,7 +58,7 @@ const BasicHeader = () => {
                 {/* largerThan="sm" styles={{ display: "none" }} */}
                 <MediaQuery>
                     <Burger
-                        opened={navHidden}
+                        opened={burgerOpened}
                         color="white"
                         onClick={() => setNavHidden((o) => !o)}
                         size="sm"

@@ -10,7 +10,7 @@ import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone } from "@mantine/dropzone";
 import { useState } from "react";
 
-const IMAGE_MIME_TYPE = "image/jpg";
+const IMAGE_MIME_TYPE = ["image/jpg"];
 
 const ImgDropzone = ({ onFileSave, ...props }) => {
     const theme = useMantineTheme();
