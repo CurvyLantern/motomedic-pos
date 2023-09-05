@@ -31,22 +31,19 @@ Route::prefix('v1')->group(function(){
     Route::post('/register/create',[AdminController::class , 'register'])->name('admin.register');
 
 
-
-
-
-
-
     Route::get('/dashboard',[AdminController::class , 'dashboard'])->name('admin.dashboard');
+
+
+    Route::get('/destroy',[AdminController::class , 'destroy'])->name('admin.destroy');
+
+
+    Route::get('products',[ProductController::class,'index'])->name('admin.products')->middleware('admin');
 });
 
 
 // Admin Routes only ......................................
 
 Route::middleware('admin')->group(function(){
-    Route::get('/destroy',[AdminController::class , 'destroy'])->name('admin.destroy');
-
-
-    Route::get('products',[ProductController::class,'index'])->name('admin.products');
 });
 
 

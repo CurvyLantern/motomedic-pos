@@ -3,11 +3,12 @@ import { OverviewChart } from "@/Components/charts/overview/OverviewChart";
 import { ProductSellChart } from "@/Components/charts/product/ProductSellChart";
 import { StatsCell } from "@/Components/stats/StatsCell/index";
 import { Head } from "@inertiajs/react";
-import { Group, SimpleGrid, Stack, Tabs } from "@mantine/core";
+import { Group, SimpleGrid, Stack, Tabs, Grid } from "@mantine/core";
 
 import { TbPhoto, TbMessageCircle, TbSettings } from "react-icons/tb";
 import { Image, AspectRatio } from "@mantine/core";
 import primaryBannerImg from "@/assets/banners/banner1.jpg";
+import BannerImgSmall from "@/assets/banners/motomedic-banner.jpg";
 const mock = {
     data: [
         {
@@ -59,18 +60,64 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
                     <Tabs.Panel value="overview" pt="xs">
                         <Stack>
-                            <Group align="center" position="center">
-                                {mock.data.map((d, dIdx) => {
-                                    return (
-                                        <StatsCell
-                                            diff={d.diff}
-                                            title={d.title}
-                                            value={d.value}
-                                            key={dIdx}
-                                        />
-                                    );
-                                })}
-                            </Group>
+                            <Grid>
+                                <Grid.Col
+                                    span={12}
+                                    md={6}
+                                    lg={7}
+                                    orderLg={0}
+                                    order={1}
+                                    sx={{
+                                        display: "flex",
+                                    }}
+                                >
+                                    <SimpleGrid
+                                        sx={{
+                                            flex: 1,
+                                        }}
+                                        cols={1}
+                                        breakpoints={[
+                                            {
+                                                cols: 2,
+                                                minWidth: "sm",
+                                            },
+                                            {
+                                                cols: 2,
+                                                minWidth: "lg",
+                                            },
+                                        ]}
+                                    >
+                                        {mock.data.map((d, dIdx) => {
+                                            return (
+                                                <StatsCell
+                                                    diff={d.diff}
+                                                    title={d.title}
+                                                    value={d.value}
+                                                    key={dIdx}
+                                                />
+                                            );
+                                        })}
+                                    </SimpleGrid>
+                                </Grid.Col>
+                                <Grid.Col
+                                    span={12}
+                                    md={6}
+                                    lg={5}
+                                    order={0}
+                                    orderLg={1}
+                                >
+                                    <Image
+                                        fit="contain"
+                                        sx={{
+                                            width: "100%",
+                                        }}
+                                        radius={"md"}
+                                        src={BannerImgSmall}
+                                        alt="primary banner of motomedic"
+                                    />
+                                </Grid.Col>
+                            </Grid>
+
                             <SimpleGrid
                                 cols={1}
                                 breakpoints={[{ minWidth: "md", cols: 2 }]}

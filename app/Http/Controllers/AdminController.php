@@ -33,13 +33,13 @@ class AdminController extends Controller
 
     public function index()
     {
-        // return view('loginpage');
-        return Inertia::render('Auth/Login', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
+        return view('loginpage');
+        // return Inertia::render('Auth/Login', [
+        //     'canLogin' => Route::has('login'),
+        //     'canRegister' => Route::has('register'),
+        //     'laravelVersion' => Application::VERSION,
+        //     'phpVersion' => PHP_VERSION,
+        // ]);
     }
 
     public function dashboard()
