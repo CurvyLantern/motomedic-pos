@@ -57,7 +57,11 @@ const NavLinkGroup = ({ href, Icon, label, childLinks }) => {
     );
 
     return (
-        <div>
+        <Box
+            sx={(theme) => ({
+                minWidth: `calc(300px - 3rem)`,
+            })}
+        >
             {href ? (
                 <Link
                     href={href}
@@ -85,7 +89,7 @@ const NavLinkGroup = ({ href, Icon, label, childLinks }) => {
                     {items}
                 </Collapse>
             ) : null}
-        </div>
+        </Box>
     );
 };
 

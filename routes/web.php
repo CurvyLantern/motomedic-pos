@@ -21,29 +21,30 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Admin routes starts from here
 
-Route::prefix('v1')->group(function(){
+Route::prefix('v1')->group(function () {
 
-    Route::get('/login',[AdminController::class , 'index'])->name('admin.loginpage');
-    Route::post('/login/auth',[AdminController::class , 'login'])->name('admin.login');
+    Route::get('/login', [AdminController::class, 'index'])->name('admin.loginpage');
+    Route::post('/login/auth', [AdminController::class, 'login'])->name('admin.login');
 
-    Route::get('/register',[AdminController::class , 'registerpage'])->name('admin.registerpage');
+    Route::get('/register', [AdminController::class, 'registerpage'])->name('admin.registerpage');
 
-    Route::post('/register/create',[AdminController::class , 'register'])->name('admin.register');
-
-
-    Route::get('/dashboard',[AdminController::class , 'dashboard'])->name('admin.dashboard');
+    Route::post('/register/create', [AdminController::class, 'register'])->name('admin.register');
 
 
-    Route::get('/destroy',[AdminController::class , 'destroy'])->name('admin.destroy');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
 
-    Route::get('products',[ProductController::class,'index'])->name('admin.products')->middleware('admin');
+    Route::get('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
+
+
+    Route::get('products', [ProductController::class, 'index'])->name('admin.products');
+    // ->middleware('admin');
 });
 
 
 // Admin Routes only ......................................
 
-Route::middleware('admin')->group(function(){
+Route::middleware('admin')->group(function () {
 });
 
 
@@ -69,7 +70,7 @@ Route::middleware('admin')->group(function(){
 
 // Staff routes starts from here
 
-Route::middleware('staff')->group(function(){
+Route::middleware('staff')->group(function () {
     // Route::get('products',[ProductController::class,'index'])->name('product');
 });
 
@@ -119,8 +120,8 @@ Route::prefix('service')->group(function () {
         ]);
     });
 
-     // view all services
-     Route::get('/create-service-data', function () {
+    // view all services
+    Route::get('/create-service-data', function () {
         return Inertia::render('Service/CreateEssentials/index', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -167,4 +168,4 @@ Route::middleware('auth')->group(function () {
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

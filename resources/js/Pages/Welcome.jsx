@@ -69,6 +69,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     order={1}
                                     sx={{
                                         display: "flex",
+
                                     }}
                                 >
                                     <SimpleGrid

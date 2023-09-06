@@ -6,6 +6,7 @@ export const ChildrenWrapper = ({ children }) => {
         <Box
             sx={(theme) => ({
                 borderRadius: theme.spacing.sm,
+                width: "100%",
                 // border: `1px solid ${theme.colors.primary.background}`,
                 height: "calc(100vh - var(--mantine-header-height, 0rem) - var(--mantine-footer-height, 0rem) - 2rem) ",
                 maxHeight:
@@ -15,6 +16,7 @@ export const ChildrenWrapper = ({ children }) => {
             <ScrollArea
                 sx={(t) => ({
                     height: "100%",
+                    width: "100%",
                 })}
             >
                 {children}

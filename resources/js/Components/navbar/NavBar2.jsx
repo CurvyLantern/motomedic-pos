@@ -6,8 +6,9 @@ import {
     Navbar,
     ScrollArea,
     Transition,
+    createPolymorphicComponent,
 } from "@mantine/core";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, forwardRef } from "react";
 import { TbLogout, TbSettings2, TbSwitchHorizontal } from "react-icons/tb";
 
 import { useAppContext } from "@/contexts/AppContext";
@@ -21,7 +22,17 @@ import NavLinkGroup from "./NavLinkGroup";
 import { mockData } from "./navdata.mock";
 import { useNavBarStyles } from "./navstyles";
 
-const BasicNavbar = () => {
+const CustomNavBar = forwardRef(({ children, ...others }, ref) => {
+    return (
+        <Box component={Navbar} ref={ref} {...others}>
+            {children}
+        </Box>
+    );
+});
+
+const BasicNavbar2 = createPolymorphicComponent(CustomNavBar);
+
+const AnimatedBasicNavbar = () => {
     const { classes, cx } = useNavBarStyles();
     const [active, setActive] = useState(false);
 
@@ -65,35 +76,24 @@ const BasicNavbar = () => {
     */
     return (
         <>
-            <Navbar
+            <BasicNavbar2
+                component={motion.nav}
                 hidden={hideNavBar}
                 ref={navbarRef}
                 width={{
-                    base: hideNavBar ? 0 : "100%",
-                    sm: hideNavBar ? 0 : 300,
+                    base: "100%",
+                    sm: 300,
+                    md: 300,
+                    xl: 320,
                 }}
                 fixed
                 withBorder={false}
-                sx={{
+                style={{
                     zIndex: 300,
                     overflow: "hidden",
-                    transition: "width 500ms ease, min-width 500ms ease",
                     backgroundColor: "transparent",
                 }}
             >
-                {/* <motion.div
-                    animate={{
-                        width: hideNavBar ? 0 : 200,
-                    }}
-                    onUpdate={(value) => {
-                        console.log("animate", value);
-                    }}
-                    style={{
-                        width: 200,
-                        height: 300,
-                        backgroundColor: "red",
-                    }}
-                ></motion.div> */}
                 <Box
                     p={"md"}
                     pr={0}
@@ -143,7 +143,7 @@ const BasicNavbar = () => {
                         </Navbar.Section>
                     </Box>
                 </Box>
-            </Navbar>
+            </BasicNavbar2>
             {/* {hideNavBar ? null : (
                 <Overlay
                     zIndex={1}
@@ -190,4 +190,4 @@ const MotionAnimation = ({ opened, children }) => {
     );
 };
 
-export default BasicNavbar;
+export default AnimatedBasicNavbar;

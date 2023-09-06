@@ -24,7 +24,7 @@ export const mockData = [
         href: "/",
     },
     {
-        label: "products",
+        label: "Products",
         icon: TbShoppingBag,
         childLinks: [
             {
@@ -32,31 +32,27 @@ export const mockData = [
                 label: "Add New Product",
                 icon: TbShoppingBag,
             },
-            {
-                href: "add-product-bulk",
-                label: "Add Products Bulk",
-                icon: TbShoppingBag,
-            },
+
             {
                 href: "products",
                 label: "All Products",
                 icon: TbShoppingBag,
             },
-            {
-                href: urlForProducts("in-house"),
-                label: "In House Products",
-                icon: TbShoppingBag,
-            },
-            {
-                href: urlForProducts("import-bulk"),
-                label: "Bulk Import",
-                icon: TbShoppingBag,
-            },
-            {
-                href: urlForProducts("export-bulk"),
-                label: "Bulk Export",
-                icon: TbShoppingBag,
-            },
+            // {
+            //     href: urlForProducts("in-house"),
+            //     label: "In House Products",
+            //     icon: TbShoppingBag,
+            // },
+            // {
+            //     href: urlForProducts("import-bulk"),
+            //     label: "Bulk Import",
+            //     icon: TbShoppingBag,
+            // },
+            // {
+            //     href: urlForProducts("export-bulk"),
+            //     label: "Bulk Export",
+            //     icon: TbShoppingBag,
+            // },
             {
                 href: urlForProducts("categories"),
                 label: "Categories",
@@ -78,10 +74,15 @@ export const mockData = [
                 icon: TbShoppingBag,
             },
             {
-                href: urlForProducts("reviews"),
-                label: "Product Reviews",
+                href: "add-product-bulk",
+                label: "Add Products Bulk",
                 icon: TbShoppingBag,
             },
+            // {
+            //     href: urlForProducts("reviews"),
+            //     label: "Product Reviews",
+            //     icon: TbShoppingBag,
+            // },
         ],
     },
     {
@@ -94,15 +95,15 @@ export const mockData = [
                 icon: TbShoppingBag,
             },
             {
-                href: "in-house-orders",
-                label: "Inhouse Orders",
+                href: "create-order",
+                label: "Create Order",
                 icon: TbShoppingBag,
             },
-            {
-                href: "seller-orders",
-                label: "Seller Orders",
-                icon: TbShoppingBag,
-            },
+            // {
+            //     href: "seller-orders",
+            //     label: "Seller Orders",
+            //     icon: TbShoppingBag,
+            // },
         ],
     },
 
@@ -112,28 +113,35 @@ export const mockData = [
         childLinks: [
             {
                 href: "service/create",
-                label: "Initiate Service",
+                label: "Create Service",
                 icon: TbSettingsAutomation,
             },
             {
                 href: "service/view-all",
-                label: "Virew All Services",
+                label: "All Services",
                 icon: TbSettingsAutomation,
             },
-            {
-                href: "service/create-service-data",
-                label: "Create Service Essentitals",
-                icon: TbSettingsAutomation,
-            },
+            // {
+            //     href: "service/create-service-data",
+            //     label: "Create Service Essentitals",
+            //     icon: TbSettingsAutomation,
+            // },
         ],
     },
     {
         href: "",
         label: "Mechanic Management",
         icon: TbHammer,
+        childLinks: [
+            {
+                href: "mechanics/view-all",
+                label: "All Mechanics",
+                icon: TbSettingsAutomation,
+            },
+        ],
     },
     {
-        label: "customers",
+        label: "Customers",
         icon: TbUser,
         childLinks: [
             {

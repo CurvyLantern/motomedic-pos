@@ -23,6 +23,7 @@ const BasicLayout = ({ children }) => {
                     main: {
                         backgroundColor: theme.colors.main.background,
                         color: theme.colors.main.foreground,
+                        transition: "padding-left 500ms ease",
                     },
                 })}
                 navbarOffsetBreakpoint="md"
