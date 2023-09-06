@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->string('material')->nullable();
             $table->string('size')->nullable();
-            $table->int('year')->nullable();
+            $table->year('year')->nullable();
             $table->string('compitibility')->nullable();
             $table->string('condition')->nullable();
             $table->string('weight');

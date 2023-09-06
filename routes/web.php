@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
@@ -23,8 +24,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::prefix('v1')->group(function(){
 
-    Route::get('/login',[AdminController::class , 'index'])->name('admin.loginpage');
-    Route::post('/login/auth',[AdminController::class , 'login'])->name('admin.login');
+    Route::get('/login',[AdminController::class , 'index'])->name('admin.login');
+    Route::post('/login/auth',[AdminController::class , 'login'])->name('admin.auth');
 
     Route::get('/register',[AdminController::class , 'registerpage'])->name('admin.registerpage');
 
@@ -37,13 +38,27 @@ Route::prefix('v1')->group(function(){
 
 
     Route::get('/dashboard',[AdminController::class , 'dashboard'])->name('admin.dashboard');
+
+
+
+
+    // customer management route for admin
+    //after fully integrated with frontend this routes needs to pass through middleware
+
+    Route::get('/all-customer',[CustomerController::class , 'allCustomer'])->name('admin.allCustomer');
+    Route::post('/add-customer',[CustomerController::class , 'addCustomer'])->name('admin.addCustomer');
+    Route::get('/delete-customer/{id}',[CustomerController::class , 'deleteCustomer'])->name('admin.deleteCustomer');
+    Route::post('/edit-customer/{id}',[CustomerController::class , 'editCustomer'])->name('admin.editCustomer');
+
+    Route::get('/customer-details/{id}',[CustomerController::class , 'customerDetails'])->name('admin.customerDetails');
+
 });
 
 
 // Admin Routes only ......................................
 
 Route::middleware('admin')->group(function(){
-    Route::get('/destroy',[AdminController::class , 'destroy'])->name('admin.destroy');
+    Route::delete('/delete',[AdminController::class , 'destroy'])->name('admin.delete');
 
 
     Route::get('products',[ProductController::class,'index'])->name('admin.products');
@@ -59,12 +74,18 @@ Route::middleware('admin')->group(function(){
 
 
 
-// Route::prefix('customer/v1')->group(function(){
-//     Route::get('/login',[AdminController::class,'index'])->name('customer.login');
-//     Route::get('/login/auth',[AdminController::class,'login'])->name('customer.login.auth');
-//     Route::get('/logout',[AdminController::class,'logout'])->name('customer.logout');
-//     Route::get('/register',[AdminController::class,'register'])->name('customer.register');
-// });
+Route::prefix('customer/v1')->group(function(){
+
+    Route::get('/login',[CustomerController::class,'index'])->name('customer.loginpage');
+    Route::post('/login/auth',[CustomerController::class,'login'])->name('customer.auth');
+
+    Route::get('/logout',[CustomerController::class,'logout'])->name('customer.logout');
+    Route::get('/registerpage',[CustomerController::class,'registerpage'])->name('customer.registerpage');
+    Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
+
+    Route::post('/update/{id}',[CustomerController::class,'update'])->name('customer.update');
+
+});
 
 
 
