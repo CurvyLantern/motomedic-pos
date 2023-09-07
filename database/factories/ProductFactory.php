@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Factories;
+
 use Illuminate\Support\Str;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,16 +21,15 @@ class ProductFactory extends Factory
         $productName = fake()->words(3, true);
         return [
             'productName' => $productName,
-            'slug' =>Str::slug($productName, '-'),
+            'slug' => Str::slug($productName, '-'),
             'categoryId' => rand(1, 10),
             'brandId' => rand(1, 5),
             'model' => fake()->word,
-            'color' =>fake()->colorName,
-            'tags' => fake()->words(3, true),
+            'color' => fake()->colorName,
             'productType' => fake()->randomElement(['simpleProduct', 'variationProduct']),
             'material' => fake()->word,
             'size' => fake()->word,
-            'year' => fake()->numberBetween(1990, 2022),
+            'year' => fake()->year,
             'compitibility' => fake()->word,
             'condition' => fake()->word,
             'manufacturer' => fake()->company,

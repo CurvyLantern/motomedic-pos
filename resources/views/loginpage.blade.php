@@ -34,17 +34,19 @@
 
 
 <h3 class="text-center p-2"> Login Section </h3>
-<form class="p-4 " action="{{route('admin.login')}}" method="post">
+<form class="p-4 " action="{{route('admin.auth')}}" method="post">
 @csrf
 
   <div class="form-group m-2">
     <label for="email">Email address</label>
     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email">
   </div>
+
   <div class="form-group m-2">
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" placeholder="Password" name="password">
   </div>
+
   <div class="form-group form-check m-2">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">Check me out</label>

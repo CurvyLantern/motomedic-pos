@@ -11,12 +11,6 @@ import { useRef, useEffect, useState } from "react";
 import { TbLogout, TbSettings2, TbSwitchHorizontal } from "react-icons/tb";
 
 import { useAppContext } from "@/contexts/AppContext";
-import {
-    motion,
-    useMotionValue,
-    useMotionValueEvent,
-    animate,
-} from "framer-motion";
 import NavLinkGroup from "./NavLinkGroup";
 import { mockData } from "./navdata.mock";
 import { useNavBarStyles } from "./navstyles";
@@ -40,23 +34,6 @@ const BasicNavbar = () => {
 
     const { navHidden, setNavHidden } = useAppContext();
     const hideNavBar = navHidden;
-
-    const motionWidth = useMotionValue(0);
-    const navbarRef = useRef(null);
-    const [navbarWidth, setNavbarWidth] = useState(0);
-    useEffect(() => {
-        const start = hideNavBar ? 0 : 300;
-        const end = hideNavBar ? 300 : 0;
-        animate(start, end, {
-            duration: 1,
-            ease: "easeInOut",
-            onUpdate: (latest) => {
-                // navbarRef.width = latest;
-                setNavbarWidth(latest);
-                console.log(latest);
-            },
-        });
-    }, [hideNavBar]);
     /*
     sm: hideNavBar ? 0 : 300,
     md: hideNavBar ? 0 : 300,
@@ -67,7 +44,6 @@ const BasicNavbar = () => {
         <>
             <Navbar
                 hidden={hideNavBar}
-                ref={navbarRef}
                 width={{
                     base: hideNavBar ? 0 : "100%",
                     sm: hideNavBar ? 0 : 300,
@@ -77,7 +53,7 @@ const BasicNavbar = () => {
                 sx={{
                     zIndex: 300,
                     overflow: "hidden",
-                    transition: "width 500ms ease, min-width 500ms ease",
+                    transition: "width 400ms ease, min-width 400ms ease",
                     backgroundColor: "transparent",
                 }}
             >
@@ -151,42 +127,6 @@ const BasicNavbar = () => {
                 />
             )} */}
         </>
-    );
-};
-
-const CustomTransition = ({ opened, children }) => {
-    return (
-        <Transition
-            timingFunction="ease"
-            duration={300}
-            mounted={opened}
-            transition={{
-                in: {
-                    width: "100%",
-                },
-                out: {
-                    width: 0,
-                },
-                common: {
-                    transformOrigin: "right",
-                },
-                transitionProperty: "all",
-            }}
-        >
-            {(styles) => <div style={styles}>{children}</div>}
-        </Transition>
-    );
-};
-
-const MotionAnimation = ({ opened, children }) => {
-    return (
-        <motion.div
-            animate={{
-                width: opened ? "auto" : 0,
-            }}
-        >
-            {children}
-        </motion.div>
     );
 };
 

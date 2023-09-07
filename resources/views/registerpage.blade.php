@@ -24,30 +24,32 @@
 
 
 <h3 class="text-center p-2"> Registration Section </h3>
-<form class="p-4 " action="{{route('admin.register')}}" method="post">
+<form class="p-4 " action="{{route('customer.register')}}" method="post">
 @csrf
 
-  <div class="form-group">
-    <label for="adminName">Admin name</label>
-    <input type="text" class="form-control" id="adminName" aria-describedby="nameHelp" placeholder="Enter admin name " name="adminName">
-  </div>
-
-  <div class="form-group">
+<div class="form-group m-2">
     <label for="email">Email address</label>
     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   </div>
-
-
-  <div class="form-group">
-    <label for="phone">Phone Number </label>
-    <input type="phone" class="form-control" id="adminName" placeholder="Enter phone" name="phone">
+  <div class="form-group m-2">
+    <label for="email">Customer Name</label>
+    <input type="text" class="form-control" id="name" placeholder="Enter name" name="customerName">
   </div>
-
-
-  <div class="form-group">
+  <div class="form-group m-2">
+    <label for="phone"> Phone </label>
+    <input type="phone" class="form-control" id="phone"  placeholder="Enter phone" name="phone">
+  </div>
+  <div class="form-group m-2">
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+  </div>
+  <div class="form-group m-2">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password_conformation" name="password_confirmation">
+  </div>
+  <div class="form-group form-check m-2">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div>
   <button type="submit" class="btn btn-primary m-2">Submit</button>
 </form>

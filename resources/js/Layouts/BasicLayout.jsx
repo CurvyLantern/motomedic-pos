@@ -36,17 +36,17 @@ const BasicLayout = ({ children }) => {
     );
 };
 
-const useStyles = createStyles((theme) => ({
+
+const useBasicHeaderStyles = createStyles((theme) => ({
     header: {
         backgroundColor: theme.fn.darken(theme.colors.primary.background, 0.1),
         paddingBottom: "1rem",
     },
 }));
-
 const BasicHeader = () => {
     const { navHidden, setNavHidden, drawerOpened, setDrawerOpened } =
         useAppContext();
-    const { classes, cx } = useStyles();
+    const { classes, cx } = useBasicHeaderStyles();
     const burgerOpened = !navHidden;
     return (
         <Header

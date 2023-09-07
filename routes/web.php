@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
@@ -23,8 +24,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::prefix('v1')->group(function () {
 
-    Route::get('/login', [AdminController::class, 'index'])->name('admin.loginpage');
-    Route::post('/login/auth', [AdminController::class, 'login'])->name('admin.login');
+    Route::get('/login', [AdminController::class, 'index'])->name('admin.login');
+    Route::post('/login/auth', [AdminController::class, 'login'])->name('admin.auth');
 
     Route::get('/register', [AdminController::class, 'registerpage'])->name('admin.registerpage');
 
@@ -37,32 +38,35 @@ Route::prefix('v1')->group(function () {
     Route::get('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
 
 
-    Route::get('products', [ProductController::class, 'index'])->name('admin.products');
-    // ->middleware('admin');
+
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
 
 
 // Admin Routes only ......................................
 
 Route::middleware('admin')->group(function () {
+    Route::get('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
+
+
+    Route::get('products', [ProductController::class, 'index'])->name('admin.products');
 });
 
 
 
 // Admin routes ends here
 
+Route::prefix('customer/v1')->group(function () {
 
+    Route::get('/login', [CustomerController::class, 'index'])->name('customer.loginpage');
+    Route::post('/login/auth', [CustomerController::class, 'login'])->name('customer.auth');
 
+    Route::get('/logout', [CustomerController::class, 'logout'])->name('customer.logout');
+    Route::get('/registerpage', [CustomerController::class, 'registerpage'])->name('customer.registerpage');
+    Route::post('/register', [CustomerController::class, 'register'])->name('customer.register');
 
-
-
-
-// Route::prefix('customer/v1')->group(function(){
-//     Route::get('/login',[AdminController::class,'index'])->name('customer.login');
-//     Route::get('/login/auth',[AdminController::class,'login'])->name('customer.login.auth');
-//     Route::get('/logout',[AdminController::class,'logout'])->name('customer.logout');
-//     Route::get('/register',[AdminController::class,'register'])->name('customer.register');
-// });
+    Route::post('/update/{id}', [CustomerController::class, 'update'])->name('customer.update');
+});
 
 
 
