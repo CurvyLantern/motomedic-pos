@@ -171,4 +171,13 @@ class CategoryController extends Controller
 
     }
 
+
+    public function categoryProducts(Request $request , $id){
+
+        $context =[
+
+        ];
+        return send_response('This Routes will show all the products from Category ID',$context);
+    }
+
 }

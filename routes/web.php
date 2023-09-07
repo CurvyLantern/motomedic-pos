@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,26 +26,33 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::prefix('v1')->group(function(){
 
+    // Admin login and register routes.............
+
     Route::get('/login',[AdminController::class , 'index'])->name('admin.login');
     Route::post('/login/auth',[AdminController::class , 'login'])->name('admin.auth');
 
     Route::get('/register',[AdminController::class , 'registerpage'])->name('admin.registerpage');
 
+
     Route::post('/register/create',[AdminController::class , 'register'])->name('admin.register');
 
 
+    // Admin login and register routes ends here ...........
 
 
 
+// Admin pages routes starts from here .................
+
+    //after fully integrated with frontend this routes needs to pass through middleware
 
 
     Route::get('/dashboard',[AdminController::class , 'dashboard'])->name('admin.dashboard');
 
+    // Admin pages routes ends here ..............
 
 
+    // Customer management route for admin
 
-    // customer management route for admin
-    //after fully integrated with frontend this routes needs to pass through middleware
 
     Route::get('/all-customer',[CustomerController::class , 'allCustomer'])->name('admin.allCustomer');
     Route::post('/add-customer',[CustomerController::class , 'addCustomer'])->name('admin.addCustomer');
@@ -51,6 +60,47 @@ Route::prefix('v1')->group(function(){
     Route::post('/edit-customer/{id}',[CustomerController::class , 'editCustomer'])->name('admin.editCustomer');
 
     Route::get('/customer-details/{id}',[CustomerController::class , 'customerDetails'])->name('admin.customerDetails');
+
+    // Customer management route for admin ends here ...
+
+
+    // Service management routes for admin
+
+    Route::get('/services', [ServiceController::class, 'index'])->name('services');
+    Route::get('/service/{id}', [ServiceController::class, 'show'])->name('service.show');
+    Route::post('/add-service', [ServiceController::class, 'create'])->name('service.create');
+    Route::post('/edit-service/{id}', [ServiceController::class, 'update'])->name('service.edit');
+    Route::get('/delete-service/{id}', [ServiceController::class, 'destroy'])->name('service.delete');
+
+    // Service management routes for admin ends
+
+    // Products management routes for admin start
+
+    Route::get('/products',[ProductController::class,'index'])->name('products');
+    Route::get('product/{id}',[ProductController::class,'show'])->name('product.show');
+    // Route::get('/add-product',[ProductController::class,'create'])->name('product.create'); // use store route instead of this route
+
+    Route::post('store-product',[ProductController::class,'store'])->name('product.store');
+    Route::post('edit-product/{id}',[ProductController::class,'update'])->name('product.update');
+    Route::get('delete-product/{id}',[ProductController::class,'destroy'])->name('product.destroy');
+
+    // Products management routes for admin ends
+
+
+    // Products Categoty management routes for admin starts
+    Route::get('categories',[CategoryController::class, 'index'])->name('categories');
+    Route::get('category/{id}',[CategoryController::class,'show'])->name('category.show');
+    Route::post('add-category',[CategoryController::class,'create'])->name('category.create');
+    Route::post('edit-category/{id}',[CategoryController::class,'update'])->name('category.update');
+    Route::get('destroy-category/{id}',[CategoryController::class,'destroy'])->name('category.destroy');
+
+
+    Route::get('category/{id}/products',[CategoryController::class,'categoryProducts'])->name('category.products');
+
+
+
+    // Products Categoty management routes for admin ends
+
 
 });
 
@@ -61,7 +111,7 @@ Route::middleware('admin')->group(function(){
     Route::delete('/delete',[AdminController::class , 'destroy'])->name('admin.delete');
 
 
-    Route::get('products',[ProductController::class,'index'])->name('admin.products');
+
 });
 
 
@@ -69,9 +119,7 @@ Route::middleware('admin')->group(function(){
 // Admin routes ends here
 
 
-
-
-
+// Customer login registretion routes ................
 
 
 Route::prefix('customer/v1')->group(function(){
@@ -88,16 +136,24 @@ Route::prefix('customer/v1')->group(function(){
 });
 
 
+// Customer login registretion routes ................
 
 
 
 // Staff routes starts from here
 
+
 Route::middleware('staff')->group(function(){
     // Route::get('products',[ProductController::class,'index'])->name('product');
 });
 
+
 // Staff routes ends here
+
+
+
+// Public routes ...............................................
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

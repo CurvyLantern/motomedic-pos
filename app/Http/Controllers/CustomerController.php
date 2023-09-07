@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Support\Facades\Auth;
+
+
 class CustomerController extends Controller
 {
 
@@ -182,10 +186,10 @@ class CustomerController extends Controller
             $customer = Customer::whereId($id)->firstOrfail();
 
             // $customerDetails = DB::table('UserDetails')->Where('id', $customer->userDetailsId);
-            
+
             $customerDetails = UserDetail::where('id', $customer->userDetailsId)->firstOrFail();
-            
-             
+
+
 
             if($customer){
 
@@ -202,7 +206,7 @@ class CustomerController extends Controller
         }catch( Exception $e){
             return send_error($e->getMessage(), $e->getCode());
         }
-        
+
     }
 
     /**
