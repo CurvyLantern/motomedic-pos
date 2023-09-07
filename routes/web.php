@@ -39,14 +39,31 @@ Route::prefix('v1')->group(function () {
 
 
 
+
+
+
+
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+
+
+
+    // customer management route for admin
+    //after fully integrated with frontend this routes needs to pass through middleware
+
+    Route::get('/all-customer', [CustomerController::class, 'allCustomer'])->name('admin.allCustomer');
+    Route::post('/add-customer', [CustomerController::class, 'addCustomer'])->name('admin.addCustomer');
+    Route::get('/delete-customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('admin.deleteCustomer');
+    Route::post('/edit-customer/{id}', [CustomerController::class, 'editCustomer'])->name('admin.editCustomer');
+
+    Route::get('/customer-details/{id}', [CustomerController::class, 'customerDetails'])->name('admin.customerDetails');
 });
 
 
 // Admin Routes only ......................................
 
 Route::middleware('admin')->group(function () {
-    Route::get('/destroy', [AdminController::class, 'destroy'])->name('admin.destroy');
+    Route::delete('/delete', [AdminController::class, 'destroy'])->name('admin.delete');
 
 
     Route::get('products', [ProductController::class, 'index'])->name('admin.products');
@@ -67,7 +84,6 @@ Route::prefix('customer/v1')->group(function () {
 
     Route::post('/update/{id}', [CustomerController::class, 'update'])->name('customer.update');
 });
-
 
 
 
