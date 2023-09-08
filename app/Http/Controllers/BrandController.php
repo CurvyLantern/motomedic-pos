@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,9 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function testBrand(Request $req){
+    //     return send_response('dasdasd',[]);
+    //  }
 
     public function getBrandsAttributeData() {
         $tableName = 'brands'; // Replace with the actual table name
@@ -41,6 +45,23 @@ class BrandController extends Controller
 
         return send_response('Brand data successfully loaded !!',$context);
     }
+
+        /**
+     * Display the specified resource.
+     */
+    public function show(Brand $brand,$id)
+    {
+        //
+        $brand = Brand::find($id);
+
+
+        if($brand){
+            return send_response('Brand founded !',$brand);
+        }else{
+            return send_error('Brand Not found !!!');
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -91,34 +112,12 @@ class BrandController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Brand $brand,$id)
-    {
-        //
-        $brand = Brand::find($id);
 
-
-        if($brand){
-            return send_response('Brand founded !',$brand);
-        }else{
-            return send_error('Brand Not found !!!');
-        }
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brand $brand)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Brand $brand,$id)
+    public function edit(Brand $brand, Request $request,$id)
     {
         //
         $validator = Validator::make($request->all(),[
@@ -152,6 +151,14 @@ class BrandController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Brand $brand,$id)
+    {
+
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Brand $brand, $id)
@@ -161,8 +168,37 @@ class BrandController extends Controller
             $brand = Brand::find($id);
             if($brand){
                 $brand->delete();
+                return send_response('Brand Deleted successfully',[]);
+            }else{
+                return send_error('Brand Not Found !!');
             }
-            return send_response('Brand Deleted successfully',[]);
+        }catch(Exception $e){
+            return send_error($e->getMessage(),$e->getCode());
+        }
+    }
+
+
+
+    public function brandProducts(Request $request , $id){
+
+        try{
+
+            // $products = Product::all()->where('brandId',$request->id);
+            $products = Product::where('brandId', $request->id)->get();
+
+            // $products = Brand::findsOrfails($id)->where('id',Product::get('brandId'));
+
+            if($products){
+
+            $context =[
+                'products' => $products,
+            ];
+
+            return send_response('Products by brand .. ',$context);
+            }else{
+                return send_error('Not Products found !!',[]);
+            }
+
         }catch(Exception $e){
             return send_error($e->getMessage(),$e->getCode());
         }

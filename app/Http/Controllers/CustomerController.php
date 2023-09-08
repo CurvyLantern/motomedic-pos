@@ -100,7 +100,7 @@ class CustomerController extends Controller
         ]);
 
 
-            return send_response('Customer Login Success !',$customer);
+            return send_response('Customer Registration Success !',$customer);
 
         }catch(Exception $e){
             return send_error($e->getMessage(),$e->getCode());
