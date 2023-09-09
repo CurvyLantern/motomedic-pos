@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use Exception;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\Customer;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
@@ -22,9 +26,11 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::orderBy('id','asc')->paginate(15);
+        // $products = $orders->products()->where('id','productId');
 
         $context = [
             'orders' => $orders,
+            // 'products' => $products,
         ];
         return send_response('Products Data successfully loaded !', $context);
     }
@@ -35,7 +41,7 @@ class OrderController extends Controller
     public function create( Request $request )
     {
         $validator = Validator::make($request->all(),[
-        // 'customerId'=> "required",
+        'customerId'=> "required",
         'serviceId'=> "required",
         'productId' => "required",
         'subtotal' => "required",
@@ -53,10 +59,14 @@ class OrderController extends Controller
         }
         try{
 
+            $i = 20;
+
+
             $order = Order::create([
                 'customerId' => $request->customerId,
                 'serviceId'=> $request->serviveId,
-                'productId' => $request->productId,
+                // 'productId'=> $request->productId,
+                'quantity' => $request->quantity,
                 'subtotal' => $request->subtotal,
                 'total' => $request->total,
                 'tax' => $request->tax,
@@ -64,10 +74,16 @@ class OrderController extends Controller
                 'note' => $request->note,
                 'extra' => $request->extra,
                 'serviceStatus' => $request->serviceStatus,
-                'queue' => $request->queue,
+                'queue' => $i,
                 'orderCreator' =>$request->orderCreator,
+                // foreach($request->productId as $key => $product){
+                //         'productId' = $product->productId;
+                // }
 
             ]);
+
+            $queue = $i++;
+
             $context = [
                 'order' => $order,
             ];
@@ -91,13 +107,31 @@ class OrderController extends Controller
      */
     public function show(Order $order, $id)
     {
-        $orders = Order::find($id);
+        try{
+            $orders = Order::find($id);
+            if($orders){
 
+                $customer = Customer::where('id',$orders->customerId)->get();
+                $products = Product::where('id',$orders->productId)->get();
+                $service = Service::where('id',$orders->serviceId)->get();
+                if($orders){
+                    $context=[
+                        'orders' => $orders,
+                        'products' => $products,
+                        'customer' => $customer,
+                        'service' => $service,
+                    ];
+                    return send_response('Orders founded !',$context);
+                }else{
+                    return send_error('Orders Not found !!!');
+                }
+            }else{
+                return send_error('Order Not Found !!!');
+            }
 
-        if($orders){
-            return send_response('Orders founded !',$orders);
-        }else{
-            return send_error('Orders Not found !!!');
+        }catch(Exception $e){
+
+            return send_error($e->getMessage(),$e->getCode());
         }
     }
 
@@ -136,8 +170,10 @@ class OrderController extends Controller
             $order = Order::find($id);
 
 
+            // $order->customerId = $request->customerId;
             $order->serviceId = $request->serviveId;
             $order->productId = $request->productId;
+            $order->quantity = $request->quantity;
             $order->subtotal = $request->subtotal;
             $order->total = $request->total;
             $order->tax = $request->tax;
@@ -163,8 +199,18 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order,$id)
     {
-        //
+        try{
+            $orders = Order::find($id);
+            if($orders){
+                $orders->delete();
+                return send_response('Order Deleted successfully',[]);
+            }else{
+                return send_error('Order Not Found !!!');
+            }
+        }catch(Exception $e){
+            return send_error($e->getMessage(),$e->getCode());
+        }
     }
 }

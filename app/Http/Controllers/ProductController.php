@@ -52,6 +52,21 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+       /**
+     * Display the specified resource.
+     */
+    public function show(Product $product,$id)
+    {
+        $products = Product::find($id);
+
+
+        if($products){
+            return send_response('Products founded !',$products);
+        }else{
+            return send_error('Products Not found !!!');
+        }
+    }
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -221,6 +236,7 @@ class ProductController extends Controller
         $brands = Brand::all();
         $validator = $request->validated();
         $category = Category::findOrFail($validator('categoryId'));
+
         try{
             $image_path = '';
             if ($request->hasFile('primaryImg')) {
@@ -305,20 +321,7 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product,$id)
-    {
-        $products = Product::find($id);
 
-
-        if($products){
-            return send_response('Products founded !',$products);
-        }else{
-            return send_error('Products Not found !!!');
-        }
-    }
 
     /**
      * Show the form for editing the specified resource.

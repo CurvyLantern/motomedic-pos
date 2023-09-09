@@ -62,11 +62,11 @@ Route::get('service/category',[ServiceCategoryController::class,'index'])->name(
 Route::get('getServiceAttributeData',[ServiceController::class,'getServiceAttributeData'])->name('get.service.attribute.data'); // Get all the column name from here
 
 
-Route::get('service',[ServiceController::class,'index'])->name('service');
-Route::post('service/create',[ServiceController::class,'create'])->name('service.create');
-Route::get('service/show/{id}',[ServiceController::class,'show'])->name('service.show');
-Route::post('service/update/{id}',[ServiceController::class,'update'])->name('service.update');
-Route::delete('service/destroy/{id}',[ServiceController::class,'destroy'])->name('service.destroy');
+Route::get('/services', [ServiceController::class, 'index'])->name('services');
+Route::get('/service/{id}', [ServiceController::class, 'show'])->name('service.show');
+Route::post('/add-service', [ServiceController::class, 'create'])->name('service.create');
+Route::get('/edit-service/{id}', [ServiceController::class, 'update'])->name('service.edit');
+Route::get('/delete-service/{id}', [ServiceController::class, 'destroy'])->name('service.delete');
 
 
 // products category routes
