@@ -1,20 +1,13 @@
-import { useMemo, useState } from "react";
+import { ActionIcon, Button, Flex, Text, Tooltip } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { IconTrash } from "@tabler/icons-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     MantineReactTable,
     // createRow,
     useMantineReactTable,
 } from "mantine-react-table";
-import { ActionIcon, Button, Flex, Text, Tooltip } from "@mantine/core";
-import { ModalsProvider, modals } from "@mantine/modals";
-import { IconTrash } from "@tabler/icons-react";
-import {
-    QueryClient,
-    QueryClientProvider,
-    useMutation,
-    useQuery,
-    useQueryClient,
-} from "@tanstack/react-query";
-import { fakeData, bdDistricts } from "./customers.mock";
+import { useMemo, useState } from "react";
 
 const CustomersTable = () => {
     const [validationErrors, setValidationErrors] = useState({});
@@ -25,12 +18,27 @@ const CustomersTable = () => {
     const { mutateAsync: createUser, isLoading: isCreatingUser } =
         useCreateUser();
     //call READ hook
+
+    const [{ pageIndex, pageSize }, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 15,
+    });
+
     const {
-        data: fetchedUsers = [],
+        data: fetchedUsers = {},
         isError: isLoadingUsersError,
         isFetching: isFetchingUsers,
         isLoading: isLoadingUsers,
-    } = useGetUsers();
+    } = useGetUsers({ pageIndex: pageIndex + 1 });
+
+    const pagination = useMemo(() => {
+        return {
+            pageIndex,
+            pageSize,
+        };
+    }, [pageIndex, pageSize]);
+
+    const customers = fetchedUsers.data ? fetchedUsers.data : [];
     //call UPDATE hook
     const { mutateAsync: updateUsers, isLoading: isUpdatingUser } =
         useUpdateUsers();
@@ -74,42 +82,17 @@ const CustomersTable = () => {
 
     const columns = useMemo(
         () => [
+            // {
+            //     accessorKey: "id",
+            //     header: "Id",
+            //     enableEditing: false,
+            //     size: 80,
+            // },
             {
-                accessorKey: "id",
-                header: "Id",
-                enableEditing: false,
-                size: 80,
-            },
-            {
-                accessorKey: "firstName",
-                header: "First Name",
+                accessorKey: "customerName",
+                header: "Name",
                 mantineEditTextInputProps: ({ cell, row }) => ({
-                    type: "email",
-                    required: true,
-                    error: validationErrors?.[cell.id],
-                    //store edited user in state to be saved later
-                    onBlur: (event) => {
-                        const validationError = !validateRequired(
-                            event.currentTarget.value
-                        )
-                            ? "Required"
-                            : undefined;
-                        setValidationErrors({
-                            ...validationErrors,
-                            [cell.id]: validationError,
-                        });
-                        setEditedUsers({
-                            ...editedUsers,
-                            [row.id]: row.original,
-                        });
-                    },
-                }),
-            },
-            {
-                accessorKey: "lastName",
-                header: "Last Name",
-                mantineEditTextInputProps: ({ cell, row }) => ({
-                    type: "email",
+                    type: "text",
                     required: true,
                     error: validationErrors?.[cell.id],
                     //store edited user in state to be saved later
@@ -139,10 +122,10 @@ const CustomersTable = () => {
                     error: validationErrors?.[cell.id],
                     //store edited user in state to be saved later
                     onBlur: (event) => {
-                        const validationError = !validateEmail(
+                        const validationError = !validateRequired(
                             event.currentTarget.value
                         )
-                            ? "Invalid Email"
+                            ? "Required"
                             : undefined;
                         setValidationErrors({
                             ...validationErrors,
@@ -156,17 +139,28 @@ const CustomersTable = () => {
                 }),
             },
             {
-                accessorKey: "state",
-                header: "State",
-                editVariant: "select",
-                mantineEditSelectProps: ({ row }) => ({
-                    data: bdDistricts,
+                accessorKey: "phone",
+                header: "Phone",
+                mantineEditTextInputProps: ({ cell, row }) => ({
+                    type: "telephone",
+                    required: true,
+                    error: validationErrors?.[cell.id],
                     //store edited user in state to be saved later
-                    onChange: (value) =>
+                    onBlur: (event) => {
+                        const validationError = !validateEmail(
+                            event.currentTarget.value
+                        )
+                            ? "Invalid Phone number"
+                            : undefined;
+                        setValidationErrors({
+                            ...validationErrors,
+                            [cell.id]: validationError,
+                        });
                         setEditedUsers({
                             ...editedUsers,
-                            [row.id]: { ...row.original, state: value },
-                        }),
+                            [row.id]: row.original,
+                        });
+                    },
                 }),
             },
         ],
@@ -175,7 +169,7 @@ const CustomersTable = () => {
 
     const table = useMantineReactTable({
         columns,
-        data: fetchedUsers,
+        data: customers,
         createDisplayMode: "row", // ('modal', and 'custom' are also available)
         editDisplayMode: "cell", // ('modal', 'row', 'cell', and 'custom' are also available)
         enableEditing: true,
@@ -238,17 +232,19 @@ const CustomersTable = () => {
                 Create New User
             </Button>
         ),
+        onPaginationChange: setPagination,
+        manualPagination: true,
+        // autoResetPageIndex: false,
+        pageCount: 100,
         state: {
+            pagination,
             isLoading: isLoadingUsers,
             isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,
             showAlertBanner: isLoadingUsersError,
             showProgressBars: isFetchingUsers,
         },
-        initialState: {
-            pagination: { pageIndex: 0, pageSize: 30 },
-        },
         mantinePaginationProps: {
-            rowsPerPageOptions: [30, 50, 100, 200].map((v) => String(v)),
+            showRowsPerPage: false,
         },
     });
 
@@ -266,7 +262,7 @@ function useCreateUser() {
         },
         //client side optimistic update
         onMutate: (newUserInfo) => {
-            queryClient.setQueryData(["users"], (prevUsers) => [
+            queryClient.setQueryData(["get/customers"], (prevUsers) => [
                 ...prevUsers,
                 {
                     ...newUserInfo,
@@ -279,15 +275,15 @@ function useCreateUser() {
 }
 
 //READ hook (get users from api)
-function useGetUsers() {
+function useGetUsers({ pageIndex }) {
     return useQuery({
-        queryKey: ["users"],
-        queryFn: async () => {
-            //send api request here
-            await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
-            return Promise.resolve(fakeData);
-        },
-        refetchOnWindowFocus: false,
+        queryKey: ["get/customers", pageIndex],
+        queryFn: () =>
+            axios.get(`/v1/all-customer?page=${pageIndex}`).then((res) => {
+                return res.data.data.customers;
+            }),
+        refetchInterval: Infinity,
+        refetchIntervalInBackground: Infinity,
     });
 }
 
@@ -332,7 +328,6 @@ function useDeleteUser() {
     });
 }
 
-const validateRequired = (value) => !!value?.length;
 const validateEmail = (email) =>
     !!email.length &&
     email

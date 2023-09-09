@@ -58,7 +58,7 @@ export const MechanicTable = () => {
     );
 
     return (
-        <BasicSection title="Avaiable staffs">
+        <BasicSection title="Available staffs">
             <Space h="md" />
             <MantineReactTable
                 columns={columns}

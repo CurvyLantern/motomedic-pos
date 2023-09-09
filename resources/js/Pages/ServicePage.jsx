@@ -23,7 +23,7 @@ import { useState } from "react";
 import {
     ServiceFieldWrapper,
     ServiceMechanics,
-    UserInfo,
+    SelectCustomerOrEnterInfo,
     UserItems,
     UserService,
 } from "@/Components/service/ServiceFields";
@@ -151,7 +151,7 @@ const Service = () => {
     return (
         <>
             <ServiceFieldWrapper>
-                <UserInfo />
+                <SelectCustomerOrEnterInfo />
 
                 <UserService />
                 <UserItems />

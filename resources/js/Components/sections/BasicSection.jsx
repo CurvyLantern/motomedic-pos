@@ -13,9 +13,11 @@ const BasicSection = ({ title, children }) => {
             p="lg"
             px={"lg"}
         >
-            <Text component="p" className={cx(classes.title)}>
-                {title}
-            </Text>
+            {title ? (
+                <Text component="p" className={cx(classes.title)}>
+                    {title}
+                </Text>
+            ) : null}
             {children}
         </Paper>
     );
