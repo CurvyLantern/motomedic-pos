@@ -7,6 +7,7 @@ use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductModelController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
@@ -127,6 +128,26 @@ Route::post('product/show/{id}',[ProductController::class,'show'])->name('produc
 
 
 Route::get('apitest',[DashboardController::class,'apitest'])->name('apitest');
+
+
+
+    // Public routes .........................................
+
+    Route::prefix('v1/')->group(function(){
+
+
+        // Color Routes .............................
+
+        Route::prefix('color/')->group(function(){
+            Route::get('/all',[ColorController::class,'index'])->name('color.all');
+            Route::post('/create',[ColorController::class,'store'])->name('color.create');
+            Route::put('/{id}',[ColorController::class,'update'])->name('color.update');
+            Route::delete('/{id}',[ColorController::class,'destroy'])->name('color.update');
+        });
+
+    });
+
+
 
 
 

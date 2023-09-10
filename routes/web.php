@@ -18,6 +18,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\OrderController;
 
 
@@ -188,6 +189,11 @@ Route::prefix('v1')->group(function(){
     // Products Categoty management routes for admin ends
 
 
+    // Public routes .........................................
+
+    // Route::get('colors',[ColorController::class,'index'])->name('color');
+
+
 });
 
 
@@ -227,7 +233,6 @@ Route::middleware('staff')->group(function(){
 
 
 
-// Public routes ...............................................
 // Public routes ...............................................
 // Public routes ...............................................
 // Public routes ...............................................
@@ -290,6 +295,13 @@ Route::middleware('auth')->group(function () {
 
 
 // Route::get('apitest',[DashboardController::class,'apitest'])->name('apitest');
+
+
+// Public routes ...............................................
+
+// Route::get('color/create',[ColorController::class,'create'])->name('color.create');
+
+
 
 
 
