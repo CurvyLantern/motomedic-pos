@@ -36,4 +36,8 @@ class Order extends Model
     {
         return $this->belongsToMany(Customer::class);
     }
+    public function queues()
+    {
+        return $this->belongsTo(Queue::class);
+    }
 }

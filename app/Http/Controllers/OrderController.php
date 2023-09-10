@@ -82,6 +82,14 @@ class OrderController extends Controller
 
             ]);
 
+            $queue = $order->queues()->create([
+                'arriveDateTime' => $request->arriveDateTime,
+                'departDateTime' => $request->departDateTime,
+                'orderId' => $order->id,
+                'serviceId' => $order->serviceId,
+                'staffId' => $request->staffId,
+            ]);
+
             $queue = $i++;
 
             $context = [
@@ -126,7 +134,7 @@ class OrderController extends Controller
                     return send_error('Orders Not found !!!');
                 }
             }else{
-                return send_error('Order Not Found !!!');
+                return send_error('Order Not Found !!!!!');
             }
 
         }catch(Exception $e){
@@ -213,4 +221,6 @@ class OrderController extends Controller
             return send_error($e->getMessage(),$e->getCode());
         }
     }
+
+
 }

@@ -31,7 +31,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-
 // Route::get('/login',[AdminController::class,'index'])->name('admin.login');
 // Route::post('/login/auth',[AdminController::class,'login'])->name('admin.login.auth');
 // Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');

@@ -40,13 +40,13 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::orderBy('id','asc')->paginate(15);
-
+//        $products = Product::orderBy('id','asc')->paginate(15);
+            $products = Product::all()->sort('id','desc')->forPage(1,15);
         $context = [
             'products' => $products,
         ];
 
-        return send_response('Products Data successfully loaded !', $context);
+       return send_response('Products Data successfully loaded !', $context);
     }
 
     /**

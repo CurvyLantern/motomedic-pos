@@ -33,7 +33,6 @@ class BrandController extends Controller
         }
     }
 
-
     public function index()
     {
         $brands=Brand::orderBy('id','asc')->get();
@@ -58,7 +57,7 @@ class BrandController extends Controller
         if($brand){
             return send_response('Brand founded !',$brand);
         }else{
-            return send_error('Brand Not found !!!');
+            return send_error('Brand Not found to show!!!');
         }
     }
 
@@ -68,12 +67,20 @@ class BrandController extends Controller
      */
     public function create(Request $request)
     {
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
         //
         $validator = Validator::make($request->all(),[
             "brandName" => "required",
             "description"=>"required",
             "img"=>"required",
-            ]);
+        ]);
 
 
         if ($validator->fails()){
@@ -92,7 +99,7 @@ class BrandController extends Controller
                 "description"=>$request->description,
                 "img"=> $imagePath,
                 "parentbrandId"=>$request->parentbrandId,
-                ]);
+            ]);
             $context = [
                 'brand'=>$brand ,
             ];
@@ -104,20 +111,20 @@ class BrandController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBrandRequest $request)
-    {
-        //
-    }
-
 
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Brand $brand, Request $request,$id)
+    {
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Brand $brand,$id)
     {
         //
         $validator = Validator::make($request->all(),[
@@ -151,17 +158,9 @@ class BrandController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Brand $brand,$id)
-    {
-
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brand $brand, $id)
+    public function destroy( $id)
     {
         //
         try{
@@ -170,7 +169,7 @@ class BrandController extends Controller
                 $brand->delete();
                 return send_response('Brand Deleted successfully',[]);
             }else{
-                return send_error('Brand Not Found !!');
+                return send_error('Brand Not Found to delete !!');
             }
         }catch(Exception $e){
             return send_error($e->getMessage(),$e->getCode());
