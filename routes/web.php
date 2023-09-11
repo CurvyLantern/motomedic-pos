@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductAttributeController;
 
 
 
@@ -37,18 +38,18 @@ use App\Http\Controllers\OrderController;
 
 // Admin routes starts from here
 
-Route::prefix('v1')->group(function(){
+Route::prefix('v1')->group(function () {
 
 
     // Admin login and register routes.............
 
-    Route::prefix('admin')->group(function(){
-        Route::get('/loginpage',[AdminController::class , 'index'])->name('admin.login'); //login page
-        Route::get('/register',[AdminController::class , 'registerpage'])->name('admin.registerpage'); //reg page
-//    Route::post('/register/create',[AdminController::class , 'register'])->name('admin.register');
+    Route::prefix('admin')->group(function () {
+        Route::get('/loginpage', [AdminController::class, 'index'])->name('admin.login'); //login page
+        Route::get('/register', [AdminController::class, 'registerpage'])->name('admin.registerpage'); //reg page
+        //    Route::post('/register/create',[AdminController::class , 'register'])->name('admin.register');
 
-        Route::post('/login',[AdminController::class , 'login'])->name('admin.auth');
-        Route::post('/register',[AdminController::class , 'store'])->name('admin.register');
+        Route::post('/login', [AdminController::class, 'login'])->name('admin.auth');
+        Route::post('/register', [AdminController::class, 'store'])->name('admin.register');
     });
 
 
@@ -57,12 +58,12 @@ Route::prefix('v1')->group(function(){
 
 
 
-// Admin pages routes starts from here .................
+    // Admin pages routes starts from here .................
 
     //after fully integrated with frontend this routes needs to pass through middleware
 
 
-    Route::get('/dashboard',[AdminController::class , 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     // Admin pages routes ends here ..............
 
@@ -70,30 +71,29 @@ Route::prefix('v1')->group(function(){
     // Customer management route for admin
 
 
-    Route::get('/customers',[CustomerController::class , 'allCustomer'])->name('admin.allCustomer');
-    Route::post('/customer/create',[CustomerController::class , 'addCustomer'])->name('admin.addCustomer');
-    Route::delete('/customer/{id}',[CustomerController::class , 'deleteCustomer'])->name('admin.deleteCustomer');
-    Route::put('/customer/{id}',[CustomerController::class , 'editCustomer'])->name('admin.editCustomer');
+    Route::get('/customers', [CustomerController::class, 'allCustomer'])->name('admin.allCustomer');
+    Route::post('/customer/create', [CustomerController::class, 'addCustomer'])->name('admin.addCustomer');
+    Route::delete('/customer/{id}', [CustomerController::class, 'deleteCustomer'])->name('admin.deleteCustomer');
+    Route::put('/customer/{id}', [CustomerController::class, 'editCustomer'])->name('admin.editCustomer');
 
-    Route::get('/customer-details/{id}',[CustomerController::class , 'customerDetails'])->name('admin.customerDetails');
+    Route::get('/customer-details/{id}', [CustomerController::class, 'customerDetails'])->name('admin.customerDetails');
 
     // Customer management route for admin ends here ...
 
 
     // Customer management route for customer starts from here ...
 
-    Route::prefix('customer')->group(function(){
+    Route::prefix('customer')->group(function () {
 
 
         // customer  CRUD routes ................
 
-            Route::get('/login',[CustomerController::class,'index'])->name('customer.loginpage');
-            Route::post('/login/auth',[CustomerController::class,'login'])->name('customer.auth');
-            Route::get('/logout',[CustomerController::class,'logout'])->name('customer.logout');
-            Route::get('/registerpage',[CustomerController::class,'registerpage'])->name('customer.registerpage');
-            Route::post('/register',[CustomerController::class,'register'])->name('customer.register');
-            Route::post('/update/{id}',[CustomerController::class,'update'])->name('customer.update');
-
+        Route::get('/login', [CustomerController::class, 'index'])->name('customer.loginpage');
+        Route::post('/login/auth', [CustomerController::class, 'login'])->name('customer.auth');
+        Route::get('/logout', [CustomerController::class, 'logout'])->name('customer.logout');
+        Route::get('/registerpage', [CustomerController::class, 'registerpage'])->name('customer.registerpage');
+        Route::post('/register', [CustomerController::class, 'register'])->name('customer.register');
+        Route::post('/update/{id}', [CustomerController::class, 'update'])->name('customer.update');
     });
 
     // Customer management route for customer ends here ...
@@ -115,14 +115,14 @@ Route::prefix('v1')->group(function(){
 
     // Products management routes for admin start
 
-    Route::prefix('product')->group(function (){
+    Route::prefix('product')->group(function () {
 
-        Route::get('/all',[ProductController::class,'index'])->name('products');
-        Route::get('/{id}',[ProductController::class,'show'])->name('product.show');
+        Route::get('/all', [ProductController::class, 'index'])->name('products');
+        Route::get('/{id}', [ProductController::class, 'show'])->name('product.show');
         // Route::get('/add-product',[ProductController::class,'create'])->name('product.create'); // use store route instead of this route
-        Route::post('/create',[ProductController::class,'store'])->name('product.store');
-//    Route::put('product/{id}',[ProductController::class,'update'])->name('product.update');
-        Route::delete('/{id}',[ProductController::class,'destroy'])->name('product.destroy');
+        Route::post('/create', [ProductController::class, 'store'])->name('product.store');
+        //    Route::put('product/{id}',[ProductController::class,'update'])->name('product.update');
+        Route::delete('/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
     });
 
     // Products management routes for admin ends
@@ -130,29 +130,29 @@ Route::prefix('v1')->group(function(){
 
     // Products Categoty management routes for admin starts
 
-    Route::prefix('category')->group(function (){
+    Route::prefix('category')->group(function () {
 
-        Route::get('all',[CategoryController::class, 'index'])->name('categories');
-        Route::get('/{id}',[CategoryController::class,'show'])->name('category.show');
-        Route::post('/create',[CategoryController::class,'create'])->name('category.create');
-        Route::put('/{id}',[CategoryController::class,'update'])->name('category.update');
-        Route::delete('/{id}',[CategoryController::class,'destroy'])->name('category.destroy');
-        Route::get('/{id}/products',[CategoryController::class,'categoryProducts'])->name('category.products');
+        Route::get('all', [CategoryController::class, 'index'])->name('categories');
+        Route::get('/{id}', [CategoryController::class, 'show'])->name('category.show');
+        Route::post('/create', [CategoryController::class, 'create'])->name('category.create');
+        Route::put('/{id}', [CategoryController::class, 'update'])->name('category.update');
+        Route::delete('/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+        Route::get('/{id}/products', [CategoryController::class, 'categoryProducts'])->name('category.products');
     });
 
 
     // Brands CRUD routes...................
 
-    Route::prefix('brand')->group(function (){
-        Route::get('/all',[BrandController::class,'index'])->name('brands');
-        Route::get('/{id}',[BrandController::class,'show'])->name('brand.show');
-        Route::post('/create',[BrandController::class,'store'])->name('brand.create');
-        Route::put('/{id}',[BrandController::class,'update'])->name('brand.update');
-        Route::delete('/{id}',[BrandController::class,'destroy'])->name('brand.destroy');
-        Route::get('/{id}/products',[BrandController::class,'brandProducts'])->name('brand.products');
+    Route::prefix('brand')->group(function () {
+        Route::get('/all', [BrandController::class, 'index'])->name('brands');
+        Route::get('/{id}', [BrandController::class, 'show'])->name('brand.show');
+        Route::post('/create', [BrandController::class, 'store'])->name('brand.create');
+        Route::put('/{id}', [BrandController::class, 'update'])->name('brand.update');
+        Route::delete('/{id}', [BrandController::class, 'destroy'])->name('brand.destroy');
+        Route::get('/{id}/products', [BrandController::class, 'brandProducts'])->name('brand.products');
         // Route::post('testBrand',[BrandController::class,'testBrand'])->name('brand.testBrand');
     });
-//    Route::get('brand/all/{id}',[BrandController::class,'nasim'])->name('nasim');
+    //    Route::get('brand/all/{id}',[BrandController::class,'nasim'])->name('nasim');
 
 
 
@@ -160,15 +160,30 @@ Route::prefix('v1')->group(function(){
 
     // Orders CRUD routes...................
 
-    Route::get('orders',[OrderController::class,'index'])->name('orders');
-    Route::get('order/{id}',[OrderController::class,'show'])->name('order.show');
-    Route::post('order/create',[OrderController::class,'create'])->name('order.create');
-    Route::put('order/edit',[OrderController::class,'update'])->name('order.edit');
-    Route::delete('order/delete/{id}',[OrderController::class,'destroy'])->name('order.delete');
+    Route::prefix('order')->group(function () {
+
+        Route::get('all', [OrderController::class, 'index'])->name('orders');
+        Route::get('/{id}', [OrderController::class, 'show'])->name('order.show');
+        Route::post('/create', [OrderController::class, 'create'])->name('order.create');
+        Route::put('/{id}', [OrderController::class, 'update'])->name('order.edit');
+        Route::delete('/{id}', [OrderController::class, 'destroy'])->name('order.delete');
+    });
+
 
     // Route::get('order/{id}/products',[OrderController::class,'brandProducts'])->name('order.products');
 
 
+    // Product attributes routes ............
+
+
+    Route::prefix('product-attribute')->group(function () {
+
+        Route::get('all', [ProductAttributeController::class, 'index'])->name('productAttributes');
+        Route::get('/{id}', [ProductAttributeController::class, 'show'])->name('productAttribute.show');
+        Route::post('/create', [ProductAttributeController::class, 'store'])->name('productAttribute.create');
+        Route::put('/{id}', [ProductAttributeController::class, 'update'])->name('productAttribute.edit');
+        Route::delete('/{id}', [ProductAttributeController::class, 'destroy'])->name('productAttribute.delete');
+    });
 
 
 
@@ -178,10 +193,10 @@ Route::prefix('v1')->group(function(){
 
 
 
-    Route::middleware('admin')->group(function(){
-         Route::get('products',[ProductController::class,'index'])->name('admin.products');
+    Route::middleware('admin')->group(function () {
+        Route::get('products', [ProductController::class, 'index'])->name('admin.products');
 
-        Route::get('/logout',[AdminController::class , 'destroy'])->name('admin.delete');
+        Route::get('/logout', [AdminController::class, 'destroy'])->name('admin.delete');
     });
 
 
@@ -224,7 +239,7 @@ Route::prefix('v1')->group(function(){
 // Staff routes starts from here
 
 
-Route::middleware('staff')->group(function(){
+Route::middleware('staff')->group(function () {
     // Route::get('products',[ProductController::class,'index'])->name('product');
 });
 
@@ -306,4 +321,4 @@ Route::middleware('auth')->group(function () {
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
