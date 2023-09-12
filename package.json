@@ -22,6 +22,7 @@
         "@tiptap/pm": "^2.1.6",
         "@tiptap/react": "^2.1.6",
         "@tiptap/starter-kit": "^2.1.6",
+        "color": "^4.2.3",
         "date-fns": "^2.30.0",
         "dayjs": "^1.11.9",
         "framer-motion": "^10.16.2",
@@ -35,6 +36,7 @@
         "recharts": "^2.8.0"
     },
     "devDependencies": {
+        "@faker-js/faker": "^8.0.2",
         "@headlessui/react": "^1.4.2",
         "@inertiajs/react": "^1.0.0",
         "@tailwindcss/forms": "^0.5.3",

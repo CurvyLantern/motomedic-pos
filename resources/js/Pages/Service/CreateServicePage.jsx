@@ -1,19 +1,16 @@
 import ServiceDrawer from "@/Components/service/ServiceDrawer";
-import {
-    ServiceFieldWrapper,
-    SelectCustomerOrEnterInfo,
-    UserItems,
-    UserService,
-    UserServiceActions,
-} from "@/Components/service/ServiceFields";
+import { ServiceFieldWrapper } from "@/Components/service/ServiceFields";
 import { MechanicTable } from "@/Components/tables/MechanicTable";
+import WithCustomerLayout from "@/Layouts/WithCustomerLayout";
 import { Grid, SimpleGrid } from "@mantine/core";
 
 const Service = () => {
     return (
         <>
-            <ServiceFieldWrapper />
-            <ServiceDrawer />
+            <WithCustomerLayout>
+                <ServiceFieldWrapper />
+                <ServiceDrawer />
+            </WithCustomerLayout>
         </>
     );
 };

@@ -41,25 +41,32 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 /* Admin routes starts from here  */
 
-Route::middleware(['auth', 'admin'])->group(function(){
-    Route::get('products',[ProductController::class,'index'])->name('product');
-
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('products', [ProductController::class, 'index'])->name('product');
 });
 
 /* Admin routes ends here  */
 
 
+/*
+prefiex v1
+    route GET services-> all service
+    route POST services -> data
+    route DELETE services -> delete data
+    route PUT services -> update data
 
+
+*/
 
 // service category routes
-Route::get('service/category',[ServiceCategoryController::class,'index'])->name('service.category');
+Route::get('service/category', [ServiceCategoryController::class, 'index'])->name('service.category');
 
 
 // service routes
 
 
 
-Route::get('getServiceAttributeData',[ServiceController::class,'getServiceAttributeData'])->name('get.service.attribute.data'); // Get all the column name from here
+Route::get('getServiceAttributeData', [ServiceController::class, 'getServiceAttributeData'])->name('get.service.attribute.data'); // Get all the column name from here
 
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services');
@@ -71,64 +78,64 @@ Route::get('/delete-service/{id}', [ServiceController::class, 'destroy'])->name(
 
 // products category routes
 
-Route::get('getCategoryAttributeData',[CategoryController::class,'getCategoryAttributeData'])->name('get.category.attribute.data'); // Get all the column name from here
+Route::get('getCategoryAttributeData', [CategoryController::class, 'getCategoryAttributeData'])->name('get.category.attribute.data'); // Get all the column name from here
 
-Route::get('category',[CategoryController::class, 'index'])->name('category');
-Route::post('category/create',[CategoryController::class,'create'])->name('category.create');
-Route::post('category/update/{id}',[CategoryController::class,'update'])->name('category.update');
-Route::delete('category/destroy/{id}',[CategoryController::class,'destroy'])->name('category.destroy');
-Route::get('category/show/{id}',[CategoryController::class,'show'])->name('category.show');
+Route::get('category', [CategoryController::class, 'index'])->name('category');
+Route::post('category/create', [CategoryController::class, 'create'])->name('category.create');
+Route::post('category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
+Route::delete('category/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+Route::get('category/show/{id}', [CategoryController::class, 'show'])->name('category.show');
 
 
 // brands routes
 
-Route::get('getBrandsAttributeData',[BrandController::class,'get.brands.attribute.data'])->name('getBrandsAttributeData'); // Get all the column name from here
+Route::get('getBrandsAttributeData', [BrandController::class, 'get.brands.attribute.data'])->name('getBrandsAttributeData'); // Get all the column name from here
 
-Route::get('brand',[BrandController::class,'index'])->name('brand');
-Route::post('brand/create',[BrandController::class,'create'])->name('brand.create');
-Route::post('brand/update/{id}',[BrandController::class,'update'])->name('brand.update');
-Route::delete('brand/destroy/{id}',[BrandController::class,'destroy'])->name('brand.destroy');
-Route::get('brand/show/{id}',[BrandController::class,'show'])->name('brand.show');
+Route::get('brand', [BrandController::class, 'index'])->name('brand');
+Route::post('brand/create', [BrandController::class, 'create'])->name('brand.create');
+Route::post('brand/update/{id}', [BrandController::class, 'update'])->name('brand.update');
+Route::delete('brand/destroy/{id}', [BrandController::class, 'destroy'])->name('brand.destroy');
+Route::get('brand/show/{id}', [BrandController::class, 'show'])->name('brand.show');
 
 // productModel routes
 
-Route::get('product-model',[ProductModelController::class,'index'])->name('product.model');
-Route::post('product-model/create',[ProductModelController::class,'create'])->name('product.model.create');
-Route::post('product-model/update/{id}',[ProductModelController::class,'update'])->name('product.model.update');
-Route::delete('product-model/destroy/{id}',[ProductModelController::class,'destroy'])->name('product.model.destroy');
-Route::get('product-model/show/{id}',[ProductModelController::class,'show'])->name('product.model.show');
+Route::get('product-model', [ProductModelController::class, 'index'])->name('product.model');
+Route::post('product-model/create', [ProductModelController::class, 'create'])->name('product.model.create');
+Route::post('product-model/update/{id}', [ProductModelController::class, 'update'])->name('product.model.update');
+Route::delete('product-model/destroy/{id}', [ProductModelController::class, 'destroy'])->name('product.model.destroy');
+Route::get('product-model/show/{id}', [ProductModelController::class, 'show'])->name('product.model.show');
 
 // products data routes
 
 
-Route::get('getProductAttributeData',[ProductController::class,'getProductAttributeData'])->name('get.product.attribute.data'); // Get all the column name from here
+Route::get('getProductAttributeData', [ProductController::class, 'getProductAttributeData'])->name('get.product.attribute.data'); // Get all the column name from here
 
-Route::get('products',[ProductController::class,'index'])->name('product');
-Route::post('product/create',[ProductController::class,'create'])->name('product.create');
-Route::post('product/store',[ProductController::class,'store'])->name('product.store');
-Route::post('product/update/{id}',[ProductController::class,'update'])->name('product.update');
-Route::delete('product/destroy/{id}',[ProductController::class,'destroy'])->name('product.destroy');
-Route::get('product/show/{id}',[ProductController::class,'show'])->name('product.show');
+Route::get('products', [ProductController::class, 'index'])->name('product');
+Route::post('product/create', [ProductController::class, 'create'])->name('product.create');
+Route::post('product/store', [ProductController::class, 'store'])->name('product.store');
+Route::post('product/update/{id}', [ProductController::class, 'update'])->name('product.update');
+Route::delete('product/destroy/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+Route::get('product/show/{id}', [ProductController::class, 'show'])->name('product.show');
 
 // Category Products
 
-Route::get('category/products/{id}',[DashboardController::class,'categoryProducts'])->name('category.products');
+Route::get('category/products/{id}', [DashboardController::class, 'categoryProducts'])->name('category.products');
 
 
 // Order data api routes
 
-Route::get('getOrderAttributeData',[OrderController::class,'getOrderAttributeData'])->name('get.order.attribute.data');
+Route::get('getOrderAttributeData', [OrderController::class, 'getOrderAttributeData'])->name('get.order.attribute.data');
 
-Route::get('orders',[OrderController::class,'index'])->name('orders');
-Route::get('orders/create',[OrderController::class,'create'])->name('orders.create');
-Route::post('product/update/{id}',[ProductController::class,'update'])->name('product.update');
-Route::post('product/show/{id}',[ProductController::class,'show'])->name('product.update');
-
-
-
-
-Route::get('apitest',[DashboardController::class,'apitest'])->name('apitest');
+Route::get('orders', [OrderController::class, 'index'])->name('orders');
+Route::get('orders/create', [OrderController::class, 'create'])->name('orders.create');
+Route::post('product/update/{id}', [ProductController::class, 'update'])->name('product.update');
+Route::post('product/show/{id}', [ProductController::class, 'show'])->name('product.update');
 
 
 
-require __DIR__.'/auth.php';
+
+Route::get('apitest', [DashboardController::class, 'apitest'])->name('apitest');
+
+
+
+require __DIR__ . '/auth.php';

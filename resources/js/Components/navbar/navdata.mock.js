@@ -15,7 +15,8 @@ class Navlink {
     }
 }
 
-const urlForProducts = (str) => "products/" + str;
+const urlForProducts = (prefix, url) => prefix + "/" + url;
+const navUrlGenerate = (prefix, url) => prefix + "/" + url;
 
 export const mockData = [
     {
@@ -54,22 +55,22 @@ export const mockData = [
             //     icon: TbShoppingBag,
             // },
             {
-                href: urlForProducts("categories"),
+                href: navUrlGenerate("products", "categories"),
                 label: "Categories",
                 icon: TbShoppingBag,
             },
             {
-                href: urlForProducts("brand"),
-                label: "Brand",
+                href: navUrlGenerate("products", "brands"),
+                label: "Brands",
                 icon: TbShoppingBag,
             },
             {
-                href: urlForProducts("attribute"),
+                href: navUrlGenerate("products", "attributes"),
                 label: "Attributes",
                 icon: TbShoppingBag,
             },
             {
-                href: urlForProducts("colors"),
+                href: navUrlGenerate("products", "colors"),
                 label: "Colors",
                 icon: TbShoppingBag,
             },
@@ -90,7 +91,7 @@ export const mockData = [
         icon: TbCash,
         childLinks: [
             {
-                href: "orders",
+                href: navUrlGenerate("sales", "orders"),
                 label: "All orders",
                 icon: TbShoppingBag,
             },

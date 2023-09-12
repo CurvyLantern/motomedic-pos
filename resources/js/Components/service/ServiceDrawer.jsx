@@ -5,6 +5,7 @@ import { TbPrinter } from "react-icons/tb";
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
 import { useAppContext } from "@/contexts/AppContext";
+import Invoice1 from "../invoice/Invoice1";
 
 const ServiceDrawer = () => {
     const { drawerOpened, setDrawerOpened } = useAppContext();
@@ -22,17 +23,13 @@ const ServiceDrawer = () => {
             onClose={() => setDrawerOpened(false)}
             title="Invoice of Customer"
         >
-            <div ref={contentRef}>
-                <div>Products</div>
-                <ul>
-                    <li>WD40</li>
-                </ul>
-            </div>
-
             <div>
                 <Button onClick={handlePrint} leftIcon={<TbPrinter />}>
                     Print
                 </Button>
+            </div>
+            <div style={{ position: "relative" }}>
+                <Invoice1 ref={contentRef} />
             </div>
         </Drawer>
     );

@@ -97,6 +97,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/service/{id}', [ServiceController::class, 'show'])->name('service.show');
     Route::post('/add-service', [ServiceController::class, 'create'])->name('service.create');
     Route::post('/edit-service/{id}', [ServiceController::class, 'update'])->name('service.edit');
+
     Route::get('/delete-service/{id}', [ServiceController::class, 'destroy'])->name('service.delete');
 
     // Service management routes for admin ends
@@ -180,6 +181,7 @@ Route::prefix('v1')->group(function () {
 // Admin Routes only ......................................
 
 // Route::middleware('admin')->group(function(){
+
 //     Route::delete('/delete',[AdminController::class , 'destroy'])->name('admin.delete');
 
 
@@ -247,6 +249,38 @@ Route::get('/add-product', function () {
     ]);
 });
 
+Route::prefix('products')->group(function () {
+    Route::get('/brands', function () {
+        return Inertia::render('Product/BrandPage');
+    });
+
+    Route::get('/colors', function () {
+        return Inertia::render('Product/ColorPage');
+    });
+
+    Route::get('/attributes', function () {
+        return Inertia::render('Product/AttributePage');
+    });
+});
+
+Route::prefix('sales')->group(function () {
+    Route::get('/orders', function () {
+        return Inertia::render('Sales/OrderPage');
+    });
+    Route::get('/invoice', function () {
+        return Inertia::render('Sales/InvoicePage');
+    });
+});
+
+Route::get('/', function () {
+    return Inertia::render('AddProductPage', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
+});
+
+
+
 Route::prefix('service')->group(function () {
     // create a service
     Route::get('/create', function () {
@@ -265,6 +299,17 @@ Route::prefix('service')->group(function () {
 
         ]);
     });
+
+    // test
+
+    Route::get(
+        '/edit/{id}',
+        function () {
+            return Inertia::render('Service/EditServicePage');
+        }
+    )->name('service.editPage');
+
+    // test end
 
     // view all services
     Route::get('/create-service-data', function () {
