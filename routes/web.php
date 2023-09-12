@@ -5,13 +5,13 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use App\Http\Controllers\ServiceController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
 
 //......... custom controllers
 
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CategoryController;
@@ -21,9 +21,9 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductAttributeController;
-
-
-
+use App\Http\Controllers\AttributeValueController;
+use App\Models\AttributeValue;
+use PHPUnit\Framework\Attributes\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,6 +185,15 @@ Route::prefix('v1')->group(function () {
         Route::delete('/{id}', [ProductAttributeController::class, 'destroy'])->name('productAttribute.delete');
     });
 
+    Route::prefix('attribute')->group(function () {
+
+        Route::get('all', [AttributeValueController::class, 'index'])->name('attributes');
+        Route::get('/{id}', [AttributeValueController::class, 'show'])->name('attribute.show');
+        Route::post('/create', [AttributeValueController::class, 'store'])->name('attribute.create');
+        Route::put('/{id}', [AttributeValueController::class, 'update'])->name('attribute.edit');
+        Route::delete('/{id}', [AttributeValueController::class, 'destroy'])->name('attribute.delete');
+    });
+
 
 
 
@@ -309,12 +318,17 @@ Route::middleware('auth')->group(function () {
 
 
 
-// Route::get('apitest',[DashboardController::class,'apitest'])->name('apitest');
+Route::get('apitest', [DashboardController::class, 'apitest'])->name('apitest');
 
 
 // Public routes ...............................................
 
-// Route::get('color/create',[ColorController::class,'create'])->name('color.create');
+Route::prefix('apitest')->group(function () {
+
+    Route::get('/product-create-api-page', [ProductController::class, 'productCreatePage'])->name('product.create.api.page');
+    Route::post('/product-create-api', [ProductController::class, 'productCreate'])->name('product.create.api');
+});
+
 
 
 

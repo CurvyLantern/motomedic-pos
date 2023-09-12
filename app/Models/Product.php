@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $fillable = [
         'productName',
         'slug',
         'categoryId',
@@ -45,17 +45,17 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class,'id');
+        return $this->belongsTo(Category::class, 'id');
     }
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class,'id');
+        return $this->belongsTo(Brand::class, 'id');
     }
 
     public function media_images()
     {
-        return $this->hasMany(MediaImage::class, 'hostId' , 'id');
+        return $this->hasMany(MediaImage::class, 'hostId', 'id');
     }
 
     public function attributes()
@@ -63,6 +63,12 @@ class Product extends Model
         return $this->hasMany(MediaImage::class, 'productId');
     }
 
-
-
+    // public function product_attributes()
+    // {
+    //     return $this->hasMany(ProductAttribute::class, 'productId');
+    // }
+    public function attribute_values()
+    {
+        return $this->hasMany(AttributeValue::class, 'product_id');
+    }
 }

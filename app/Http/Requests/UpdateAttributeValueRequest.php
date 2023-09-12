@@ -11,7 +11,7 @@ class UpdateAttributeValueRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateAttributeValueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'value' => 'required',
+            'attribute_id' => 'required',
+            'product_id' => 'required',
         ];
     }
 }
