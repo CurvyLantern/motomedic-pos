@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
@@ -29,6 +30,7 @@ class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function index()
@@ -49,14 +51,27 @@ class AdminController extends Controller
 
     public function login(Request $request)
     {
-        // dd($request->all());
+//         dd($request->all());
 
-        $validator = $request->all();
+        $credentials = $request->only('email', 'password');
 
-        if(Auth::guard('admin')->attempt([
-            'email' => $validator['email'],
-            'password' => $validator['password']
-        ])){
+//        if(Auth::guard('admin')->attempt($credentials)){
+//
+//            $user = Auth::user();
+//            $data ['name'] = $user->adminName;
+//            $data ['access_token'] = $user->createToken('accessToken')->accessToken;
+//
+//            return send_response('Login success', $data);
+//        }else{
+//            return send_error('Invalid Credentials', [], 401);
+//        }
+
+
+        if(Auth::guard('admin')->attempt($credentials)) {
+
+            // Laravel create session token by "_token" name ;
+            // by storing this _token we can use this in frontend .....
+
             return redirect()->route('admin.dashboard')->with('message', 'Admin Login Successfull, Now you are in Dashboardpage');
         }else{
             return back()->with('message', 'Invalid email or password');
@@ -110,7 +125,7 @@ class AdminController extends Controller
         ])){
             // $request->authenticate();
 
-            $request->session()->regenerate();
+//            $request->session()->regenerate();
             // Session::put('email',Auth::user());
 
             // return redirect()->route('product');
@@ -136,27 +151,28 @@ class AdminController extends Controller
     }
     public function registerAdmin(Request $request) {
 
-        $validator = Validator::make($request->all(),[
-            'adminName' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.Admin::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            ]);
+//        $validator = Validator::make($request->all(),[
+//            'adminName' => 'required|string|max:255',
+//            'email' => 'required|string|email|max:255|unique:'.Admin::class,
+//            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+//            ]);
+//
+//            if($validator->failed()) {
+//                return send_response("name :nasim1",[]);
+//
+//            }
 
-            if($validator->failed()) {
-                return send_response("name :nasim1",[]);
-
-            }
-
+        $validate = $request->validated();
         $admin = Admin::create([
-            'adminName' => $request->adminName,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'status' => $request->status
+            'adminName' => $validate->adminName,
+            'email' => $validate->email,
+            'password' => Hash::make($validate->password),
+            'phone' => $validate->phone,
+            'status' => $validate->status
         ]);
 
         if($admin) {
-            return send_response("name :nasim5",Session::all());
+            return send_response("Admin Registration Successfull !!",Session::all());
         }
 
         event(new Registered($admin));
@@ -200,13 +216,23 @@ class AdminController extends Controller
 
      public function create( Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
-        if($validator->fails()){
-            return send_error('Data validation Failed !!',$validator->errors(),422);
-        }
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreAdminRequest $request)
+    {
+        //        $validator = Validator::make($request->all(),[
+//            'email' => 'required|email|unique:users',
+//            'password' => 'required|min:6|confirmed',
+//        ]);
+//        if($validator->fails()){
+//            return send_error('Data validation Failed !!',$validator->errors(),422);
+//        }
+
+        $validator = $request->validated();
 
         // Create a new user
         $user = User::create([
@@ -219,15 +245,8 @@ class AdminController extends Controller
             'adminName' => $validator['adminName'],
             'email' => $validator['email'],
             'password' => bcrypt($validator['password']),
+            'phone' => $validator->phone,
         ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAdminRequest $request)
-    {
-        //
     }
 
     /**

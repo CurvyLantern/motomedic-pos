@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Color>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductAttribute>
  */
-class ColorFactory extends Factory
+class ProductAttributeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class ColorFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->safeColorName(),
-            'code' => fake()->safeHexColor(),
+            'name' => fake()->unique()->word(),
         ];
     }
 }
