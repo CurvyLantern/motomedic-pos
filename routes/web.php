@@ -339,6 +339,21 @@ Route::prefix('apitest')->group(function () {
 
     Route::get('/product-create-api-page', [ProductController::class, 'productCreatePage'])->name('product.create.api.page');
     Route::post('/product-create-api', [ProductController::class, 'productCreate'])->name('product.create.api');
+
+
+    // invoice routes......................
+
+    Route::get('/invoice-page', [OrderController::class, 'invoice'])->name('order.invoice.api');
+    Route::get('/all', [OrderController::class, 'orderPage'])->name('order.details.page');
+
+    Route::prefix('order')->group(function () {
+        Route::get('/all', [OrderController::class, 'orderPage'])->name('order.details.page');
+        Route::get('/{id}', [OrderController::class, 'orderDetails'])->name('order.show');
+        Route::post('/create', [OrderController::class, 'create'])->name('order.create');
+        Route::put('/{id}', [OrderController::class, 'update'])->name('order.edit');
+        Route::delete('/{id}', [OrderController::class, 'destroy'])->name('order.delete');
+    });
+
 });
 
 

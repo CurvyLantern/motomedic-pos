@@ -135,6 +135,64 @@
 
     </section>
 
+    <section class="bg-white container border p-2 m-auto mt-4 border rounded">
+        <div class="container mt-5">
+            <h1 class="mb-4">Product Upload with Variations</h1>
+
+            <!-- Product Variation Tabs -->
+            <ul class="nav nav-tabs" id="productVariationTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="variation1-tab" data-bs-toggle="tab" href="#variation1" role="tab" aria-controls="variation1" aria-selected="true">Variation 1</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="variation2-tab" data-bs-toggle="tab" href="#variation2" role="tab" aria-controls="variation2" aria-selected="false">Variation 2</a>
+                </li>
+                <!-- Add more variation tabs as needed -->
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="productVariationTabsContent">
+                <div class="tab-pane fade show active" id="variation1" role="tabpanel" aria-labelledby="variation1-tab">
+                    <form action="#" method="post" enctype="multipart/form-data">
+                        <!-- Variation 1 Fields -->
+                        <div class="mb-3">
+                            <label for="variation1Name" class="form-label">Variation 1 Name</label>
+                            <input type="text" class="form-control" id="variation1Name" name="variation1Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="variation1Price" class="form-label">Variation 1 Price</label>
+                            <input type="number" class="form-control" id="variation1Price" name="variation1Price" step="0.01" required>
+                        </div>
+                        <!-- Add more fields specific to Variation 1 -->
+
+                        <button type="submit" class="btn btn-primary">Upload Variation 1</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="variation2" role="tabpanel" aria-labelledby="variation2-tab">
+                    <form action="#" method="post" enctype="multipart/form-data">
+                        <!-- Variation 2 Fields -->
+                        <div class="mb-3">
+                            <label for="variation2Name" class="form-label">Variation 2 Name</label>
+                            <input type="text" class="form-control" id="variation2Name" name="variation2Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="variation2Price" class="form-label">Variation 2 Price</label>
+                            <input type="number" class="form-control" id="variation2Price" name="variation2Price" step="0.01" required>
+                        </div>
+                        <!-- Add more fields specific to Variation 2 -->
+
+                        <button type="submit" class="btn btn-primary">Upload Variation 2</button>
+                    </form>
+                </div>
+                <!-- Add more tab content for additional variations -->
+            </div>
+        </div>
+
+
+
+    </section>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">

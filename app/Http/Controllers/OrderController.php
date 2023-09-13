@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\AttributeValue;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\ProductAttribute;
+use App\Models\UserDetail;
 use Exception;
 use App\Models\Order;
 use App\Models\Product;
@@ -220,6 +225,62 @@ class OrderController extends Controller
         }catch(Exception $e){
             return send_error($e->getMessage(),$e->getCode());
         }
+    }
+
+    public function invoice()
+    {
+
+        return view('invoice');
+    }
+
+    public function orderPage()
+    {
+
+        $orders = Order::orderBy('id','asc')->get();
+        $products = Product::get();
+//        $products = $orders->products()->where('id','productId');
+
+        $context = [
+            'orders' => $orders,
+             'products' => $products,
+        ];
+//        return send_response('Products Data successfully loaded !', $context);
+
+        return view('orderpage',compact('context'));
+    }
+
+    public function orderDetails(Order $order, $id){
+
+        try{
+            $orders = Order::find($id);
+            if($orders){
+
+                $customer = Customer::where('id',$orders->customerId)->first();
+                $products = Product::where('id',$orders->productId)->first();
+                $category = Category::where('id',$products->categoryId)->first();
+                $brand = Brand::where('id',$products->brandId)->first();
+                $service = Service::where('id',$orders->serviceId)->first();
+
+                    $context=[
+                        'order' => $orders,
+                        'product' => $products,
+                        'customer' => $customer,
+                        'service' => $service,
+                        'category' => $category,
+                        'brand' => $brand,
+                    ];
+//                    return send_response('Orders founded !',$context);
+                    return view('orderDetails')->with('context',$context);
+            }else{
+                return send_error('Order Not Found !!!!!');
+            }
+
+        }catch(Exception $e){
+
+            return send_error($e->getMessage(),$e->getCode());
+        }
+
+//        return view('orderDetails');
     }
 
 
