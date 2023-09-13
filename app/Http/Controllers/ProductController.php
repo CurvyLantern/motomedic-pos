@@ -14,6 +14,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\MediaImage;
+use App\Models\ProductVariation;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -539,6 +540,28 @@ class ProductController extends Controller
             return send_response('Product Stored successfull', $context);
         } catch (Exception $e) {
             return send_error($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function productVariation(Request $request,$id){
+        
+        try{
+
+            $productVariation = ProductVariation::where('product_id', $request->id)->get();
+
+            if($productVariation){
+
+            $context =[
+                'productVariation' => $productVariation,
+            ];
+
+            return send_response('ProductVariation by products .. ',$context);
+            }else{
+                return send_error('Not Products found !!',[]);
+            }
+
+        }catch(Exception $e){
+            return send_error('ProductVariation update failed !!!',[]);
         }
     }
 }

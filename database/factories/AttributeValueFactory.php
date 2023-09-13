@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,7 @@ class AttributeValueFactory extends Factory
         return [
             'value' => fake()->unique()->word(),
             'product_id' => Product::select('id')->inRandomOrder()->first()->id,
-            'attribute_id' => fake()->randomNumber(1, 10),
+            'attribute_id' => ProductAttribute::select('id')->inRandomOrder()->first()->id,
         ];
     }
 }

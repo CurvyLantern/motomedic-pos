@@ -60,7 +60,7 @@ class Product extends Model
 
     public function attributes()
     {
-        return $this->hasMany(MediaImage::class, 'productId');
+        return $this->hasMany(Attributes::class, 'productId');
     }
 
     // public function product_attributes()
@@ -69,6 +69,6 @@ class Product extends Model
     // }
     public function attribute_values()
     {
-        return $this->hasMany(AttributeValue::class, 'product_id');
+        return $this->hasMany(AttributeValue::class, 'product_id','id');
     }
 }

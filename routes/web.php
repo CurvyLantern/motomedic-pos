@@ -22,6 +22,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductAttributeController;
 use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\ProductVariationController;
 use App\Models\AttributeValue;
 use PHPUnit\Framework\Attributes\Group;
 
@@ -123,6 +124,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/create', [ProductController::class, 'store'])->name('product.store');
         //    Route::put('product/{id}',[ProductController::class,'update'])->name('product.update');
         Route::delete('/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+        Route::get('variation/{id}', [ProductController::class, 'productVariation'])->name('product.variation');
     });
 
     // Products management routes for admin ends
@@ -192,6 +195,15 @@ Route::prefix('v1')->group(function () {
         Route::post('/create', [AttributeValueController::class, 'store'])->name('attribute.create');
         Route::put('/{id}', [AttributeValueController::class, 'update'])->name('attribute.edit');
         Route::delete('/{id}', [AttributeValueController::class, 'destroy'])->name('attribute.delete');
+    });
+
+    Route::prefix('product-variation')->group(function () {
+
+        Route::get('all', [ProductVariationController::class, 'index'])->name('attributes');
+        Route::get('/{id}', [ProductVariationController::class, 'show'])->name('attribute.show');
+        Route::post('/create', [ProductVariationController::class, 'store'])->name('attribute.create');
+        Route::put('/{id}', [ProductVariationController::class, 'update'])->name('attribute.edit');
+        Route::delete('/{id}', [ProductVariationController::class, 'destroy'])->name('attribute.delete');
     });
 
 
