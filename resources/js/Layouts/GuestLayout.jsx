@@ -1,53 +1,33 @@
-import {
-    Paper,
-    createStyles,
-    TextInput,
-    PasswordInput,
-    Checkbox,
-    Button,
-    Title,
-    Text,
-    Anchor,
-    rem,
-    Stack,
-    Grid,
-    Box,
-} from "@mantine/core";
 import FinanceSvg from "@/assets/svgs/finance.svg";
+import {
+    Box,
+    Center,
+    Image,
+    MediaQuery,
+    SimpleGrid,
+    Stack,
+    Text,
+    Title,
+    createStyles,
+    rem,
+} from "@mantine/core";
+
+import StoreLogo from "@/assets/logo/motomedic-logo.png";
+import BasicSection from "@/Components/sections/BasicSection";
 
 const useStyles = createStyles((theme) => ({
-    wrapper: {
-        minHeight: rem(900),
-        backgroundSize: "cover",
-        backgroundImage:
-            "url(https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1280&q=80)",
-    },
-
-    form: {
-        borderRight: `${rem(1)} solid ${
-            theme.colorScheme === "dark"
-                ? theme.colors.dark[7]
-                : theme.colors.gray[3]
-        }`,
-        minHeight: rem(900),
-        maxWidth: rem(450),
-        paddingTop: rem(80),
-
-        [theme.fn.smallerThan("sm")]: {
-            maxWidth: "100%",
-        },
-    },
-
-    title: {
-        color: theme.colorScheme === "dark" ? theme.white : theme.black,
-        fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    },
-
     footer: {
-        padding: theme.spacing.lg,
-        border: `1px solid ${theme.colors.primary.background}`,
-        color: theme.colors.main.foreground,
-        borderRadius: theme.spacing.sm,
+        padding: rem(10),
+        backgroundColor: theme.fn.lighten(theme.colors.primary.background, 0.2),
+    },
+    footerContent: {
+        padding: theme.spacing.sm,
+        // border: `1px solid ${theme.colors.primary.background}`,
+        color: theme.colors.primary.foreground,
+        borderRadius: theme.spacing.xs,
+        // fontWeight: 600,
+        textAlign: "center",
+        fontSize: rem(12),
     },
 }));
 
@@ -56,33 +36,80 @@ const GuestLayout = ({ children }) => {
     return (
         <Box
             sx={(theme) => ({
-                height: "100vh",
+                minHeight: "100%",
                 display: "flex",
                 flexDirection: "column",
                 boxSizing: "border-box",
                 backgroundColor: theme.colors.main.background,
-                padding: "3rem",
+                // background: "red",
+                padding: "0rem",
             })}
         >
-            <header>
-                <div>MotoMedic</div>
-            </header>
-            <Grid
+            <SimpleGrid
+                p="sm"
+                mx="auto"
+                cols={1}
+                breakpoints={[
+                    {
+                        cols: 2,
+                        minWidth: "sm",
+                    },
+                ]}
                 sx={(theme) => ({
                     flex: 1,
-                    maxHeight: "100%",
-                    maxWidth: "100%",
+                    // maxWidth: rem(1000),
+                    width: "90%",
                 })}
             >
-                <Grid.Col span={6}>
+                <Center>
                     <Stack>
-                        <h1>Point of Sale Software</h1>
-                        <img src={FinanceSvg} alt="" />
+                        <Center>
+                            <Box maw={100}>
+                                <Image src={StoreLogo}></Image>
+                            </Box>
+                        </Center>
+                        <Title align="center" size={"h3"} order={1}>
+                            পয়েন্ট অফ সেল{" "}
+                            <Text
+                                span
+                                sx={(t) => ({
+                                    color: t.colors.primary.background,
+                                    fontSize: "110%",
+                                })}
+                            >
+                                ( POS )
+                            </Text>{" "}
+                            সফটওয়্যার
+                        </Title>
+                        <Text align="center" fz={"sm"} weight={600}>
+                            আপনার ব্যবসা হোক ত্রুটি মুক্ত
+                        </Text>
+                        <MediaQuery
+                            smallerThan="sm"
+                            styles={{ display: "none" }}
+                        >
+                            <Image src={FinanceSvg} alt="" />
+                        </MediaQuery>
                     </Stack>
-                </Grid.Col>
-                <Grid.Col span={6}>{children}</Grid.Col>
-            </Grid>
-            <footer className={classes.footer}>Copyright Rabbitic</footer>
+                </Center>
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Box>
+                        <BasicSection p={rem(40)}>{children}</BasicSection>
+                    </Box>
+                </Box>
+            </SimpleGrid>
+
+            <footer className={classes.footer}>
+                <Box className={classes.footerContent}>
+                    Copyright &copy; 2023 motomedic. All rights reserved
+                </Box>
+            </footer>
         </Box>
     );
 };

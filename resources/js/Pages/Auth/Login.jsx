@@ -3,6 +3,7 @@ import { useEffect } from "react";
 // import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
+    Center,
     Anchor,
     Button,
     Checkbox,
@@ -11,15 +12,21 @@ import {
     Paper,
     PasswordInput,
     Stack,
+    Text,
     TextInput,
     Title,
+    Box,
+    rem,
+    Select,
 } from "@mantine/core";
+import BasicSection from "@/Components/sections/BasicSection";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
         remember: false,
+        role: "staff",
     });
 
     useEffect(() => {
@@ -37,86 +44,110 @@ export default function Login({ status, canResetPassword }) {
     // return <GuestLayout></GuestLayout>;
 
     return (
-        <div className="tw-h-full tw-w-full tw-flex tw-items-center tw-justify-center">
-            <Container size="xs">
-                <Head title="Log in" />
+        <Box
+            sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: rem(50),
+            }}
+        >
+            <Box>
+                <Title align="center" size="h1" weight={600}>
+                    Login to{" "}
+                    <Text span sx={{ display: "inline-block" }} color={"blue"}>
+                        MotoMedic
+                    </Text>
+                </Title>
+                <Text color="dimmed" size="sm" align="center" mt={5}>
+                    Do not have an account yet?{" "}
+                    <Anchor size="sm" href="/register" component={Link}>
+                        Create account
+                    </Anchor>
+                </Text>
+            </Box>
+            <Box
+                maw={400}
+                w={"90%"}
+                mx={"auto"}
+                sx={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                }}
+            >
+                <form onSubmit={submit}>
+                    <Stack>
+                        <TextInput
+                            required
+                            id="email"
+                            label="Email"
+                            placeholder="Please enter your email"
+                            type="email"
+                            name="email"
+                            value={data.email}
+                            autoComplete="email"
+                            error={errors.email}
+                            onChange={(e) =>
+                                setData("email", e.currentTarget.value)
+                            }
+                        />
 
-                {status && (
-                    <div className="mb-4 font-medium text-sm text-green-600">
-                        {status}
-                    </div>
-                )}
+                        <PasswordInput
+                            required
+                            id="password"
+                            name="password"
+                            autoComplete="current-password"
+                            label="Password"
+                            placeholder="mypasswordisstrong"
+                            value={data.password}
+                            onChange={(e) =>
+                                setData("password", e.currentTarget.value)
+                            }
+                            error={errors.password}
+                        />
 
-                <Paper p="xl" withBorder>
-                    <Title
-                        my="xl"
-                        py="xl"
-                        order={1}
-                        align="center"
-                        size="h1"
-                        weight={500}
-                    >
-                        Welcome to MotoMedic Admin Panel
-                    </Title>
-                    <form onSubmit={submit}>
-                        <Stack>
-                            <TextInput
-                                required
-                                id="email"
-                                label="Email"
-                                placeholder="Please enter your email"
-                                type="email"
-                                name="email"
-                                value={data.email}
-                                autoComplete="email"
-                                error={errors.email}
-                                onChange={(e) =>
-                                    setData("email", e.currentTarget.value)
-                                }
-                            />
+                        <Select
+                            label="Role"
+                            name="role"
+                            data={[
+                                { label: "admin", value: "admin" },
+                                { label: "staff", value: "staff" },
+                                { label: "biller", value: "biller" },
+                            ]}
+                            value={data.role}
+                            onChange={(value) => setData("role", value)}
+                            size="sm"
+                        ></Select>
 
-                            <PasswordInput
-                                required
-                                id="password"
-                                name="password"
-                                autoComplete="current-password"
-                                label="Password"
-                                placeholder="mypasswordisstrong"
-                                value={data.password}
-                                onChange={(e) =>
-                                    setData("password", e.currentTarget.value)
-                                }
-                                error={errors.password}
-                            />
+                        <Checkbox
+                            label="Keep me logged in"
+                            name="remember"
+                            checked={data.remember}
+                            onChange={(e) =>
+                                setData("remember", e.currentTarget.checked)
+                            }
+                            size="sm"
+                        ></Checkbox>
+                    </Stack>
 
-                            <Checkbox
-                                label="Keep me logged in"
-                                name="remember"
-                                checked={data.remember}
-                                onChange={(e) =>
-                                    setData("remember", e.currentTarget.checked)
-                                }
-                                size="sm"
-                            ></Checkbox>
-                        </Stack>
+                    <Group position="apart" mt="xl">
+                        <Anchor
+                            component={Link}
+                            href={route("password.request")}
+                            onClick={() => {}}
+                            size="xs"
+                        >
+                            Forgot your password?
+                        </Anchor>
 
-                        <Group position="apart" mt="xl">
-                            <Anchor
-                                component={Link}
-                                href={route("password.request")}
-                                onClick={() => {}}
-                                size="xs"
-                            >
-                                Forgot your password?
-                            </Anchor>
-
-                            <Button type="submit" disabled={processing}>
-                                Log in
-                            </Button>
-                        </Group>
-                    </form>
-                </Paper>
-            </Container>
-        </div>
+                        <Button type="submit" disabled={processing}>
+                            Log in
+                        </Button>
+                    </Group>
+                </form>
+            </Box>
+        </Box>
     );
 }

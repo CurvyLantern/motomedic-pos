@@ -1,7 +1,7 @@
 import { useBasicSectionStyles } from "./basicSection.styles";
-import { Paper, Text } from "@mantine/core";
+import { Paper, Text, Box } from "@mantine/core";
 
-const BasicSection = ({ title, children }) => {
+const BasicSection = ({ title, children, ...props }) => {
     const { classes, cx } = useBasicSectionStyles();
 
     return (
@@ -11,14 +11,14 @@ const BasicSection = ({ title, children }) => {
             shadow="sm"
             radius="md"
             p="lg"
-            px={"lg"}
+            {...props}
         >
             {title ? (
                 <Text component="p" className={cx(classes.title)}>
                     {title}
                 </Text>
             ) : null}
-            {children}
+            <Box sx={{ flex: 1 }}>{children}</Box>
         </Paper>
     );
 };

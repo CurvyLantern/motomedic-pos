@@ -5,6 +5,8 @@ export const useBasicSectionStyles = createStyles((theme) => ({
         backgroundColor: theme.colors.card.background,
         color: theme.colors.card.foreground,
         height: "100%",
+        display: "flex",
+        flexDirection: "column",
         // backgroundImage: theme.fn.gradient({
         //     from: "red",
         //     to: "orange",
