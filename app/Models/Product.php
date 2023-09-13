@@ -69,6 +69,11 @@ class Product extends Model
     // }
     public function attribute_values()
     {
-        return $this->hasMany(AttributeValue::class, 'product_id','id');
+        return $this->hasMany(AttributeValue::class, 'product_id', 'id');
+    }
+
+    public function productVariation()
+    {
+        return $this->hasMany(ProductVariation::class, 'product_id', 'id');
     }
 }

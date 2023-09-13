@@ -462,9 +462,9 @@ class ProductController extends Controller
         // dd($request->all(), $categories, $category);
 
         try {
-            $image_path = '';
+            $primaryImage = '';
             if ($request->hasFile('primaryImg')) {
-                $image_path = $request->file('primaryImg')->store('products', 'public');
+                $primaryImage = $request->file('primaryImg')->store('products', 'public');
             }
             // products() function is from category model relation
             $product = $category->products()->create([
@@ -484,7 +484,7 @@ class ProductController extends Controller
                 'quantity' => $validator['quantity'],
                 'discoundType' => $validator['discoundType'],
                 'discount' => $validator['discount'],
-                'primaryImg' => $image_path,
+                'primaryImg' => $primaryImage,
                 'shortDescriptions' => $validator['shortDescriptions'],
                 'longDescriptions' => $validator['longDescriptions'],
                 'installationMethod' => $validator['installationMethod'],
@@ -496,41 +496,38 @@ class ProductController extends Controller
             // media_images()
             // Upload multiple thumbnail image
             if ($request->hasFile('thumbImg')) {
-                $image_path = '';
+                $thumbImg = '';
                 foreach ($request->file('thumbImg') as $img) {
 
-                    $image_path = $img->store('products', 'public');
+                    $thumbImg = $img->store('products', 'public');
 
                     $product->media_images()->create([
                         'hostId' => $product->id,
                         'imageName' => $img->getClientOriginalName(),
-                        'imagePath' => $image_path,
+                        'imagePath' => $thumbImg,
                     ]);
                 }
             }
 
-            // if ($request->productType == 'variationProduct') {
+            if ($request->productType == 'variationProduct') {
 
-            //     // This is a logical mistake as it's not obvious which array contains the whole collection of values.
-            //     foreach ($request->attributesData as $key => $attributes) {
-            //         $image_path = '';
+                // This is a logical mistake as it's not obvious which array contains the whole collection of values.
+                foreach ($request->attributesData as $key => $attributes) {
+                    $attribiuteImg = '';
 
-            //         if ($request->hasFile('attribiuteImgId')) {
-            //             $image_path = $attributes->file('attribiuteImgId')->store('products', 'public');
-            //         }
-            //         $product->attributes()->create([
-            //             'productId' => $product->id,
-            //             'sku' => $attributes->sku,
-            //             'attribiuteImgId' => $image_path,
-            //             'discount' => $attributes->discount,
-            //             'discountType' => $attributes->discountType,
-            //             'size' => $attributes->size,
-            //             'weight' => $attributes->weight,
-            //             'quantity' => $attributes->quantity,
-            //             'color' => $attributes->color,
-            //         ]);
-            //     }
-            // }
+                    if ($request->hasFile('attribiuteImgId')) {
+                        $attribiuteImg = $attributes->file('attribiuteImgId')->store('products', 'public');
+                    }
+                    $product->productVariation()->create([
+                        'product_id' => $product->id,
+                        'attribute_value_id' => $product->attribute_value_id,
+                        'attribute_id' => $product->attribute_id, // not important
+                        'color_id' => $attributes->color_id,
+                        'image' => $attribiuteImg,
+                        'price' => $attributes->discount,
+                    ]);
+                }
+            }
 
             $context = [
                 'product' => $product,
@@ -543,25 +540,25 @@ class ProductController extends Controller
         }
     }
 
-    public function productVariation(Request $request,$id){
-        
-        try{
+    public function productVariation(Request $request, $id)
+    {
+
+        try {
 
             $productVariation = ProductVariation::where('product_id', $request->id)->get();
 
-            if($productVariation){
+            if ($productVariation) {
 
-            $context =[
-                'productVariation' => $productVariation,
-            ];
+                $context = [
+                    'productVariation' => $productVariation,
+                ];
 
-            return send_response('ProductVariation by products .. ',$context);
-            }else{
-                return send_error('Not Products found !!',[]);
+                return send_response('ProductVariation by products .. ', $context);
+            } else {
+                return send_error('Not Products found !!', []);
             }
-
-        }catch(Exception $e){
-            return send_error('ProductVariation update failed !!!',[]);
+        } catch (Exception $e) {
+            return send_error('ProductVariation update failed !!!', []);
         }
     }
 }
