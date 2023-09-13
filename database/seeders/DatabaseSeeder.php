@@ -15,6 +15,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Color;
 use App\Models\ProductAttribute;
+use App\Models\ProductVariation;
 use App\Models\Stuff;
 use Illuminate\Database\Seeder;
 
@@ -41,6 +42,7 @@ class DatabaseSeeder extends Seeder
         // Product::factory(50)->create();
         // Order::factory(10)->create();
         // ProductAttribute::factory(10)->create();
-        AttributeValue::factory(20)->create();
+        // AttributeValue::factory(20)->create();
+        ProductVariation::factory(20)->create();
     }
 }
