@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+
 
 
     public function getCategoryAttributeData() {
@@ -39,61 +45,12 @@ class CategoryController extends Controller
         return send_response('Category data successfully loaded !!', $context);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            "categoryName" => "required",
-            "description"=>"required",
-            "slug"=>"required",
-            "parentCategoryId"=>"required",
-            "img"=>"required",
-            ]);
 
-
-        if ($validator->fails()){
-            return send_error('Data validation Failed !!',$validator->errors(),422);
-        }
-
-        try{
-            //create category and save it to database
-            if ($request->hasFile('img')){
-                $imagePath = $request->file('img')->store('category','public');
-                $request->img = $imagePath;
-            }
-
-            $category=Category::create([
-                "categoryName"=> $request->categoryName,
-                "slug"=>$request->slug,
-                "description"=>$request->description,
-                "img"=>$request->img,
-                "parentCategoryId"=>$request->parentCategoryId,
-                ]);
-            $context = [
-                'category'=>$category ,
-            ];
-
-
-            return send_response('Category create successfull !',$context);
-        }catch(Exception $e){
-            return send_error($e->getMessage(), $e->getCode());
-        }
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCategoryRequest $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
      */
+
     public function show(Category $category,$id)
     {
         $category = Category::find($id);
@@ -105,6 +62,58 @@ class CategoryController extends Controller
             return send_error('Category Not found !!!');
         }
     }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+
+
+    public function create(Request $request)
+    {
+        try{
+            $validator = Validator::make($request->all(),[
+                "categoryName" => "required",
+                "description"=>"required",
+                "img"=>"required",
+                ]);
+
+
+            if ($validator->fails()){
+                return send_error('Data validation Failed !!',$validator->errors(),422);
+            }
+            //create category and save it to database
+            if ($request->hasFile('img')){
+                $imagePath = $request->file('img')->store('category','public');
+            }
+
+            $category=Category::create([
+                "categoryName"=> $request->categoryName,
+                'slug'=>  Str::slug($request->categoryName, '-'),
+                "description"=>$request->description,
+                "img"=>$imagePath,
+                "parentCategoryId"=>$request->parentCategoryId,
+                ]);
+            $context = [
+                'category'=>$category ,
+            ];
+
+
+            return send_response('Category create successfull !',$context);
+        }catch(Exception $e){
+            return send_error($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreCategoryRequest $request)
+    {
+        //
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -148,7 +157,7 @@ class CategoryController extends Controller
             return send_response('Category update successfully',$context);
 
         }catch(Exception $e){
-            return send_error('Category update failed !!!');
+            return send_error($e->getMessage(),$e->getCode());
         }
 
 
@@ -172,4 +181,31 @@ class CategoryController extends Controller
 
     }
 
+
+    public function categoryProducts(Request $request , $id){
+
+        // $category = Category::findOrFails($id);
+        // $categories = Category::all();
+        // $products = Product::all();
+
+        try{
+
+            // $products = Product::all()->where('categoryId',$request->id);
+            $products = Product::where('categoryId', $request->id)->get();
+
+            if($products){
+
+            $context =[
+                'products' => $products,
+            ];
+
+            return send_response('Products by categories .. ',$context);
+            }else{
+                return send_error('Not Products found !!',[]);
+            }
+
+        }catch(Exception $e){
+            return send_error('Category update failed !!!',[]);
+        }
+    }
 }

@@ -6,6 +6,8 @@ use Image;
 use Exception;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Http\Resources\ServiceResource;
@@ -18,6 +20,18 @@ class ServiceController extends Controller
      * Display a listing of the resource.
      * @return \Illuminate\Http\JsonResponse
      */
+
+     public function getServiceAttributeData() {
+        $tableName = 'services'; // Replace with the actual table name
+
+        if (Schema::hasTable($tableName)) {
+            $columnNames = Schema::getColumnListing($tableName);
+            return $columnNames;
+        } else {
+            return ['Table not found'];
+        }
+    }
+
     public function index()
     {
         $service = Service::orderBy('id','asc')->get();
@@ -29,6 +43,26 @@ class ServiceController extends Controller
         }
     }
 
+        /**
+     * Display the specified resource.
+     * @param  \App\Models\Service  $service
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        //
+
+        $service = Service::find($id);
+
+        if($service){
+            return send_response("Data Found !", $service);
+        }else{
+            return send_error("Service Data Not Found ");
+        }
+
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -36,7 +70,6 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(),[
             "serviceName" => "required",
-            "slug" => "required",
             "description" => "required",
             "img" => "required",
             "price" => "required",
@@ -60,19 +93,39 @@ class ServiceController extends Controller
             $image_path = '';
 
             if ($request->hasFile('img')) {
-                $image_path = $request->file('img')->store('products', 'public');
+                $image_path = $request->file('img')->store('service', 'public');
             }
+
+
 
             $service = Service::create([
                 'serviceName' => $request->serviceName,
-                'slug'=>  $request->slug,
+                'slug'=>  Str::slug($request->serviceName, '-'),
                 'description'=>$request->description,
-                'img'=>$request->img,
+                'img'=>$image_path,
                 'price'=>$request->price,
                 'durationHours'=>$request->durationHours,
                 'img' => $request->img,
             ]);
             return send_response("service create successfull", new ServiceResource($service));
+
+        }catch(Exception $e){
+            return send_error($e->getMessage(), $e->getCode());
+        }
+    }
+
+
+    public function destroy($id)
+    {
+
+        try{
+
+            $service = Service::find($id);
+
+            if($service){
+                $service->delete();
+            }
+            return send_response("service delete successfully !",[]);
 
         }catch(Exception $e){
             return send_error($e->getMessage(), $e->getCode());
@@ -87,24 +140,7 @@ class ServiceController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show($id)
-    {
-        //
 
-        $service = Service::find($id);
-
-        if($service){
-            return send_response("Data Found !", new ServiceResource($service));
-        }else{
-            return send_error("Service Data Not Found ");
-        }
-
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -124,7 +160,6 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(),[
             "serviceName" => "required",
-            "slug" => "required",
             "description" => "required",
             "img" => "required",
             "price" => "required",
@@ -137,14 +172,19 @@ class ServiceController extends Controller
         try{
 
             $service = Service::find($id);
-            $service->serviceName = $request->serviceName;
-            $service->slug = $request->slug;
-            $service->description =$request->description ;
-            $service->img=$request->img;
-            $service->price= $request->price;
-            $service->durationHours= $request->durationHours;
-            $service->save();
-            return send_response("Service Update successfully !", new ServiceResource($service));
+            if($service){
+
+                $service->serviceName = $request->serviceName;
+                $service->slug = Str::slug($request->serviceName, '-');
+                $service->description =$request->description ;
+                $service->img=$request->img;
+                $service->price= $request->price;
+                $service->durationHours= $request->durationHours;
+                $service->save();
+                return send_response("Service Update successfully !", new ServiceResource($service));
+            }else{
+                return send_response('No Service found !!',[]);
+            }
 
         }catch(Exception $e){
             return send_error("Service data update failed !!!", $e->getMessage(), $e->getCode());
@@ -154,20 +194,5 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
 
-        try{
-
-            $service = Service::find($id);
-
-            if($service){
-                $service->delete();
-            }
-            return send_response("service delete successfully !",[]);
-
-        }catch(Exception $e){
-            return send_error($e->getMessage(), $e->getCode());
-        }
-    }
 }

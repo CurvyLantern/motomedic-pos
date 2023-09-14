@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
 use Illuminate\Support\Facades\Validator;
-
-
+use Exception;
 
 
 class BrandController extends Controller
@@ -17,6 +18,9 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function testBrand(Request $req){
+    //     return send_response('dasdasd',[]);
+    //  }
 
     public function getBrandsAttributeData() {
         $tableName = 'brands'; // Replace with the actual table name
@@ -28,7 +32,6 @@ class BrandController extends Controller
             return ['Table not found'];
         }
     }
-
 
     public function index()
     {
@@ -42,58 +45,7 @@ class BrandController extends Controller
         return send_response('Brand data successfully loaded !!',$context);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-        //
-        $validator = Validator::make($request->all(),[
-            "brandName" => "required",
-            "description"=>"required",
-            "slug"=>"required",
-            "img"=>"required",
-            ]);
-
-
-        if ($validator->fails()){
-            return send_error('Data validation Failed !!',$validator->errors(),422);
-        }
-
-        try{
-            //create brand and save it to database
-            if ($request->hasFile('img')){
-                $imagePath = $request->file('img')->store('brand','public');
-                $request->img = $imagePath;
-            }
-
-            $brand=Brand::create([
-                "brandName"=> $request->brandName,
-                "slug"=>$request->slug,
-                "description"=>$request->description,
-                "img"=>$request->img,
-                "parentbrandId"=>$request->parentbrandId,
-                ]);
-            $context = [
-                'brand'=>$brand ,
-            ];
-
-
-            return send_response('Brand create successfull !',$context);
-        }catch(Exception $e){
-            return send_error($e->getMessage(), $e->getCode());
-        }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBrandRequest $request)
-    {
-        //
-    }
-
-    /**
+        /**
      * Display the specified resource.
      */
     public function show(Brand $brand,$id)
@@ -105,16 +57,68 @@ class BrandController extends Controller
         if($brand){
             return send_response('Brand founded !',$brand);
         }else{
-            return send_error('Brand Not found !!!');
+            return send_error('Brand Not found to show!!!');
         }
     }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(Request $request)
+    {
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+        $validator = Validator::make($request->all(),[
+            "brandName" => "required",
+            "description"=>"required",
+            "img"=>"required",
+        ]);
+
+
+        if ($validator->fails()){
+            return send_error('Data validation Failed !!',$validator->errors(),422);
+        }
+
+        try{
+            //create brand and save it to database
+            if ($request->hasFile('img')){
+                $imagePath = $request->file('img')->store('brand','public');
+            }
+
+            $brand=Brand::create([
+                "brandName"=> $request->brandName,
+                'slug'=>  Str::slug($request->brandName, '-'),
+                "description"=>$request->description,
+                "img"=> $imagePath,
+                "parentbrandId"=>$request->parentbrandId,
+            ]);
+            $context = [
+                'brand'=>$brand ,
+            ];
+
+
+            return send_response('Brand create successfull !',$context);
+        }catch(Exception $e){
+            return send_error($e->getMessage(), $e->getCode());
+        }
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brand $brand)
+    public function edit(Brand $brand, Request $request,$id)
     {
-        //
+
     }
 
     /**
@@ -156,15 +160,44 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brand $brand, $id)
+    public function destroy( $id)
     {
         //
         try{
             $brand = Brand::find($id);
             if($brand){
                 $brand->delete();
+                return send_response('Brand Deleted successfully',[]);
+            }else{
+                return send_error('Brand Not Found to delete !!');
             }
-            return send_response('Brand Deleted successfully',[]);
+        }catch(Exception $e){
+            return send_error($e->getMessage(),$e->getCode());
+        }
+    }
+
+
+
+    public function brandProducts(Request $request , $id){
+
+        try{
+
+            // $products = Product::all()->where('brandId',$request->id);
+            $products = Product::where('brandId', $request->id)->get();
+
+            // $products = Brand::findsOrfails($id)->where('id',Product::get('brandId'));
+
+            if($products){
+
+            $context =[
+                'products' => $products,
+            ];
+
+            return send_response('Products by brand .. ',$context);
+            }else{
+                return send_error('Not Products found !!',[]);
+            }
+
         }catch(Exception $e){
             return send_error($e->getMessage(),$e->getCode());
         }

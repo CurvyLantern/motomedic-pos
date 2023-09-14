@@ -1,24 +1,18 @@
 import { useEffect } from "react";
 // import Checkbox from "@/Components/Checkbox";
-import GuestLayout from "@/Layouts/GuestLayout";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
 // import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
-    TextInput,
-    PasswordInput,
-    Paper,
-    Text,
-    Stack,
-    Group,
     Anchor,
-    Checkbox,
     Button,
-    Title,
+    Checkbox,
     Container,
-    Box,
+    Group,
+    Paper,
+    PasswordInput,
+    Stack,
+    TextInput,
+    Title,
 } from "@mantine/core";
 
 export default function Login({ status, canResetPassword }) {

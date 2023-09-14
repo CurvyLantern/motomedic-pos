@@ -15,4 +15,14 @@ class Category extends Model
         'description',
         'parentCategoryId',
     ];
+
+
+    public function products() {
+        return $this->hasMany(Product::class, 'categoryId');
+    }
+
+    public function parentCategoryId()
+    {
+        return $this->belongsTo(Category::class, 'id');
+    }
 }

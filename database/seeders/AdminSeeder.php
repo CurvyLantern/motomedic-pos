@@ -13,6 +13,6 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::factory(1)->create();
+        // Admin::factory(1)->create();
     }
 }

@@ -18,6 +18,10 @@ class Service extends Model
         'status',
         'featured',
         'note',
-
     ];
+
+    public function product() {
+        return $this->hasMany(Product::class);
+    }
+
 }

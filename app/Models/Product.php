@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable=[
+    protected $fillable = [
         'productName',
         'slug',
         'categoryId',
@@ -27,7 +28,6 @@ class Product extends Model
         'quantity',
         'price',
         'discount',
-        'discoundType',
         'primaryImg',
         'thumbImg',
         'shortDescriptions',
@@ -39,4 +39,41 @@ class Product extends Model
         'availability',
         'status',
     ];
+
+
+
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'id');
+    }
+
+    public function media_images()
+    {
+        return $this->hasMany(MediaImage::class, 'hostId', 'id');
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(Attributes::class, 'productId');
+    }
+
+    // public function product_attributes()
+    // {
+    //     return $this->hasMany(ProductAttribute::class, 'productId');
+    // }
+    public function attribute_values()
+    {
+        return $this->hasMany(AttributeValue::class, 'product_id', 'id');
+    }
+
+    public function productVariation()
+    {
+        return $this->hasMany(ProductVariation::class, 'product_id', 'id');
+    }
 }
