@@ -28,6 +28,7 @@ class OrderFactory extends Factory
             'subtotal' => rand(500, 18000), // Generates a random image URL
             'total' => rand(1200, 35000),
             'quantity' => rand(1, 10),
+            'status' => fake()->randomElement(['Onhold','Processing','Completed']),
             'queue' => $queue++,
 
         ];

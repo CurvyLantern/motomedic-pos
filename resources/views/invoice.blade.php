@@ -86,13 +86,15 @@
         <thead>
         <tr>
             <th width="50%" colspan="2">
-                <h2 class="text-start">Funda Ecommerce</h2>
+                <h2 class="text-start">Motomodic Ltd</h2>
             </th>
             <th width="50%" colspan="2" class="text-end company-data">
-                <span>Invoice Id: #6</span> <br>
-                <span>Date: 24 / 09 / 2022</span> <br>
-                <span>Zip code : 560077</span> <br>
-                <span>Address: #555, Main road, shivaji nagar, Bangalore, India</span> <br>
+                <span>Invoice NUmber : #{{$context['order']->id}}</span> <br>
+                <span>{{$context['order']->created_at->format('d-m-y : h:i A')}}</span><br>
+{{--                @foreach( $context['customerDetails'] as $data)--}}
+{{--                    <span>{{$data}}</span>--}}
+{{--                @endforeach--}}
+                <span>Address : {{$context['customerDetails']}} </span> <br>
             </th>
         </tr>
         <tr class="bg-blue">
@@ -103,38 +105,38 @@
         <tbody>
         <tr>
             <td>Order Id:</td>
-            <td>6</td>
+            <td>{{$context['order']->id}}</td>
 
             <td>Full Name:</td>
-            <td>Ved Prakash</td>
+            <td>{{$context['customer']->customerName}}</td>
         </tr>
         <tr>
             <td>Tracking Id/No.:</td>
             <td>funda-CRheOqspbA</td>
 
             <td>Email Id:</td>
-            <td>ved@gmail.com</td>
+            <td>{{$context['customer']->email}}</td>
         </tr>
         <tr>
             <td>Ordered Date:</td>
-            <td>22-09-2022 10:54 AM</td>
+            <td>{{$context['order']->created_at->format('d-m-y : h:i A')}}</td>
 
             <td>Phone:</td>
-            <td>8889997775</td>
+            <td>{{$context['customer']->phone}}</td>
         </tr>
         <tr>
             <td>Payment Mode:</td>
-            <td>Cash on Delivery</td>
+            <td>Hand Cash</td>
 
             <td>Address:</td>
-            <td>asda asdad asdad adsasd</td>
+            <td>{{$context['customerDetails']}}</td>
         </tr>
         <tr>
             <td>Order Status:</td>
-            <td>completed</td>
+            <td>{{$context['order']->status}}</td>
 
-            <td>Pin code:</td>
-            <td>566999</td>
+            <td>Bike Info :</td>
+            <td>{{$context['order']->bikeInfo}}</td>
         </tr>
         </tbody>
     </table>
@@ -156,26 +158,13 @@
         </thead>
         <tbody>
         <tr>
-            <td width="10%">16</td>
+            <td width="10%">{{$context['product']->id}}</td>
             <td>
-                Mi Note 7
+                {{$context['product']->productName}}
             </td>
-            <td width="10%">$14000</td>
-            <td width="10%">1</td>
-            <td width="15%" class="fw-bold">$14000</td>
-        </tr>
-        <tr>
-            <td width="10%">17</td>
-            <td>
-                Vivo V19
-            </td>
-            <td width="10%">$699</td>
-            <td width="10%">1</td>
-            <td width="15%" class="fw-bold">$699</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="total-heading">Total Amount - <small>Inc. all vat/tax</small> :</td>
-            <td colspan="1" class="total-heading">$14699</td>
+            <td width="10%">৳ {{$context['product']->price}}</td>
+            <td width="10%">{{$context['order']->quantity}}</td>
+            <td width="15%" class="fw-bold">৳ {{$context['order']->quantity*$context['product']->price}}</td>
         </tr>
         </tbody>
     </table>

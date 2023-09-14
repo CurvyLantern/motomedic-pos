@@ -56,8 +56,11 @@
         <div class="col-md-12">
             <div class=" p-3">
                 <h4>Order Details</h4>
-                <a class="btn btn-primary">
+                <a  href="{{url('apitest/invoice-page/'.$context['order']->id)}}" target="_blank"  class="btn btn-primary">
                     Invoice
+                </a>
+                <a  href="{{url('apitest/generate-invoice/'.$context['order']->id)}})}}" class="btn btn-primary">
+                    Download Invoice
                 </a>
                 <a href="{{url('apitest/order/all')}}" class="btn btn-secondary">
                     Order Page

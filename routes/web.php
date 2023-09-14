@@ -343,7 +343,8 @@ Route::prefix('apitest')->group(function () {
 
     // invoice routes......................
 
-    Route::get('/invoice-page', [OrderController::class, 'invoice'])->name('order.invoice.api');
+    Route::get('/invoice-page/{id}', [OrderController::class, 'invoice'])->name('order.invoice.api');
+    Route::get('/generate-invoice/{id}',[OrderController::class,'generateInvoice'])->name('generate.invoice');
     Route::get('/all', [OrderController::class, 'orderPage'])->name('order.details.page');
 
     Route::prefix('order')->group(function () {

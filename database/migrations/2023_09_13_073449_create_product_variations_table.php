@@ -21,8 +21,7 @@ return new class extends Migration
             $table->text('image')->nullable();
             $table->float('price')->nullable();
 
-
-            $table->foreign('attribute_value')->references('id')->on('attribute_values')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('attribute_value_id')->references('id')->on('attribute_values')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('attribute_id')->references('id')->on('product_attributes')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('color_id')->references('id')->on('colors')->onUpdate('cascade')->onDelete('cascade');

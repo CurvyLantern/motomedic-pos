@@ -33,6 +33,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->integer('extra')->nullable();
             $table->enum('serviceStatus',['Onhold','Processing','Completed'])->default('Onhold');
+            $table->enum('status',['Onhold','Processing','Completed'])->default('Onhold');
             $table->integer('queue');
             $table->bigInteger('orderCreator')->nullable();
             $table->timestamps();

@@ -21,6 +21,7 @@ class Order extends Model
         'extra',
         'serviceStatus',
         'queue',
+        'status',
     ];
 
     public function products()

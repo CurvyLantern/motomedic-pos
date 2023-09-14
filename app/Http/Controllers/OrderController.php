@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use App\Models\AttributeValue;
 use App\Models\Brand;
 use App\Models\Category;
@@ -227,11 +230,7 @@ class OrderController extends Controller
         }
     }
 
-    public function invoice()
-    {
 
-        return view('invoice');
-    }
 
     public function orderPage()
     {
@@ -281,6 +280,72 @@ class OrderController extends Controller
         }
 
 //        return view('orderDetails');
+    }
+
+
+    public function invoice(Request $request,$id)
+    {
+
+        try{
+            $orders = Order::find($id);
+            if($orders){
+
+                $customer = Customer::where('id',$orders->customerId)->first();
+//                $customerDetails = UserDetail::where('id',$customer->userDetailsId)->first();
+//                $customerDetails = UserDetail::where('id', $customer->userDetailsId)->firstOrFail();
+                $customerDetails=\DB::table('user_details')->Where('id','$customer->userDetailsId')->get();
+                $products = Product::where('id',$orders->productId)->first();
+                $category = Category::where('id',$products->categoryId)->first();
+                $brand = Brand::where('id',$products->brandId)->first();
+                $service = Service::where('id',$orders->serviceId)->first();
+
+                $context=[
+                    'order' => $orders,
+                    'product' => $products,
+                    'customer' => $customer,
+                    'service' => $service,
+                    'category' => $category,
+                    'brand' => $brand,
+                    'customerDetails' => $customerDetails,
+                ];
+//                    return send_response('Orders founded !',$context);
+                return view('invoice')->with('context',$context);
+            }else{
+                return send_error('Order Not Found !!!!!');
+            }
+        }catch(Exception $e){
+
+            return send_error($e->getMessage(),$e->getCode());
+        }
+    }
+
+    public function generateInvoice($id){
+            $orders = Order::find($id);
+            if($orders) {
+
+                $customer = Customer::where('id', $orders->customerId)->first();
+                $products = Product::where('id', $orders->productId)->first();
+                $category = Category::where('id', $products->categoryId)->first();
+                $brand = Brand::where('id', $products->brandId)->first();
+                $service = Service::where('id', $orders->serviceId)->first();
+                $customerDetails=\DB::table('user_details')->Where('id','$customer->userDetailsId')->get();
+
+            }
+
+                $context=[
+                    'order' => $orders,
+                    'product' => $products,
+                    'customer' => $customer,
+                    'service' => $service,
+                    'category' => $category,
+                    'brand' => $brand,
+                    'customerDetails' => $customerDetails,
+                ];
+
+//                $pdf = Pdf::loadView('invoice', $context);
+//                $todayData = Carbon::now()->format('d-m-Y');
+//                return $pdf->download('invoicetest.pdf');
+        return view('invoice')->with('context',$context);
     }
 
 

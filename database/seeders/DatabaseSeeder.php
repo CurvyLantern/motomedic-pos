@@ -33,16 +33,16 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // Admin::factory(2)->create();
-        // Color::factory(100)->create();
-        // Customer::factory(10)->create();
-        // Brand::factory(10)->create();
-        // Category::factory(10)->create();
-        // Service::factory(10)->create();
-        // Product::factory(50)->create();
-        // Order::factory(10)->create();
-        // ProductAttribute::factory(10)->create();
-        // AttributeValue::factory(20)->create();
+         Admin::factory(2)->create();
+         Color::factory(100)->create();
+         Customer::factory(10)->create();
+         Brand::factory(10)->create();
+         Category::factory(10)->create();
+         Service::factory(10)->create();
+        Product::factory(50)->create();
+        ProductAttribute::factory(10)->create();
+        AttributeValue::factory(20)->create();
         ProductVariation::factory(20)->create();
+        Order::factory(10)->create();
     }
 }
